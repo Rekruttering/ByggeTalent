@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<\!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>PayloadContent</key>
+    <array>
+        <dict>
+            <key>PayloadCertificateFileName</key>
+            <string>mkcert-ca.pem</string>
+            <key>PayloadContent</key>
+            <data>MIIFHDCCA4SgAwIBAgIRAPH1YXeE7K/0kIiXAtgbTuMwDQYJKoZIhvcNAQELBQAwgaUxHjAcBgNVBAoTFW1rY2VydCBkZXZlbG9wbWVudCBDQTE9MDsGA1UECww0a2FyaW5hbWFyaWFueWJlcmdATWFjQm9vay1BaXItdGlsaHJlbmRlLUthcmluYS5sb2NhbDFEMEIGA1UEAww7bWtjZXJ0IGthcmluYW1hcmlhbnliZXJnQE1hY0Jvb2stQWlyLXRpbGhyZW5kZS1LYXJpbmEubG9jYWwwHhcNMjYwNDE1MTIzMjI3WhcNMzYwNDE1MTIzMjI3WjCBpTEeMBwGA1UEChMVbWtjZXJ0IGRldmVsb3BtZW50IENBMT0wOwYDVQQLDDRrYXJpbmFtYXJpYW55YmVyZ0BNYWNCb29rLUFpci10aWxocmVuZGUtS2FyaW5hLmxvY2FsMUQwQgYDVQQDDDtta2NlcnQga2FyaW5hbWFyaWFueWJlcmdATWFjQm9vay1BaXItdGlsaHJlbmRlLUthcmluYS5sb2NhbDCCAaIwDQYJKoZIhvcNAQEBBQADggGPADCCAYoCggGBAOWOgsMbCPupoCp2fAsLx42gXkTfxvjJK6tKlR8c/j4aXVE6qa9vgBjN6qfcTf7Ed5YogQn+axR+4DyKB4t2p/E7EYH0WWtmjsaJinOaqPYhXxQJrRHjhwz3OSK+z+7OtPTGLjpPldkeY4xbFNaKMsp3ubDLn7eR8aW0NA7x2JGWEKNDh6eEr2KKKfp8Idygk3yPC7Ga4v9yC2prPsmcwf7izJrN5aMob4eN/owQM3CM2+lbIHoya0qxoHX/pB/jitw+yJs+T6zJ6nfzQn0TO+JVa5zG5Yl2FUFhm35FpEAF9KCzQff6EysFUWqRE4sHprogl98xgHfA3YtiOveyCccUja2N2Zs51P+NA5tlEYQV2ZrGm+IED3mOhi/t2ZUHuNFa/m0ANMF8C1Nr+wH1ifS77xUBJ9++9Z3hsijU/NvFdCh6nc4JS+5n+UuWrDkY4SnTvwX+Ts/575Ow+YRRfmgm/HeS9zkYgx2YjrbBmWDfD+XUEYqIAc22LJh3rlC18QIDAQABo0UwQzAOBgNVHQ8BAf8EBAMCAgQwEgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQUTqrfqfAo1frIFEDy5irRwS3Klp4wDQYJKoZIhvcNAQELBQADggGBAAFjKnb58YyKBoFqqyUlk6TKgwVqZv22ViYDAw0glpO3SZU0EKpN8HSJrHk42+VdtwKifSbjFC6NMVfipBnLi34u42KBq/xDAwljWKprEXFLMc0ge6dEuWr/78GIoVqFPCcGsuPwgIP78nCmSuiJBvPUlvxCTMx15a+ihKWL+wxV6YSKfs8x33F5MIhyjUyXJ+0i6lg5I59v/L7AfYtWSWVFtKSeNQon/CUCAn2ImvhrywspNEBbN3gvDJ8hov/fwOVGELgCnHvHpX4nmx6ZUV3o77gEmi9evMDgN7OYxEbmkel6U9b3BBs5wLTwWfbX3OkIwnMpPL682cawwwNxb0UPhL3rW7mXVa7QFB7tW4cXRr+ZBJK1jnDUffXPyK0ML0J7829+qROaXO22ROodk3rsqVuTpnuhpZT6pcQfeTsIuiue4+hcnsNDdk1/LUa6FHBTh+bgTDZ09YnS/F+drH3SwTnKDHIUajI3In7u//bStkemWRejiavwvY4TDzf6TA==</data>
+            <key>PayloadDescription</key>
+            <string>mkcert Development CA</string>
+            <key>PayloadDisplayName</key>
+            <string>mkcert Development CA</string>
+            <key>PayloadIdentifier</key>
+            <string>com.mkcert.ca.cert</string>
+            <key>PayloadType</key>
+            <string>com.apple.security.root</string>
+            <key>PayloadUUID</key>
+            <string>82b85a40-71e6-48b4-9746-5d1a8d5c355e</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+        </dict>
+    </array>
+    <key>PayloadDescription</key>
+    <string>Installer mkcert development CA certifikat</string>
+    <key>PayloadDisplayName</key>
+    <string>mkcert Development CA</string>
+    <key>PayloadIdentifier</key>
+    <string>com.mkcert.ca.profile</string>
+    <key>PayloadRemovalDisallowed</key>
+    <false/>
+    <key>PayloadType</key>
+    <string>Configuration</string>
+    <key>PayloadUUID</key>
+    <string>b8905207-df0e-4d65-8008-157e7dd1c570</string>
+    <key>PayloadVersion</key>
+    <integer>1</integer>
+</dict>
+</plist>
