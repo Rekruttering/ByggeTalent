@@ -586,6 +586,7 @@ export default function Home() {
                     letterSpacing: "-0.02em",
                     color: "#10263F",
                     marginBottom: "10px",
+                    textAlign: "center",
                   }}
                 >
                   ByggeTalent
