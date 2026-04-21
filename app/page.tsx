@@ -965,7 +965,7 @@ export default function Home() {
               {![4, 5, 6].includes(step1SubStep) && (
                 <div
                   className="shrink-0 px-5 pb-5 pt-3 bg-white"
-                  style={{ borderTop: "1px solid rgba(16,38,63,0.06)", display: "flex", gap: "10px", alignItems: "center" }}
+                  style={{ borderTop: "1px solid rgba(16,38,63,0.06)", display: "flex", justifyContent: "space-between", alignItems: "center" }}
                 >
                   <button
                     type="button"
