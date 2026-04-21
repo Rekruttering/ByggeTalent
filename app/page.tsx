@@ -579,6 +579,17 @@ export default function Home() {
                 className="shrink-0 px-5 pt-5 pb-4"
                 style={{ borderBottom: "1px solid rgba(16,38,63,0.07)" }}
               >
+                <div
+                  style={{
+                    fontSize: "18px",
+                    fontWeight: 800,
+                    letterSpacing: "-0.02em",
+                    color: "#10263F",
+                    marginBottom: "10px",
+                  }}
+                >
+                  ByggeTalent
+                </div>
                 <div className="flex items-center gap-3 mb-3">
                   <button
                     type="button"
