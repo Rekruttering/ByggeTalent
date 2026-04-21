@@ -585,430 +585,152 @@ export default function Home() {
                     fontWeight: 800,
                     letterSpacing: "-0.02em",
                     color: "#10263F",
-                    marginBottom: "10px",
                     textAlign: "center",
                   }}
                 >
                   ByggeTalent
                 </div>
-                <div className="flex gap-1">
-                  {Array.from({ length: 10 }).map((_, i) => (
-                    <div
-                      key={i}
-                      className="flex-1 h-[3px] rounded-full"
-                      style={{
-                        background:
-                          i <= step1SubStep
-                            ? "#F5C441"
-                            : "rgba(16,38,63,0.10)",
-                      }}
-                    />
-                  ))}
-                </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto pb-4 flex flex-col gap-5">
-                {step1SubStep === 0 && (
-                  <>
-                    <div style={{ position: "relative", height: "360px", flexShrink: 0 }}>
-                      <img
-                        src="/images/DIn faglg profil.png"
-                        alt="Din faglige profil"
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "cover",
-                          objectPosition: "center 15%",
-                          display: "block",
-                        }}
-                      />
-                    </div>
+              <div className="flex-1 overflow-y-auto flex flex-col">
+                {/* Hero billede */}
+                <div style={{ position: "relative", height: "320px", flexShrink: 0 }}>
+                  <img
+                    src="/images/DIn faglg profil.png"
+                    alt="Din faglige profil"
+                    style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center 15%", display: "block" }}
+                  />
+                </div>
 
-                    <div className="px-6 flex flex-col gap-4">
-                    <TextInput
-                      placeholder="Fornavn"
-                      value={form.name}
-                      onChange={(v) => update("name", v)}
-                    />
-                    <input
-                      style={inputStyle}
-                      placeholder="Efternavn"
-                      value={form.lastName}
-                      onChange={(e) => update("lastName", e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" && form.lastName) {
-                          setStep1SubStep((s) => s + 1);
-                        }
-                      }}
-                    />
-                    </div>
-                  </>
-                )}
+                <div style={{ padding: "24px 20px", display: "flex", flexDirection: "column", gap: "28px" }}>
 
-                {step1SubStep === 1 && (
-                  <>
-                    <div
-                      className="text-[32px] font-bold leading-tight"
-                      style={{ color: "#10263F" }}
-                    >
-                      Kontakt
-                    </div>
-                    <TextInput
-                      placeholder="E-mail"
-                      value={form.email}
-                      onChange={(v) => update("email", v)}
-                    />
-                    <TextInput
-                      placeholder="Telefon"
-                      value={form.phone}
-                      onChange={(v) => update("phone", v)}
-                    />
-                    <TextInput
-                      placeholder="Adresse / by / postnummer"
-                      value={form.address}
-                      onChange={(v) => update("address", v)}
-                    />
-                  </>
-                )}
+                  {/* Navn */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    <div style={{ fontSize: "13px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(16,38,63,0.45)" }}>Dit navn</div>
+                    <TextInput placeholder="Fornavn" value={form.name} onChange={(v) => update("name", v)} />
+                    <TextInput placeholder="Efternavn" value={form.lastName} onChange={(v) => update("lastName", v)} />
+                  </div>
 
-                {step1SubStep === 2 && (
-                  <>
-                    <div
-                      className="text-[32px] font-bold leading-tight"
-                      style={{ color: "#10263F" }}
-                    >
-                      Din rolle
-                    </div>
-                    <TextInput
-                      placeholder="Nuværende titel / rolle"
-                      value={form.currentTitle}
-                      onChange={(v) => update("currentTitle", v)}
-                    />
-                    <TextInput
-                      placeholder="LinkedIn"
-                      value={form.linkedin}
-                      onChange={(v) => update("linkedin", v)}
-                    />
-                  </>
-                )}
+                  {/* Kontakt */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    <div style={{ fontSize: "13px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(16,38,63,0.45)" }}>Kontakt</div>
+                    <TextInput placeholder="E-mail" value={form.email} onChange={(v) => update("email", v)} />
+                    <TextInput placeholder="Telefon" value={form.phone} onChange={(v) => update("phone", v)} />
+                    <TextInput placeholder="Adresse / by / postnummer" value={form.address} onChange={(v) => update("address", v)} />
+                  </div>
 
-                {step1SubStep === 3 && (
-                  <>
-                    <div
-                      className="text-[32px] font-bold leading-tight"
-                      style={{ color: "#10263F" }}
-                    >
-                      En kort note
-                    </div>
-                    <div
-                      className="text-[14px]"
-                      style={{ color: "rgba(16,38,63,0.5)" }}
-                    >
-                      Valgfrit
-                    </div>
-                    <textarea
-                      style={{ ...textareaStyle, minHeight: "140px" }}
-                      placeholder="Hvad skal vi vide om dig?"
-                      value={form.supplementaryInfo}
-                      onChange={(e) =>
-                        update("supplementaryInfo", e.target.value)
-                      }
-                    />
-                  </>
-                )}
+                  {/* Din rolle */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    <div style={{ fontSize: "13px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(16,38,63,0.45)" }}>Din rolle</div>
+                    <TextInput placeholder="Nuværende titel / rolle" value={form.currentTitle} onChange={(v) => update("currentTitle", v)} />
+                    <TextInput placeholder="LinkedIn" value={form.linkedin} onChange={(v) => update("linkedin", v)} />
+                  </div>
 
-                {step1SubStep === 4 && (
-                  <>
-                    <div
-                      className="text-[26px] font-bold leading-tight"
-                      style={{ color: "#10263F" }}
-                    >
-                      Hvor mange års erfaring har du?
-                    </div>
-                    <div className="flex flex-col gap-3 mt-2">
+                  {/* Anciennitet */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    <div style={{ fontSize: "13px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(16,38,63,0.45)" }}>Anciennitet</div>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
                       {["0-3 år", "4-7 år", "8-12 år", "12+ år"].map((opt) => (
-                        <button
-                          key={opt}
-                          type="button"
-                          onClick={() => {
-                            update("experience", opt);
-                            setStep1SubStep((s) => s + 1);
-                          }}
-                          style={{
-                            padding: "18px 20px",
-                            borderRadius: 14,
-                            border:
-                              form.experience === opt
-                                ? "2px solid #10263F"
-                                : "1px solid rgba(16,38,63,0.15)",
-                            background:
-                              form.experience === opt ? "#10263F" : "#fff",
-                            color:
-                              form.experience === opt ? "#fff" : "#10263F",
-                            textAlign: "left",
-                            fontSize: 16,
-                            fontWeight: 600,
-                            cursor: "pointer",
-                          }}
-                        >
+                        <button key={opt} type="button" onClick={() => update("experience", opt)}
+                          style={{ padding: "12px 16px", borderRadius: 12, border: form.experience === opt ? "2px solid #10263F" : "1px solid rgba(16,38,63,0.15)", background: form.experience === opt ? "#10263F" : "#fff", color: form.experience === opt ? "#fff" : "#10263F", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
                           {opt}
                         </button>
                       ))}
                     </div>
-                  </>
-                )}
+                  </div>
 
-                {step1SubStep === 5 && (
-                  <>
-                    <div
-                      className="text-[26px] font-bold leading-tight"
-                      style={{ color: "#10263F" }}
-                    >
-                      Hvad er din lønretning?
-                    </div>
-                    <div className="flex flex-col gap-3 mt-2">
-                      {[
-                        "Under nuværende niveau",
-                        "Samme niveau",
-                        "Over nuværende niveau",
-                      ].map((opt) => (
-                        <button
-                          key={opt}
-                          type="button"
-                          onClick={() => {
-                            update("salary", opt);
-                            setStep1SubStep((s) => s + 1);
-                          }}
-                          style={{
-                            padding: "18px 20px",
-                            borderRadius: 14,
-                            border:
-                              form.salary === opt
-                                ? "2px solid #10263F"
-                                : "1px solid rgba(16,38,63,0.15)",
-                            background: form.salary === opt ? "#10263F" : "#fff",
-                            color: form.salary === opt ? "#fff" : "#10263F",
-                            textAlign: "left",
-                            fontSize: 16,
-                            fontWeight: 600,
-                            cursor: "pointer",
-                          }}
-                        >
+                  {/* Lønretning */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    <div style={{ fontSize: "13px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(16,38,63,0.45)" }}>Lønretning</div>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                      {["Under nuværende niveau", "Samme niveau", "Over nuværende niveau"].map((opt) => (
+                        <button key={opt} type="button" onClick={() => update("salary", opt)}
+                          style={{ padding: "12px 16px", borderRadius: 12, border: form.salary === opt ? "2px solid #10263F" : "1px solid rgba(16,38,63,0.15)", background: form.salary === opt ? "#10263F" : "#fff", color: form.salary === opt ? "#fff" : "#10263F", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
                           {opt}
                         </button>
                       ))}
                     </div>
-                  </>
-                )}
+                  </div>
 
-                {step1SubStep === 6 && (
-                  <>
-                    <div
-                      className="text-[26px] font-bold leading-tight"
-                      style={{ color: "#10263F" }}
-                    >
-                      Hvor langt vil du pendle?
+                  {/* Pendling */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    <div style={{ fontSize: "13px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(16,38,63,0.45)" }}>Pendlingsafstand</div>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                      {["0-20 km", "20-50 km", "50+ km", "Hele Danmark"].map((opt) => (
+                        <button key={opt} type="button" onClick={() => update("distance", opt)}
+                          style={{ padding: "12px 16px", borderRadius: 12, border: form.distance === opt ? "2px solid #10263F" : "1px solid rgba(16,38,63,0.15)", background: form.distance === opt ? "#10263F" : "#fff", color: form.distance === opt ? "#fff" : "#10263F", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>
+                          {opt}
+                        </button>
+                      ))}
                     </div>
-                    <div className="flex flex-col gap-3 mt-2">
-                      {["0-20 km", "20-50 km", "50+ km", "Hele Danmark"].map(
-                        (opt) => (
-                          <button
-                            key={opt}
-                            type="button"
-                            onClick={() => {
-                              update("distance", opt);
-                              setStep1SubStep((s) => s + 1);
-                            }}
-                            style={{
-                              padding: "18px 20px",
-                              borderRadius: 14,
-                              border:
-                                form.distance === opt
-                                  ? "2px solid #10263F"
-                                  : "1px solid rgba(16,38,63,0.15)",
-                              background:
-                                form.distance === opt ? "#10263F" : "#fff",
-                              color:
-                                form.distance === opt ? "#fff" : "#10263F",
-                              textAlign: "left",
-                              fontSize: 16,
-                              fontWeight: 600,
-                              cursor: "pointer",
-                            }}
-                          >
-                            {opt}
-                          </button>
-                        )
-                      )}
-                    </div>
-                  </>
-                )}
+                  </div>
 
-                {step1SubStep === 7 && (
-                  <>
-                    <div
-                      className="text-[26px] font-bold leading-tight"
-                      style={{ color: "#10263F" }}
-                    >
-                      Upload dit CV
-                    </div>
-                    <div
-                      className="text-[14px]"
-                      style={{ color: "rgba(16,38,63,0.5)" }}
-                    >
-                      Vælg en fil — så går vi videre automatisk
-                    </div>
-                    <FileUploadField
-                      label="Upload CV *"
-                      file={cvFile}
-                      onChange={(file) => {
-                        setCvFile(file);
-                        if (file) setStep1SubStep((s) => s + 1);
-                      }}
-                    />
-                    <FileUploadField
-                      label="Upload ekstra dokument"
-                      file={applicationFile}
-                      onChange={setApplicationFile}
-                    />
-                  </>
-                )}
+                  {/* CV */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    <div style={{ fontSize: "13px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(16,38,63,0.45)" }}>CV og dokumenter</div>
+                    <FileUploadField label="Upload CV *" file={cvFile} onChange={setCvFile} />
+                    <FileUploadField label="Upload ekstra dokument" file={applicationFile} onChange={setApplicationFile} />
+                  </div>
 
-                {step1SubStep === 8 && (
-                  <>
-                    <div
-                      className="text-[26px] font-bold leading-tight"
-                      style={{ color: "#10263F" }}
-                    >
-                      Hvad er din faglige profil?
-                    </div>
-                    <div
-                      className="text-[14px]"
-                      style={{ color: "rgba(16,38,63,0.5)" }}
-                    >
-                      Vælg én eller flere titler
-                    </div>
+                  {/* Faglig profil */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    <div style={{ fontSize: "13px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(16,38,63,0.45)" }}>Faglig profil</div>
+                    <div style={{ fontSize: "13px", color: "rgba(16,38,63,0.5)" }}>Vælg én eller flere titler</div>
                     <RoleSelectionCard
                       title=""
                       groupedRoles={groupedRoles}
                       selectedValues={form.profiles}
                       openGroups={openProfileGroups}
-                      onToggleGroup={(group) =>
-                        toggleGroup(group, openProfileGroups, setOpenProfileGroups)
-                      }
+                      onToggleGroup={(group) => toggleGroup(group, openProfileGroups, setOpenProfileGroups)}
                       onToggleRole={(role) => {
                         const alreadySelected = form.profiles.includes(role);
                         toggleProfile(role);
                         if (!alreadySelected) {
-                          const group = Object.entries(groupedRoles).find(
-                            ([, roles]) => roles.includes(role)
-                          )?.[0];
-                          if (group) {
-                            setOpenProfileGroups((prev) => ({
-                              ...prev,
-                              [group]: false,
-                            }));
-                          }
+                          const group = Object.entries(groupedRoles).find(([, roles]) => roles.includes(role))?.[0];
+                          if (group) setOpenProfileGroups((prev) => ({ ...prev, [group]: false }));
                         }
                       }}
                       otherTitle={form.profileOtherTitle}
                       onOtherTitleChange={(v) => update("profileOtherTitle", v)}
                     />
-                  </>
-                )}
+                  </div>
 
-                {step1SubStep === 9 && (
-                  <>
-                    <div
-                      className="text-[26px] font-bold leading-tight"
-                      style={{ color: "#10263F" }}
-                    >
-                      Næsten færdig!
-                    </div>
-                    <div
-                      className="text-[14px]"
-                      style={{ color: "rgba(16,38,63,0.5)" }}
-                    >
-                      Bekræft samtykke og privatliv
-                    </div>
-                    <InfoCheckboxCard
-                      checked={form.consent}
-                      onChange={() => update("consent", !form.consent)}
-                      infoOpen={showConsentInfo}
-                      onToggleInfo={() => setShowConsentInfo(!showConsentInfo)}
-                      label="Jeg giver samtykke til, at ByggeTalent må opbevare og behandle mine personoplysninger i op til 6 måneder med henblik på rekruttering og relevante jobmuligheder."
-                      infoText="Dine oplysninger opbevares i op til 6 måneder med henblik på rekruttering og relevante jobmuligheder."
-                    />
-                    <InfoCheckboxCard
-                      checked={form.gdpr}
-                      onChange={() => update("gdpr", !form.gdpr)}
-                      infoOpen={showGdprInfo}
-                      onToggleInfo={() => setShowGdprInfo(!showGdprInfo)}
-                      label="Jeg accepterer, at mine personoplysninger behandles i henhold til ByggeTalents privatlivspolitik."
-                      infoText="ByggeTalent behandler dine oplysninger med henblik på rekruttering og match med relevante muligheder i overensstemmelse med privatlivspolitikken."
-                    />
-                    <a
-                      href="#"
-                      style={{
-                        fontSize: 14,
-                        color: "#2C3E4F",
-                        textDecoration: "underline",
-                        opacity: 0.85,
-                      }}
-                    >
-                      Læs vores privatlivspolitik
-                    </a>
-                  </>
-                )}
+                  {/* En kort note */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    <div style={{ fontSize: "13px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(16,38,63,0.45)" }}>En kort note <span style={{ fontWeight: 400, textTransform: "none", letterSpacing: 0 }}>(valgfrit)</span></div>
+                    <textarea style={{ ...textareaStyle, minHeight: "120px" }} placeholder="Hvad skal vi vide om dig?" value={form.supplementaryInfo} onChange={(e) => update("supplementaryInfo", e.target.value)} />
+                  </div>
+
+                  {/* Samtykke */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                    <div style={{ fontSize: "13px", fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", color: "rgba(16,38,63,0.45)" }}>Samtykke</div>
+                    <InfoCheckboxCard checked={form.consent} onChange={() => update("consent", !form.consent)} infoOpen={showConsentInfo} onToggleInfo={() => setShowConsentInfo(!showConsentInfo)} label="Jeg giver samtykke til, at ByggeTalent må opbevare og behandle mine personoplysninger i op til 6 måneder med henblik på rekruttering og relevante jobmuligheder." infoText="Dine oplysninger opbevares i op til 6 måneder med henblik på rekruttering og relevante jobmuligheder." />
+                    <InfoCheckboxCard checked={form.gdpr} onChange={() => update("gdpr", !form.gdpr)} infoOpen={showGdprInfo} onToggleInfo={() => setShowGdprInfo(!showGdprInfo)} label="Jeg accepterer, at mine personoplysninger behandles i henhold til ByggeTalents privatlivspolitik." infoText="ByggeTalent behandler dine oplysninger med henblik på rekruttering og match med relevante muligheder i overensstemmelse med privatlivspolitikken." />
+                    <a href="#" style={{ fontSize: 14, color: "#2C3E4F", textDecoration: "underline", opacity: 0.85 }}>Læs vores privatlivspolitik</a>
+                  </div>
+
+                </div>
               </div>
 
-              {![4, 5, 6].includes(step1SubStep) && (
-                <div
-                  className="shrink-0 px-5 pb-5 pt-3 bg-white"
-                  style={{ borderTop: "1px solid rgba(16,38,63,0.06)", display: "flex", gap: "10px", alignItems: "center" }}
+              <div
+                className="shrink-0 px-5 pb-5 pt-3 bg-white"
+                style={{ borderTop: "1px solid rgba(16,38,63,0.06)", display: "flex", gap: "10px", alignItems: "center" }}
+              >
+                <button
+                  type="button"
+                  onClick={() => setStep(0)}
+                  style={{ width: "44px", height: "44px", borderRadius: "50%", border: "1px solid rgba(16,38,63,0.14)", background: "#FFFFFF", cursor: "pointer", fontSize: "18px", display: "grid", placeItems: "center", color: "#10263F", flexShrink: 0 }}
                 >
-                  <button
-                    type="button"
-                    onClick={() => step1SubStep === 0 ? setStep(0) : setStep1SubStep((s) => s - 1)}
-                    style={{
-                      width: "44px",
-                      height: "44px",
-                      borderRadius: "50%",
-                      border: "1px solid rgba(16,38,63,0.14)",
-                      background: "#FFFFFF",
-                      cursor: "pointer",
-                      fontSize: "18px",
-                      display: "grid",
-                      placeItems: "center",
-                      color: "#10263F",
-                      flexShrink: 0,
-                    }}
-                  >
-                    ←
-                  </button>
-                  <button
-                    className="py-3 px-6 rounded-xl text-[14px] font-bold"
-                    style={{
-                      flex: 1,
-                      background: "#D4962A",
-                      color: "#FFFFFF",
-                      border: "none",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => {
-                      if (step1SubStep === 9) {
-                        setShowResult(false);
-                        setAnswers(Array(10).fill(0));
-                        setStep(2);
-                      } else {
-                        setStep1SubStep((s) => s + 1);
-                      }
-                    }}
-                  >
-                    {step1SubStep === 9 ? "Videre til mini-testen →" : "Næste →"}
-                  </button>
-                </div>
-              )}
+                  ←
+                </button>
+                <button
+                  className="py-3 px-6 rounded-xl text-[14px] font-bold"
+                  style={{ flex: 1, background: "#D4962A", color: "#FFFFFF", border: "none", cursor: "pointer" }}
+                  onClick={() => { setShowResult(false); setAnswers(Array(10).fill(0)); setStep(2); }}
+                >
+                  Videre til mini-testen →
+                </button>
+              </div>
             </div>
           )}
 
