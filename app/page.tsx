@@ -1,75 +1,11 @@
 "use client";
 
 import { useState, type Dispatch, type SetStateAction } from "react";
-
-const groupedRoles = {
-  "Faglærte og tekniske stillinger (udførende)": [
-    "Anlægsstruktør",
-    "Bygningsstruktør",
-    "Brolægger",
-    "Byggemontagetekniker",
-    "Kloakmester",
-    "Monteringstekniker",
-  ],
-  "Funktionærer, ledelse og teknisk personale": [
-    "Projektleder (byggeri/anlæg)",
-    "Byggeleder",
-    "Entrepriseleder",
-    "Projekteringsleder",
-    "Fagchef",
-    "Markedschef / forretningsudvikling",
-    "Byggetekniker",
-    "Byggesagsbehandler",
-    "Kvalitetsansvarlig",
-    "PQ-ansvarlig",
-    "Kalkulatør",
-    "Planlægger (tid/plan)",
-  ],
-  "Rådgivere og projektering": [
-    "Bygningsingeniør",
-    "Konstruktionsingeniør",
-    "Bygningskonstruktør",
-    "Arkitekt",
-    "Brandrådgiver",
-    "Arbejdsmiljøkoordinator (P/B)",
-    "Bæredygtighedskonsulent",
-    "ESG-ansvarlig",
-  ],
-  "Installationer og teknik": [
-    "Installationsingeniør (VVS/EL)",
-    "VVS-projektleder",
-    "El-projektleder",
-    "Teknikentrepriseleder",
-  ],
-  "Inspektører og specialister": [
-    "Broinspektør",
-    "Bygningsinspektør",
-    "Jernbaneinspektør",
-    "Tilsynsførende",
-    "Landinspektør",
-    "Geotekniker",
-    "Spildevandsingeniør",
-  ],
-  "Drift og facility": ["Driftsleder", "Facility Manager"],
-};
-
-const groupNames = Object.keys(groupedRoles);
-
-const testQuestions = [
-  "Min nuværende rolle føles naturlig for mig",
-  "Mine stærkeste sider kommer i spil i mit job",
-  "De opgaver, jeg sidder med, giver mig energi",
-  "Samarbejdet omkring mig understøtter den måde, jeg arbejder bedst på",
-  "Jeg føler mig tryg ved at sige min mening",
-  "Jeg har reel mulighed for at påvirke beslutninger i mit arbejde",
-  "Tempoet og forventningerne passer til mig",
-  "Jeg savner sjældent at bruge andre sider af mig selv i arbejdet",
-  "Jeg kan se mig selv i denne rolle over længere tid",
-  "Mit job giver mening i forhold til, hvor jeg er i arbejdslivet lige nu",
-];
+import { groupedRoles, groupNames, testQuestions } from "./data";
 
 type FormState = {
   name: string;
+  lastName: string;
   email: string;
   phone: string;
   address: string;
@@ -95,12 +31,15 @@ export default function Home() {
   const [step, setStep] = useState(1);
   const [answers, setAnswers] = useState<number[]>(Array(10).fill(0));
   const [showResult, setShowResult] = useState(false);
-  const [selectedUniverse, setSelectedUniverse] = useState("Samtaler");
+  const [selectedUniverse, setSelectedUniverse] = useState("Kandidat");
+  const [detailPage, setDetailPage] = useState<string | null>(null);
+  const [step1SubStep, setStep1SubStep] = useState(0);
 
   const totalScore = answers.reduce((sum, value) => sum + value, 0);
 
   const [form, setForm] = useState<FormState>({
     name: "",
+    lastName: "",
     email: "",
     phone: "",
     address: "",
@@ -153,8 +92,6 @@ export default function Home() {
     });
   };
 
-  const isStep1Valid = true;
-
   const displayStep =
     step === 0 ? 1 : step === 1 ? 2 : step === 2 ? 3 : 4;
 
@@ -166,8 +103,8 @@ export default function Home() {
       : displayStep === 2
       ? "Din profil"
       : displayStep === 3
-      ? "Tag mini-testen"
-      : "Mini-test";
+      ? "Mini-test"
+      : "Resultat";
 
   const stepSubtitle =
     displayStep === 1
@@ -180,45 +117,39 @@ export default function Home() {
 
   const overviewCards = [
     {
-      key: "Samtaler",
-      title: "Samtaler",
-      subtitle: "Sparring og næste skridt",
-      text: "Få karrieresamtaler, refleksion og konkrete næste skridt i bygge- og anlægsbranchen.",
-      statLabel: "Fokus",
-      statValue: "AI sparring",
-      bg: "linear-gradient(135deg, #EEF4FF 0%, #E4ECFF 100%)",
-      border: "1px solid rgba(41,91,168,0.10)",
-      accent: "#295BA8",
-      muted: "#5B6875",
-      activeBg: "#295BA8",
+      key: "Kandidat",
+      title: "Kandidat",
+      subtitle: "Karrieresparring og ALT",
+      text: "Få en karrieresamtale og tag arbejdslivstesten",
+      bg: "linear-gradient(135deg, #3D4A52 0%, #2E3A42 100%)",
+      border: "1px solid rgba(61,74,82,0.0)",
+      accent: "#A8BDC7",
+      muted: "#8FA3AD",
+      activeBg: "#2E3A42",
       activeColor: "#FFFFFF",
     },
     {
-      key: "Analyse",
-      title: "Analyse",
-      subtitle: "Mini-test og indsigt",
-      text: "Skab overblik over styrker, energi og retning med en kort test og visuel opsummering.",
-      statLabel: "Varighed",
-      statValue: "3 min test",
-      bg: "linear-gradient(135deg, #F6F1E7 0%, #EEE3D0 100%)",
-      border: "1px solid rgba(117,91,42,0.12)",
-      accent: "#755B2A",
-      muted: "#5F6B76",
-      activeBg: "#755B2A",
+      key: "Virksomhed",
+      title: "Virksomhed",
+      subtitle: "Kandidatbase og projektsamtale",
+      text: "Få indsigt i en kandidatbase eller book en projektsamtale.",
+      bg: "linear-gradient(135deg, #1B3A5C 0%, #10263F 100%)",
+      border: "1px solid rgba(27,58,92,0.0)",
+      accent: "#A8C4E0",
+      muted: "#7AAACE",
+      activeBg: "#10263F",
       activeColor: "#FFFFFF",
     },
     {
-      key: "Match",
-      title: "Match",
-      subtitle: "Rolle, team og retning",
-      text: "Se hvordan mennesker, roller og teams kan passe bedre sammen i praksis.",
-      statLabel: "Potentiale",
-      statValue: "Stærkt fit",
-      bg: "linear-gradient(135deg, #F7F8FA 0%, #EEF2F6 100%)",
-      border: "1px solid rgba(44,62,79,0.10)",
-      accent: "#314252",
-      muted: "#5B6875",
-      activeBg: "#314252",
+      key: "Om Byggetalent",
+      title: "Om Byggetalent",
+      subtitle: "Menneskerne bag",
+      text: "Hvem står bag Byggetalent.",
+      bg: "linear-gradient(135deg, #D4962A 0%, #B87E18 100%)",
+      border: "1px solid rgba(212,150,42,0.0)",
+      accent: "#5C3800",
+      muted: "#6B4500",
+      activeBg: "#B87E18",
       activeColor: "#FFFFFF",
     },
   ];
@@ -274,10 +205,10 @@ export default function Home() {
         <section
           style={{
             ...flowWrapStyle,
-            maxWidth: step === 0 ? "880px" : step === 1 ? "1120px" : "820px",
+            maxWidth: step === 0 ? "880px" : step === 1 ? "460px" : "820px",
           }}
         >
-          {step !== 0 && (
+          {step > 1 && (
             <StepHeader
               step={displayStep}
               total={totalSteps}
@@ -286,164 +217,278 @@ export default function Home() {
             />
           )}
 
-          {step === 0 && (
+          {step === 0 && detailPage && (
+            <div style={{ display: "grid", gap: "18px" }}>
+              <button
+                type="button"
+                onClick={() => setDetailPage(null)}
+                style={{
+                  alignSelf: "flex-start",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: "15px",
+                  fontWeight: 700,
+                  color: "#295BA8",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: 0,
+                }}
+              >
+                ← Tilbage
+              </button>
+
+              {detailPage === "Om Byggetalent" && (
+                <div
+                  style={{
+                    background: "linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%)",
+                    borderRadius: "24px",
+                    padding: "24px",
+                    border: "1px solid #E6EBF1",
+                    boxShadow: "0 12px 28px rgba(36,51,64,0.05)",
+                    display: "grid",
+                    gridTemplateColumns: "92px minmax(0, 1fr)",
+                    gap: "20px",
+                    alignItems: "center",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: "92px",
+                      height: "92px",
+                      borderRadius: "50%",
+                      backgroundImage: "url('/images/Karina Maria - Founder.png')",
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      boxShadow: "0 8px 20px rgba(44,62,79,0.10)",
+                    }}
+                  />
+                  <div style={{ display: "grid", gap: "8px" }}>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", alignItems: "center" }}>
+                      <div
+                        style={{
+                          fontSize: "11px",
+                          fontWeight: 700,
+                          letterSpacing: "0.12em",
+                          textTransform: "uppercase",
+                          color: "#6B7280",
+                        }}
+                      >
+                        Bag ByggeTalent
+                      </div>
+                      <div
+                        style={{
+                          display: "inline-flex",
+                          alignItems: "center",
+                          padding: "6px 10px",
+                          borderRadius: "999px",
+                          background: "#EEF4FF",
+                          color: "#295BA8",
+                          fontSize: "11px",
+                          fontWeight: 700,
+                        }}
+                      >
+                        HR · rekruttering · teams
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "24px",
+                        fontWeight: 700,
+                        color: "#22313F",
+                        letterSpacing: "-0.03em",
+                        lineHeight: 1.08,
+                      }}
+                    >
+                      Karina Maria Nyberg
+                    </div>
+                    <div
+                      style={{
+                        fontSize: "14px",
+                        lineHeight: 1.65,
+                        color: "#5B6875",
+                      }}
+                    >
+                      ByggeTalent er skabt med fokus på HR, rekruttering,
+                      organisationsudvikling og stærke projektteams i bygge- og
+                      anlægsbranchen.
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {detailPage === "Kandidat" && (
+                <div
+                  style={{
+                    background: "linear-gradient(135deg, #EEF4FF 0%, #E4ECFF 100%)",
+                    borderRadius: "24px",
+                    padding: "24px",
+                    border: "1px solid rgba(41,91,168,0.10)",
+                    display: "grid",
+                    gap: "12px",
+                  }}
+                >
+                  <div style={{ fontSize: "24px", fontWeight: 700, color: "#22313F", letterSpacing: "-0.03em" }}>
+                    Kandidat
+                  </div>
+                  <div style={{ fontSize: "14px", fontWeight: 700, color: "#295BA8" }}>
+                    Karrieresparring og ALT
+                  </div>
+                  <div style={{ fontSize: "14px", lineHeight: 1.65, color: "#5B6875" }}>
+                    Få en karrieresamtale og tag arbejdslivstesten
+                  </div>
+                </div>
+              )}
+
+              {detailPage === "Virksomhed" && (
+                <div
+                  style={{
+                    background: "linear-gradient(135deg, #F6F1E7 0%, #EEE3D0 100%)",
+                    borderRadius: "24px",
+                    padding: "24px",
+                    border: "1px solid rgba(117,91,42,0.12)",
+                    display: "grid",
+                    gap: "12px",
+                  }}
+                >
+                  <div style={{ fontSize: "24px", fontWeight: 700, color: "#22313F", letterSpacing: "-0.03em" }}>
+                    Virksomhed
+                  </div>
+                  <div style={{ fontSize: "14px", fontWeight: 700, color: "#755B2A" }}>
+                    Kandidatbase og projektsamtale
+                  </div>
+                  <div style={{ fontSize: "14px", lineHeight: 1.65, color: "#5F6B76" }}>
+                    Få indsigt i en kandidatbase eller book en projektsamtale.
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {step === 0 && !detailPage && (
             <div style={{ display: "grid", gap: "18px" }}>
               <div
                 style={{
-                  background: "linear-gradient(135deg, #10263F 0%, #173857 100%)",
+                  background:
+                    "linear-gradient(180deg, #07111D 0%, #0B1B2B 55%, #1B2430 100%)",
                   borderRadius: "28px",
                   padding: "18px",
                   border: "1px solid rgba(255,255,255,0.06)",
                   boxShadow: "0 20px 48px rgba(16,38,63,0.20)",
                   display: "grid",
-                  gridTemplateColumns: "minmax(0, 1fr) minmax(240px, 320px)",
                   gap: "18px",
-                  alignItems: "stretch",
                 }}
               >
                 <div
                   style={{
-                    display: "grid",
-                    gap: "18px",
-                    alignContent: "space-between",
-                    minHeight: "100%",
-                    padding: "6px",
+                    fontSize: "14px",
+                    fontWeight: 700,
+                    letterSpacing: "0.16em",
+                    textTransform: "uppercase",
+                    color: "rgba(255,255,255,0.62)",
+                    textAlign: "center",
                   }}
                 >
-                  <div style={{ display: "grid", gap: "14px" }}>
-                    <div
-                      style={{
-                        fontSize: "12px",
-                        fontWeight: 700,
-                        letterSpacing: "0.14em",
-                        textTransform: "uppercase",
-                        color: "rgba(255,255,255,0.62)",
-                      }}
-                    >
-                      ByggeTalent
-                    </div>
+                  ByggeTalent
+                </div>
 
-                    <div
-                      style={{
-                        display: "flex",
-                        flexWrap: "wrap",
-                        gap: "8px",
-                      }}
-                    >
-                      {["Samtaler", "Analyse", "Match"].map((item) => {
-                        const active = selectedUniverse === item;
-
-                        return (
-                          <button
-                            key={item}
-                            type="button"
-                            onClick={() => setSelectedUniverse(item)}
-                            style={{
-                              padding: "10px 14px",
-                              borderRadius: "999px",
-                              border: active
-                                ? "1px solid rgba(255,255,255,0.24)"
-                                : "1px solid rgba(255,255,255,0.08)",
-                              background: active
-                                ? "rgba(255,255,255,0.18)"
-                                : "rgba(255,255,255,0.08)",
-                              color: "#F8FAFC",
-                              fontSize: "14px",
-                              fontWeight: 700,
-                              cursor: "pointer",
-                            }}
-                          >
-                            {item}
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    <div style={{ display: "grid", gap: "10px" }}>
-                      <h1
-                        style={{
-                          margin: 0,
-                          fontSize: "34px",
-                          lineHeight: 1.02,
-                          fontWeight: 700,
-                          letterSpacing: "-0.04em",
-                          color: "#F8FAFC",
-                          maxWidth: "11ch",
-                        }}
-                      >
-                        Rekruttering og karrieresparring i ét flow
-                      </h1>
-
-                      <p
-                        style={{
-                          margin: 0,
-                          fontSize: "15px",
-                          lineHeight: 1.7,
-                          color: "rgba(255,255,255,0.78)",
-                          maxWidth: "46ch",
-                        }}
-                      >
-                        ByggeTalent samler samtaler, analyse og match i en mere
-                        enkel app-oplevelse for bygge- og anlægsbranchen.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div
+                <div style={{ display: "grid", gap: "12px", textAlign: "center" }}>
+                  <h1
                     style={{
-                      display: "grid",
-                      gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-                      gap: "10px",
+                      margin: 0,
+                      fontSize: "32px",
+                      lineHeight: 1.1,
+                      fontWeight: 700,
+                      letterSpacing: "-0.03em",
+                      color: "#F4F1E8",
                     }}
                   >
-                    {[
-                      { label: "Samtaler", value: "Refleksion" },
-                      { label: "Analyse", value: "Mini-test" },
-                      { label: "Match", value: "Bedre fit" },
-                    ].map((item) => (
+                    Rekruttering med{" "}
+                    <span style={{ color: "#F5C441" }}>brancheforståelse</span>
+                  </h1>
+                  <p
+                    style={{
+                      margin: 0,
+                      fontSize: "16px",
+                      lineHeight: 1.5,
+                      color: "rgba(255,255,255,0.72)",
+                    }}
+                  >
+                    Byggetalent er udviklet til bygge- og anlægsbranchen.
+                  </p>
+                </div>
+
+                <div style={{ height: "16px" }} />
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+                    gap: "8px",
+                  }}
+                >
+                  {overviewCards.map((card) => {
+                    const active = selectedUniverse === card.key;
+                    return (
                       <div
-                        key={item.label}
+                        key={card.key}
                         style={{
-                          borderRadius: "18px",
-                          padding: "12px",
-                          background: "rgba(255,255,255,0.08)",
-                          border: "1px solid rgba(255,255,255,0.07)",
-                          display: "grid",
+                          borderRadius: "14px",
+                          background: card.bg,
+                          border: active
+                            ? "2px solid rgba(255,255,255,0.40)"
+                            : "1px solid rgba(255,255,255,0.10)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          padding: "10px 12px",
                           gap: "6px",
                         }}
                       >
-                        <div
+                        <button
+                          type="button"
+                          onClick={() => setSelectedUniverse(card.key)}
                           style={{
-                            fontSize: "11px",
-                            textTransform: "uppercase",
-                            letterSpacing: "0.08em",
-                            color: "rgba(255,255,255,0.58)",
+                            background: "none",
+                            border: "none",
+                            padding: 0,
+                            cursor: "pointer",
+                            fontSize: "13px",
                             fontWeight: 700,
+                            color: card.activeColor,
+                            textAlign: "left",
                           }}
                         >
-                          {item.label}
-                        </div>
-                        <div
+                          {card.title}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setDetailPage(card.key)}
                           style={{
+                            background: "none",
+                            border: "none",
+                            cursor: "pointer",
                             fontSize: "14px",
-                            fontWeight: 700,
-                            color: "#FFFFFF",
+                            color: card.activeColor,
+                            flexShrink: 0,
+                            padding: 0,
+                            lineHeight: 1,
                           }}
                         >
-                          {item.value}
-                        </div>
+                          →
+                        </button>
                       </div>
-                    ))}
-                  </div>
+                    );
+                  })}
                 </div>
 
                 <div
                   style={{
-                    background: "rgba(255,255,255,0.06)",
-                    borderRadius: "22px",
-                    padding: "8px",
-                    display: "grid",
-                    minHeight: "100%",
+                    background:
+                      "linear-gradient(180deg, rgba(245,196,81,0.14) 0%, rgba(217,142,4,0.10) 45%, rgba(255,255,255,0.06) 100%)",
+                    borderRadius: "18px",
+                    padding: "6px",
                   }}
                 >
                   <img
@@ -451,262 +496,17 @@ export default function Home() {
                     alt="ByggeTalent direkte i hverdagen"
                     style={{
                       width: "100%",
-                      height: "100%",
-                      minHeight: "300px",
-                      maxHeight: "360px",
+                      height: "420px",
                       objectFit: "cover",
                       objectPosition: "center top",
-                      borderRadius: "18px",
+                      borderRadius: "14px",
                       display: "block",
                     }}
                   />
                 </div>
               </div>
 
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-                  gap: "14px",
-                }}
-              >
-                {overviewCards.map((card) => {
-                  const active = selectedUniverse === card.key;
 
-                  return (
-                    <button
-                      key={card.key}
-                      type="button"
-                      onClick={() => setSelectedUniverse(card.key)}
-                      style={{
-                        background: card.bg,
-                        borderRadius: "24px",
-                        padding: "18px",
-                        border: active
-                          ? `2px solid ${card.accent}`
-                          : card.border,
-                        boxShadow: active
-                          ? "0 16px 30px rgba(15,23,42,0.08)"
-                          : "0 10px 24px rgba(36,51,64,0.05)",
-                        display: "grid",
-                        gap: "16px",
-                        minHeight: "250px",
-                        alignContent: "space-between",
-                        cursor: "pointer",
-                        textAlign: "left",
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "flex-start",
-                          justifyContent: "space-between",
-                          gap: "12px",
-                        }}
-                      >
-                        <div
-                          style={{
-                            width: "46px",
-                            height: "46px",
-                            borderRadius: "16px",
-                            background: "rgba(255,255,255,0.58)",
-                            border: "1px solid rgba(44,62,79,0.08)",
-                          }}
-                        />
-                        <div
-                          style={{
-                            padding: "8px 11px",
-                            borderRadius: "999px",
-                            background: active
-                              ? card.activeBg
-                              : "rgba(255,255,255,0.62)",
-                            color: active ? card.activeColor : card.accent,
-                            fontSize: "11px",
-                            fontWeight: 700,
-                            border: active
-                              ? "none"
-                              : "1px solid rgba(44,62,79,0.08)",
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          {card.statValue}
-                        </div>
-                      </div>
-
-                      <div style={{ display: "grid", gap: "8px" }}>
-                        <div
-                          style={{
-                            fontSize: "24px",
-                            lineHeight: 1.05,
-                            fontWeight: 700,
-                            letterSpacing: "-0.04em",
-                            color: "#22313F",
-                          }}
-                        >
-                          {card.title}
-                        </div>
-
-                        <div
-                          style={{
-                            fontSize: "13px",
-                            fontWeight: 700,
-                            color: card.accent,
-                          }}
-                        >
-                          {card.subtitle}
-                        </div>
-
-                        <div
-                          style={{
-                            fontSize: "14px",
-                            lineHeight: 1.65,
-                            color: card.muted,
-                          }}
-                        >
-                          {card.text}
-                        </div>
-                      </div>
-
-                      <div
-                        style={{
-                          display: "flex",
-                          alignItems: "end",
-                          justifyContent: "space-between",
-                          gap: "12px",
-                        }}
-                      >
-                        <div style={{ display: "grid", gap: "4px" }}>
-                          <div
-                            style={{
-                              fontSize: "11px",
-                              textTransform: "uppercase",
-                              letterSpacing: "0.08em",
-                              fontWeight: 700,
-                              color: "#6B7280",
-                            }}
-                          >
-                            {card.statLabel}
-                          </div>
-                          <div
-                            style={{
-                              fontSize: "16px",
-                              fontWeight: 700,
-                              color: "#22313F",
-                            }}
-                          >
-                            {card.statValue}
-                          </div>
-                        </div>
-
-                        <div
-                          style={{
-                            width: "52px",
-                            height: "52px",
-                            borderRadius: "50%",
-                            border: `6px solid ${card.accent}22`,
-                            display: "grid",
-                            placeItems: "center",
-                            color: card.accent,
-                            fontSize: "18px",
-                            fontWeight: 700,
-                          }}
-                        >
-                          →
-                        </div>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-
-              <div
-                style={{
-                  background: "linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%)",
-                  borderRadius: "24px",
-                  padding: "18px",
-                  border: "1px solid #E6EBF1",
-                  boxShadow: "0 12px 28px rgba(36,51,64,0.05)",
-                  display: "grid",
-                  gridTemplateColumns: "92px minmax(0, 1fr)",
-                  gap: "16px",
-                  alignItems: "center",
-                }}
-              >
-                <div
-                  style={{
-                    width: "92px",
-                    height: "92px",
-                    borderRadius: "50%",
-                    backgroundImage: "url('/images/Karina Maria - Founder.png')",
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                    boxShadow: "0 8px 20px rgba(44,62,79,0.10)",
-                  }}
-                />
-
-                <div style={{ display: "grid", gap: "8px" }}>
-                  <div
-                    style={{
-                      display: "flex",
-                      flexWrap: "wrap",
-                      gap: "8px",
-                      alignItems: "center",
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontSize: "11px",
-                        fontWeight: 700,
-                        letterSpacing: "0.12em",
-                        textTransform: "uppercase",
-                        color: "#6B7280",
-                      }}
-                    >
-                      Bag ByggeTalent
-                    </div>
-
-                    <div
-                      style={{
-                        display: "inline-flex",
-                        alignItems: "center",
-                        padding: "6px 10px",
-                        borderRadius: "999px",
-                        background: "#EEF4FF",
-                        color: "#295BA8",
-                        fontSize: "11px",
-                        fontWeight: 700,
-                      }}
-                    >
-                      HR · rekruttering · teams
-                    </div>
-                  </div>
-
-                  <div
-                    style={{
-                      fontSize: "24px",
-                      lineHeight: 1.08,
-                      fontWeight: 700,
-                      color: "#22313F",
-                      letterSpacing: "-0.03em",
-                    }}
-                  >
-                    Karina Maria Nyberg
-                  </div>
-
-                  <div
-                    style={{
-                      fontSize: "14px",
-                      lineHeight: 1.65,
-                      color: "#5B6875",
-                      maxWidth: "60ch",
-                    }}
-                  >
-                    ByggeTalent er skabt med fokus på HR, rekruttering,
-                    organisationsudvikling og stærke projektteams i bygge- og
-                    anlægsbranchen.
-                  </div>
-                </div>
-              </div>
 
               <div
                 style={{
@@ -715,267 +515,458 @@ export default function Home() {
                   zIndex: 20,
                   display: "flex",
                   justifyContent: "space-between",
-                  gap: "12px",
-                  padding: "12px",
-                  borderRadius: "18px",
-                  background: "rgba(241,236,227,0.96)",
-                  backdropFilter: "blur(14px)",
-                  border: "1px solid rgba(44,62,79,0.12)",
-                  boxShadow: "0 12px 28px rgba(15,23,42,0.10)",
+                  padding: "0",
+                  background: "none",
+                  border: "none",
+                  boxShadow: "none",
                 }}
               >
                 <button
-                  style={secondaryButtonStyle}
+                  type="button"
                   onClick={() => {
                     setEnteredApp(false);
                     setStep(1);
                   }}
+                  style={{
+                    width: "44px",
+                    height: "44px",
+                    borderRadius: "50%",
+                    border: "1px solid rgba(44,62,79,0.14)",
+                    background: "#FFFFFF",
+                    cursor: "pointer",
+                    fontSize: "18px",
+                    display: "grid",
+                    placeItems: "center",
+                    color: "#22313F",
+                    marginLeft: "40px",
+                  }}
                 >
-                  Tilbage til forsiden
+                  ←
                 </button>
 
                 <button
-                  style={primaryButtonStyle}
                   type="button"
-                  onClick={() => setStep(1)}
+                  onClick={() => {
+                    setStep1SubStep(0);
+                    setStep(1);
+                  }}
+                  style={{
+                    width: "44px",
+                    height: "44px",
+                    borderRadius: "50%",
+                    border: "none",
+                    background: "#4ADE80",
+                    cursor: "pointer",
+                    fontSize: "18px",
+                    display: "grid",
+                    placeItems: "center",
+                    color: "#14532D",
+                    fontWeight: 700,
+                  }}
                 >
-                  Næste
+                  →
                 </button>
               </div>
             </div>
           )}
 
           {step === 1 && (
-            <div style={{ display: "grid", gap: "18px" }}>
+            <div
+              className="max-w-[460px] mx-auto flex flex-col bg-white rounded-3xl overflow-hidden shadow-2xl"
+              style={{ height: "calc(100vh - 48px)", maxHeight: "820px" }}
+            >
               <div
-                style={{
-                  background:
-                    "linear-gradient(135deg, #2C3E4F 0%, #1F2B36 100%)",
-                  borderRadius: "16px",
-                  padding: "24px",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                  boxShadow: "0 18px 40px rgba(15,23,42,0.18)",
-                  display: "grid",
-                  gap: "10px",
-                }}
+                className="shrink-0 px-5 pt-5 pb-4"
+                style={{ borderBottom: "1px solid rgba(16,38,63,0.07)" }}
               >
-                <div
-                  style={{
-                    fontSize: 12,
-                    fontWeight: 700,
-                    letterSpacing: "0.12em",
-                    textTransform: "uppercase",
-                    color: "rgba(255,255,255,0.58)",
-                  }}
-                >
-                  Kandidatprofil · Step 2
+                <div className="flex items-center gap-3 mb-3">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      step1SubStep === 0
+                        ? setStep(0)
+                        : setStep1SubStep((s) => s - 1)
+                    }
+                    style={{
+                      background: "transparent",
+                      border: "none",
+                      cursor: "pointer",
+                      fontSize: 24,
+                      fontWeight: 300,
+                      lineHeight: 1,
+                      padding: 0,
+                      color: "#10263F",
+                    }}
+                  >
+                    ‹
+                  </button>
+                  <div>
+                    <div
+                      className="text-[11px] font-bold tracking-[0.12em] uppercase"
+                      style={{ color: "#7ED957" }}
+                    >
+                      Din profil
+                    </div>
+                    <div
+                      className="text-[13px] font-semibold"
+                      style={{ color: "rgba(16,38,63,0.45)" }}
+                    >
+                      {step1SubStep + 1} af 10
+                    </div>
+                  </div>
                 </div>
-
-                <div
-                  style={{
-                    fontSize: 34,
-                    lineHeight: 1.02,
-                    fontWeight: 700,
-                    color: "#F8FAFC",
-                  }}
-                >
-                  Din profil
-                </div>
-
-                <div
-                  style={{
-                    fontSize: 15,
-                    lineHeight: 1.65,
-                    color: "rgba(255,255,255,0.8)",
-                    maxWidth: 720,
-                  }}
-                >
-                  Udfyld dine oplysninger, upload dokumenter og vælg den faglige
-                  retning, der matcher din profil i bygge- og anlægsbranchen.
+                <div className="flex gap-1">
+                  {Array.from({ length: 10 }).map((_, i) => (
+                    <div
+                      key={i}
+                      className="flex-1 h-[3px] rounded-full"
+                      style={{
+                        background:
+                          i <= step1SubStep
+                            ? "#7ED957"
+                            : "rgba(16,38,63,0.10)",
+                      }}
+                    />
+                  ))}
                 </div>
               </div>
 
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
-                  gap: "16px",
-                  alignItems: "start",
-                }}
-              >
-                <div
-                  style={{
-                    ...industrialCardStyle,
-                    gap: "14px",
-                  }}
-                >
-                  <SectionBar
-                    eyebrow="Grunddata"
-                    title="Personoplysninger"
-                    rightTag="Kandidat"
-                  />
-
-                  <div style={{ display: "grid", gap: "10px" }}>
+              <div className="flex-1 overflow-y-auto px-6 pt-8 pb-4 flex flex-col gap-5">
+                {step1SubStep === 0 && (
+                  <>
+                    <div
+                      className="text-[32px] font-bold leading-tight"
+                      style={{ color: "#10263F" }}
+                    >
+                      Din Profil
+                    </div>
+                    <div
+                      className="text-[15px]"
+                      style={{ color: "rgba(16,38,63,0.45)" }}
+                    >
+                      Udfyld dine oplysninger trin for trin
+                    </div>
                     <TextInput
-                      placeholder="Navn *"
+                      placeholder="Fornavn"
                       value={form.name}
-                      onChange={(value) => update("name", value)}
+                      onChange={(v) => update("name", v)}
                     />
+                    <input
+                      style={inputStyle}
+                      placeholder="Efternavn"
+                      value={form.lastName}
+                      onChange={(e) => update("lastName", e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && form.lastName) {
+                          setStep1SubStep((s) => s + 1);
+                        }
+                      }}
+                    />
+                  </>
+                )}
+
+                {step1SubStep === 1 && (
+                  <>
+                    <div
+                      className="text-[32px] font-bold leading-tight"
+                      style={{ color: "#10263F" }}
+                    >
+                      Kontakt
+                    </div>
                     <TextInput
-                      placeholder="E-mail *"
+                      placeholder="E-mail"
                       value={form.email}
-                      onChange={(value) => update("email", value)}
+                      onChange={(v) => update("email", v)}
                     />
                     <TextInput
-                      placeholder="Telefon *"
+                      placeholder="Telefon"
                       value={form.phone}
-                      onChange={(value) => update("phone", value)}
+                      onChange={(v) => update("phone", v)}
                     />
                     <TextInput
-                      placeholder="Adresse / by / postnummer *"
+                      placeholder="Adresse / by / postnummer"
                       value={form.address}
-                      onChange={(value) => update("address", value)}
+                      onChange={(v) => update("address", v)}
                     />
+                  </>
+                )}
+
+                {step1SubStep === 2 && (
+                  <>
+                    <div
+                      className="text-[32px] font-bold leading-tight"
+                      style={{ color: "#10263F" }}
+                    >
+                      Din rolle
+                    </div>
                     <TextInput
-                      placeholder="Nuværende titel / rolle *"
+                      placeholder="Nuværende titel / rolle"
                       value={form.currentTitle}
-                      onChange={(value) => update("currentTitle", value)}
+                      onChange={(v) => update("currentTitle", v)}
                     />
                     <TextInput
-                      placeholder="LinkedIn *"
+                      placeholder="LinkedIn"
                       value={form.linkedin}
-                      onChange={(value) => update("linkedin", value)}
+                      onChange={(v) => update("linkedin", v)}
                     />
+                  </>
+                )}
+
+                {step1SubStep === 3 && (
+                  <>
+                    <div
+                      className="text-[32px] font-bold leading-tight"
+                      style={{ color: "#10263F" }}
+                    >
+                      En kort note
+                    </div>
+                    <div
+                      className="text-[14px]"
+                      style={{ color: "rgba(16,38,63,0.5)" }}
+                    >
+                      Valgfrit
+                    </div>
                     <textarea
-                      style={textareaStyle}
-                      placeholder="Kort note: Hvad skal vi vide om dig?"
+                      style={{ ...textareaStyle, minHeight: "140px" }}
+                      placeholder="Hvad skal vi vide om dig?"
                       value={form.supplementaryInfo}
                       onChange={(e) =>
                         update("supplementaryInfo", e.target.value)
                       }
                     />
-                  </div>
-                </div>
+                  </>
+                )}
 
-                <div style={{ display: "grid", gap: "16px" }}>
-                  <div
-                    style={{
-                      ...industrialCardStyle,
-                      gap: "12px",
-                    }}
-                  >
-                    <SectionBar eyebrow="Match" title="Jobparametre" />
+                {step1SubStep === 4 && (
+                  <>
+                    <div
+                      className="text-[26px] font-bold leading-tight"
+                      style={{ color: "#10263F" }}
+                    >
+                      Hvor mange års erfaring har du?
+                    </div>
+                    <div className="flex flex-col gap-3 mt-2">
+                      {["0-3 år", "4-7 år", "8-12 år", "12+ år"].map((opt) => (
+                        <button
+                          key={opt}
+                          type="button"
+                          onClick={() => {
+                            update("experience", opt);
+                            setStep1SubStep((s) => s + 1);
+                          }}
+                          style={{
+                            padding: "18px 20px",
+                            borderRadius: 14,
+                            border:
+                              form.experience === opt
+                                ? "2px solid #10263F"
+                                : "1px solid rgba(16,38,63,0.15)",
+                            background:
+                              form.experience === opt ? "#10263F" : "#fff",
+                            color:
+                              form.experience === opt ? "#fff" : "#10263F",
+                            textAlign: "left",
+                            fontSize: 16,
+                            fontWeight: 600,
+                            cursor: "pointer",
+                          }}
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
 
-                    <SelectInput
-                      value={form.experience}
-                      onChange={(value) => update("experience", value)}
-                      options={[
-                        "Vælg erfaring *",
-                        "0-3 år",
-                        "4-7 år",
-                        "8-12 år",
-                        "12+ år",
-                      ]}
-                    />
-
-                    <SelectInput
-                      value={form.salary}
-                      onChange={(value) => update("salary", value)}
-                      options={[
-                        "Vælg lønretning *",
+                {step1SubStep === 5 && (
+                  <>
+                    <div
+                      className="text-[26px] font-bold leading-tight"
+                      style={{ color: "#10263F" }}
+                    >
+                      Hvad er din lønretning?
+                    </div>
+                    <div className="flex flex-col gap-3 mt-2">
+                      {[
                         "Under nuværende niveau",
                         "Samme niveau",
                         "Over nuværende niveau",
-                      ]}
-                    />
+                      ].map((opt) => (
+                        <button
+                          key={opt}
+                          type="button"
+                          onClick={() => {
+                            update("salary", opt);
+                            setStep1SubStep((s) => s + 1);
+                          }}
+                          style={{
+                            padding: "18px 20px",
+                            borderRadius: 14,
+                            border:
+                              form.salary === opt
+                                ? "2px solid #10263F"
+                                : "1px solid rgba(16,38,63,0.15)",
+                            background: form.salary === opt ? "#10263F" : "#fff",
+                            color: form.salary === opt ? "#fff" : "#10263F",
+                            textAlign: "left",
+                            fontSize: 16,
+                            fontWeight: 600,
+                            cursor: "pointer",
+                          }}
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
 
-                    <SelectInput
-                      value={form.distance}
-                      onChange={(value) => update("distance", value)}
-                      options={[
-                        "Vælg geografisk rækkevidde *",
-                        "0-20 km",
-                        "20-50 km",
-                        "50+ km",
-                        "Hele Danmark",
-                      ]}
-                    />
-                  </div>
+                {step1SubStep === 6 && (
+                  <>
+                    <div
+                      className="text-[26px] font-bold leading-tight"
+                      style={{ color: "#10263F" }}
+                    >
+                      Hvor langt vil du pendle?
+                    </div>
+                    <div className="flex flex-col gap-3 mt-2">
+                      {["0-20 km", "20-50 km", "50+ km", "Hele Danmark"].map(
+                        (opt) => (
+                          <button
+                            key={opt}
+                            type="button"
+                            onClick={() => {
+                              update("distance", opt);
+                              setStep1SubStep((s) => s + 1);
+                            }}
+                            style={{
+                              padding: "18px 20px",
+                              borderRadius: 14,
+                              border:
+                                form.distance === opt
+                                  ? "2px solid #10263F"
+                                  : "1px solid rgba(16,38,63,0.15)",
+                              background:
+                                form.distance === opt ? "#10263F" : "#fff",
+                              color:
+                                form.distance === opt ? "#fff" : "#10263F",
+                              textAlign: "left",
+                              fontSize: 16,
+                              fontWeight: 600,
+                              cursor: "pointer",
+                            }}
+                          >
+                            {opt}
+                          </button>
+                        )
+                      )}
+                    </div>
+                  </>
+                )}
 
-                  <div
-                    style={{
-                      ...industrialPanelStyle,
-                      gap: "12px",
-                    }}
-                  >
-                    <SectionBar eyebrow="Dokumenter" title="CV og bilag" />
-
+                {step1SubStep === 7 && (
+                  <>
+                    <div
+                      className="text-[26px] font-bold leading-tight"
+                      style={{ color: "#10263F" }}
+                    >
+                      Upload dit CV
+                    </div>
+                    <div
+                      className="text-[14px]"
+                      style={{ color: "rgba(16,38,63,0.5)" }}
+                    >
+                      Vælg en fil — så går vi videre automatisk
+                    </div>
                     <FileUploadField
                       label="Upload CV *"
                       file={cvFile}
-                      onChange={setCvFile}
+                      onChange={(file) => {
+                        setCvFile(file);
+                        if (file) setStep1SubStep((s) => s + 1);
+                      }}
                     />
                     <FileUploadField
                       label="Upload ekstra dokument"
                       file={applicationFile}
                       onChange={setApplicationFile}
                     />
-                  </div>
-                </div>
-              </div>
+                  </>
+                )}
 
-              <div
-                style={{
-                  ...industrialCardStyle,
-                  gap: "14px",
-                }}
-              >
-                <SectionBar eyebrow="Fagområde" title="Faglig profil" />
+                {step1SubStep === 8 && (
+                  <>
+                    <div
+                      className="text-[26px] font-bold leading-tight"
+                      style={{ color: "#10263F" }}
+                    >
+                      Hvad er din faglige profil?
+                    </div>
+                    <div
+                      className="text-[14px]"
+                      style={{ color: "rgba(16,38,63,0.5)" }}
+                    >
+                      Vælg én eller flere titler
+                    </div>
+                    <RoleSelectionCard
+                      title=""
+                      groupedRoles={groupedRoles}
+                      selectedValues={form.profiles}
+                      openGroups={openProfileGroups}
+                      onToggleGroup={(group) =>
+                        toggleGroup(group, openProfileGroups, setOpenProfileGroups)
+                      }
+                      onToggleRole={(role) => {
+                        const alreadySelected = form.profiles.includes(role);
+                        toggleProfile(role);
+                        if (!alreadySelected) {
+                          const group = Object.entries(groupedRoles).find(
+                            ([, roles]) => roles.includes(role)
+                          )?.[0];
+                          if (group) {
+                            setOpenProfileGroups((prev) => ({
+                              ...prev,
+                              [group]: false,
+                            }));
+                          }
+                        }
+                      }}
+                      otherTitle={form.profileOtherTitle}
+                      onOtherTitleChange={(v) => update("profileOtherTitle", v)}
+                    />
+                  </>
+                )}
 
-                <RoleSelectionCard
-                  title="Vælg faglige profiler *"
-                  groupedRoles={groupedRoles}
-                  selectedValues={form.profiles}
-                  openGroups={openProfileGroups}
-                  onToggleGroup={(group) =>
-                    toggleGroup(group, openProfileGroups, setOpenProfileGroups)
-                  }
-                  onToggleRole={toggleProfile}
-                  otherTitle={form.profileOtherTitle}
-                  onOtherTitleChange={(value) =>
-                    update("profileOtherTitle", value)
-                  }
-                />
-              </div>
-
-              <div
-                style={{
-                  ...complianceCardStyle,
-                  gap: "14px",
-                }}
-              >
-                <SectionBar eyebrow="Compliance" title="Samtykke og privatliv" />
-
-                <div style={{ display: "grid", gap: 10 }}>
-                  <InfoCheckboxCard
-                    checked={form.consent}
-                    onChange={() => update("consent", !form.consent)}
-                    infoOpen={showConsentInfo}
-                    onToggleInfo={() => setShowConsentInfo(!showConsentInfo)}
-                    label="Jeg giver samtykke til, at ByggeTalent må opbevare og behandle mine personoplysninger i op til 6 måneder med henblik på rekruttering og relevante jobmuligheder."
-                    infoText="Dine oplysninger opbevares i op til 6 måneder med henblik på rekruttering og relevante jobmuligheder."
-                  />
-
-                  <InfoCheckboxCard
-                    checked={form.gdpr}
-                    onChange={() => update("gdpr", !form.gdpr)}
-                    infoOpen={showGdprInfo}
-                    onToggleInfo={() => setShowGdprInfo(!showGdprInfo)}
-                    label="Jeg accepterer, at mine personoplysninger behandles i henhold til ByggeTalents privatlivspolitik."
-                    infoText="ByggeTalent behandler dine oplysninger med henblik på rekruttering og match med relevante muligheder i overensstemmelse med privatlivspolitikken."
-                  />
-
-                  <div style={{ marginTop: 2 }}>
+                {step1SubStep === 9 && (
+                  <>
+                    <div
+                      className="text-[26px] font-bold leading-tight"
+                      style={{ color: "#10263F" }}
+                    >
+                      Næsten færdig!
+                    </div>
+                    <div
+                      className="text-[14px]"
+                      style={{ color: "rgba(16,38,63,0.5)" }}
+                    >
+                      Bekræft samtykke og privatliv
+                    </div>
+                    <InfoCheckboxCard
+                      checked={form.consent}
+                      onChange={() => update("consent", !form.consent)}
+                      infoOpen={showConsentInfo}
+                      onToggleInfo={() => setShowConsentInfo(!showConsentInfo)}
+                      label="Jeg giver samtykke til, at ByggeTalent må opbevare og behandle mine personoplysninger i op til 6 måneder med henblik på rekruttering og relevante jobmuligheder."
+                      infoText="Dine oplysninger opbevares i op til 6 måneder med henblik på rekruttering og relevante jobmuligheder."
+                    />
+                    <InfoCheckboxCard
+                      checked={form.gdpr}
+                      onChange={() => update("gdpr", !form.gdpr)}
+                      infoOpen={showGdprInfo}
+                      onToggleInfo={() => setShowGdprInfo(!showGdprInfo)}
+                      label="Jeg accepterer, at mine personoplysninger behandles i henhold til ByggeTalents privatlivspolitik."
+                      infoText="ByggeTalent behandler dine oplysninger med henblik på rekruttering og match med relevante muligheder i overensstemmelse med privatlivspolitikken."
+                    />
                     <a
                       href="#"
                       style={{
@@ -987,54 +978,46 @@ export default function Home() {
                     >
                       Læs vores privatlivspolitik
                     </a>
-                  </div>
-                </div>
+                  </>
+                )}
               </div>
 
-              <div
-                style={{
-                  position: "sticky",
-                  bottom: "12px",
-                  zIndex: 20,
-                  display: "flex",
-                  justifyContent: "space-between",
-                  gap: "12px",
-                  padding: "12px",
-                  borderRadius: "14px",
-                  background: "rgba(241,236,227,0.96)",
-                  backdropFilter: "blur(14px)",
-                  border: "1px solid rgba(44,62,79,0.12)",
-                  boxShadow: "0 12px 28px rgba(15,23,42,0.10)",
-                }}
-              >
-                <button style={secondaryButtonStyle} onClick={() => setStep(0)}>
-                  Tilbage
-                </button>
-
-                <button
-                  style={{
-                    ...primaryButtonStyle,
-                    opacity: isStep1Valid ? 1 : 0.5,
-                    cursor: isStep1Valid ? "pointer" : "not-allowed",
-                  }}
-                  onClick={() => {
-                    if (!isStep1Valid) return;
-                    setShowResult(false);
-                    setAnswers(Array(10).fill(0));
-                    setStep(2);
-                  }}
-                  disabled={!isStep1Valid}
+              {![4, 5, 6].includes(step1SubStep) && (
+                <div
+                  className="shrink-0 px-5 pb-5 pt-3 bg-white"
+                  style={{ borderTop: "1px solid rgba(16,38,63,0.06)" }}
                 >
-                  Videre
-                </button>
-              </div>
+                  <button
+                    className="w-full py-4 rounded-2xl text-[17px] font-bold"
+                    style={{
+                      background: "#10263F",
+                      color: "#FFFFFF",
+                      border: "none",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      if (step1SubStep === 9) {
+                        setShowResult(false);
+                        setAnswers(Array(10).fill(0));
+                        setStep(2);
+                      } else {
+                        setStep1SubStep((s) => s + 1);
+                      }
+                    }}
+                  >
+                    {step1SubStep === 9
+                      ? "Videre til mini-testen →"
+                      : "Næste →"}
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
           {step === 2 && (
             <div
               style={{
-                background: "#16181d",
+                background: "linear-gradient(180deg, #16181D 0%, #1D2228 100%)",
                 borderRadius: "18px",
                 padding: "28px",
                 color: "#F3EFE6",
@@ -1199,7 +1182,7 @@ export default function Home() {
                   <div
                     style={{
                       background:
-                        "linear-gradient(135deg, #101820 0%, #0B1117 100%)",
+                        "linear-gradient(135deg, #101820 0%, #18202A 55%, #2A2216 100%)",
                       border: "1px solid rgba(110, 220, 95, 0.14)",
                       borderRadius: "20px",
                       padding: "18px",
