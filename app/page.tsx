@@ -634,7 +634,7 @@ export default function Home() {
               <div className="flex-1 overflow-y-auto pb-4 flex flex-col gap-5">
                 {step1SubStep === 0 && (
                   <>
-                    <div style={{ position: "relative", height: "220px", flexShrink: 0 }}>
+                    <div style={{ position: "relative", height: "360px", flexShrink: 0 }}>
                       <img
                         src="/images/DIn faglg profil.png"
                         alt="Din faglige profil"
@@ -642,7 +642,7 @@ export default function Home() {
                           width: "100%",
                           height: "100%",
                           objectFit: "cover",
-                          objectPosition: "center top",
+                          objectPosition: "center center",
                           display: "block",
                         }}
                       />
