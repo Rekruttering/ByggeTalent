@@ -622,28 +622,6 @@ export default function Home() {
                           display: "block",
                         }}
                       />
-                      <div
-                        style={{
-                          position: "absolute",
-                          inset: 0,
-                          background: "linear-gradient(to bottom, rgba(7,17,29,0.0) 40%, rgba(7,17,29,0.85) 100%)",
-                        }}
-                      />
-                      <div
-                        style={{
-                          position: "absolute",
-                          bottom: "16px",
-                          left: "20px",
-                          right: "20px",
-                        }}
-                      >
-                        <div style={{ fontSize: "20px", fontWeight: 600, color: "#A8BDC7", lineHeight: 1.2, letterSpacing: "-0.01em" }}>
-                          Din Profil
-                        </div>
-                        <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.85)", marginTop: "4px" }}>
-                          Udfyld dine oplysninger trin for trin
-                        </div>
-                      </div>
                     </div>
 
                     <div className="px-6 flex flex-col gap-4">
