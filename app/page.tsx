@@ -987,13 +987,19 @@ export default function Home() {
                     ←
                   </button>
                   <button
-                    className="py-[10px] rounded-xl text-[14px] font-bold"
                     style={{
-                      flex: 1,
+                      width: "52px",
+                      height: "52px",
+                      borderRadius: "50%",
                       background: "#D4962A",
                       color: "#FFFFFF",
                       border: "none",
                       cursor: "pointer",
+                      fontSize: "18px",
+                      display: "grid",
+                      placeItems: "center",
+                      fontWeight: 700,
+                      flexShrink: 0,
                     }}
                     onClick={() => {
                       if (step1SubStep === 9) {
@@ -1005,9 +1011,7 @@ export default function Home() {
                       }
                     }}
                   >
-                    {step1SubStep === 9
-                      ? "Videre til mini-testen →"
-                      : "Næste →"}
+                    →
                   </button>
                 </div>
               )}
