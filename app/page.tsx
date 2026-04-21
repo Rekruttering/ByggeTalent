@@ -591,27 +591,7 @@ export default function Home() {
                 >
                   ByggeTalent
                 </div>
-                <div className="flex items-center gap-3 mb-3">
-                  <button
-                    type="button"
-                    onClick={() =>
-                      step1SubStep === 0
-                        ? setStep(0)
-                        : setStep1SubStep((s) => s - 1)
-                    }
-                    style={{
-                      background: "transparent",
-                      border: "none",
-                      cursor: "pointer",
-                      fontSize: 24,
-                      fontWeight: 300,
-                      lineHeight: 1,
-                      padding: 0,
-                      color: "#10263F",
-                    }}
-                  >
-                    ‹
-                  </button>
+                <div className="flex items-center mb-3">
                   <div>
                     <div
                       className="text-[11px] font-bold tracking-[0.12em] uppercase"
@@ -1023,11 +1003,31 @@ export default function Home() {
               {![4, 5, 6].includes(step1SubStep) && (
                 <div
                   className="shrink-0 px-5 pb-5 pt-3 bg-white"
-                  style={{ borderTop: "1px solid rgba(16,38,63,0.06)" }}
+                  style={{ borderTop: "1px solid rgba(16,38,63,0.06)", display: "flex", gap: "10px", alignItems: "center" }}
                 >
                   <button
-                    className="w-full py-4 rounded-2xl text-[17px] font-bold"
+                    type="button"
+                    onClick={() => step1SubStep === 0 ? setStep(0) : setStep1SubStep((s) => s - 1)}
                     style={{
+                      width: "52px",
+                      height: "52px",
+                      borderRadius: "50%",
+                      border: "1px solid rgba(16,38,63,0.14)",
+                      background: "#FFFFFF",
+                      cursor: "pointer",
+                      fontSize: "18px",
+                      display: "grid",
+                      placeItems: "center",
+                      color: "#10263F",
+                      flexShrink: 0,
+                    }}
+                  >
+                    ←
+                  </button>
+                  <button
+                    className="py-4 rounded-2xl text-[17px] font-bold"
+                    style={{
+                      flex: 1,
                       background: "#10263F",
                       color: "#FFFFFF",
                       border: "none",
