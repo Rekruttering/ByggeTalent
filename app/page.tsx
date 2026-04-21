@@ -987,10 +987,10 @@ export default function Home() {
                     ←
                   </button>
                   <button
-                    className="py-4 rounded-2xl text-[17px] font-bold"
+                    className="py-3 rounded-2xl text-[15px] font-bold"
                     style={{
                       flex: 1,
-                      background: "#10263F",
+                      background: "#D4962A",
                       color: "#FFFFFF",
                       border: "none",
                       cursor: "pointer",
