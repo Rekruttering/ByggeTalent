@@ -673,7 +673,7 @@ export default function Home() {
                           right: "20px",
                         }}
                       >
-                        <div style={{ fontSize: "20px", fontWeight: 600, color: "#FFFFFF", lineHeight: 1.2, letterSpacing: "-0.01em" }}>
+                        <div style={{ fontSize: "20px", fontWeight: 600, color: "#A8BDC7", lineHeight: 1.2, letterSpacing: "-0.01em" }}>
                           Din Profil
                         </div>
                         <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.85)", marginTop: "4px" }}>
