@@ -673,10 +673,10 @@ export default function Home() {
                           right: "20px",
                         }}
                       >
-                        <div style={{ fontSize: "26px", fontWeight: 700, color: "#FFFFFF", lineHeight: 1.1, letterSpacing: "-0.02em" }}>
+                        <div style={{ fontSize: "18px", fontWeight: 500, color: "#A8BDC7", lineHeight: 1.2, letterSpacing: "0.01em" }}>
                           Din Profil
                         </div>
-                        <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.75)", marginTop: "4px" }}>
+                        <div style={{ fontSize: "12px", color: "rgba(168,189,199,0.75)", marginTop: "3px" }}>
                           Udfyld dine oplysninger trin for trin
                         </div>
                       </div>
