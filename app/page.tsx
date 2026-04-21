@@ -971,8 +971,8 @@ export default function Home() {
                     type="button"
                     onClick={() => step1SubStep === 0 ? setStep(0) : setStep1SubStep((s) => s - 1)}
                     style={{
-                      width: "52px",
-                      height: "52px",
+                      width: "44px",
+                      height: "44px",
                       borderRadius: "50%",
                       border: "1px solid rgba(16,38,63,0.14)",
                       background: "#FFFFFF",
