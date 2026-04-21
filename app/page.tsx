@@ -987,7 +987,7 @@ export default function Home() {
                     ←
                   </button>
                   <button
-                    className="py-3 rounded-2xl text-[15px] font-bold"
+                    className="py-[10px] rounded-xl text-[14px] font-bold"
                     style={{
                       flex: 1,
                       background: "#D4962A",
