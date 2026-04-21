@@ -603,7 +603,7 @@ export default function Home() {
                   <div>
                     <div
                       className="text-[11px] font-bold tracking-[0.12em] uppercase"
-                      style={{ color: "#7ED957" }}
+                      style={{ color: "#F5C441" }}
                     >
                       Din profil
                     </div>
@@ -623,7 +623,7 @@ export default function Home() {
                       style={{
                         background:
                           i <= step1SubStep
-                            ? "#7ED957"
+                            ? "#F5C441"
                             : "rgba(16,38,63,0.10)",
                       }}
                     />
@@ -631,21 +631,46 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto px-6 pt-8 pb-4 flex flex-col gap-5">
+              <div className="flex-1 overflow-y-auto pb-4 flex flex-col gap-5">
                 {step1SubStep === 0 && (
                   <>
-                    <div
-                      className="text-[32px] font-bold leading-tight"
-                      style={{ color: "#10263F" }}
-                    >
-                      Din Profil
+                    <div style={{ position: "relative", height: "220px", flexShrink: 0 }}>
+                      <img
+                        src="/images/DIn faglg profil.png"
+                        alt="Din faglige profil"
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          objectFit: "cover",
+                          objectPosition: "center top",
+                          display: "block",
+                        }}
+                      />
+                      <div
+                        style={{
+                          position: "absolute",
+                          inset: 0,
+                          background: "linear-gradient(to bottom, rgba(7,17,29,0.0) 40%, rgba(7,17,29,0.85) 100%)",
+                        }}
+                      />
+                      <div
+                        style={{
+                          position: "absolute",
+                          bottom: "16px",
+                          left: "20px",
+                          right: "20px",
+                        }}
+                      >
+                        <div style={{ fontSize: "26px", fontWeight: 700, color: "#FFFFFF", lineHeight: 1.1, letterSpacing: "-0.02em" }}>
+                          Din Profil
+                        </div>
+                        <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.75)", marginTop: "4px" }}>
+                          Udfyld dine oplysninger trin for trin
+                        </div>
+                      </div>
                     </div>
-                    <div
-                      className="text-[15px]"
-                      style={{ color: "rgba(16,38,63,0.45)" }}
-                    >
-                      Udfyld dine oplysninger trin for trin
-                    </div>
+
+                    <div className="px-6 flex flex-col gap-4">
                     <TextInput
                       placeholder="Fornavn"
                       value={form.name}
@@ -662,6 +687,7 @@ export default function Home() {
                         }
                       }}
                     />
+                    </div>
                   </>
                 )}
 
