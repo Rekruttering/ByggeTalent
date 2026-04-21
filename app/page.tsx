@@ -965,7 +965,7 @@ export default function Home() {
               {![4, 5, 6].includes(step1SubStep) && (
                 <div
                   className="shrink-0 px-5 pb-5 pt-3 bg-white"
-                  style={{ borderTop: "1px solid rgba(16,38,63,0.06)", display: "flex", justifyContent: "space-between", alignItems: "center" }}
+                  style={{ borderTop: "1px solid rgba(16,38,63,0.06)", display: "flex", gap: "10px", alignItems: "center" }}
                 >
                   <button
                     type="button"
@@ -987,19 +987,13 @@ export default function Home() {
                     ←
                   </button>
                   <button
+                    className="py-3 px-6 rounded-xl text-[14px] font-bold"
                     style={{
-                      width: "52px",
-                      height: "52px",
-                      borderRadius: "50%",
+                      flex: 1,
                       background: "#D4962A",
                       color: "#FFFFFF",
                       border: "none",
                       cursor: "pointer",
-                      fontSize: "18px",
-                      display: "grid",
-                      placeItems: "center",
-                      fontWeight: 700,
-                      flexShrink: 0,
                     }}
                     onClick={() => {
                       if (step1SubStep === 9) {
@@ -1011,7 +1005,7 @@ export default function Home() {
                       }
                     }}
                   >
-                    →
+                    {step1SubStep === 9 ? "Videre til mini-testen →" : "Næste →"}
                   </button>
                 </div>
               )}
