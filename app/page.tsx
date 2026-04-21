@@ -591,22 +591,6 @@ export default function Home() {
                 >
                   ByggeTalent
                 </div>
-                <div className="flex items-center mb-3">
-                  <div>
-                    <div
-                      className="text-[11px] font-bold tracking-[0.12em] uppercase"
-                      style={{ color: "#F5C441" }}
-                    >
-                      Din profil
-                    </div>
-                    <div
-                      className="text-[13px] font-semibold"
-                      style={{ color: "rgba(16,38,63,0.45)" }}
-                    >
-                      {step1SubStep + 1} af 10
-                    </div>
-                  </div>
-                </div>
                 <div className="flex gap-1">
                   {Array.from({ length: 10 }).map((_, i) => (
                     <div
