@@ -324,7 +324,7 @@ export default function Home() {
                       borderRadius: "6px",
                       background: card.bg,
                       border: active ? `2px solid ${CURRY}` : "1px solid transparent",
-                      padding: "14px 10px",
+                      padding: "14px 10px 14px 24px",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
