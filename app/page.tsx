@@ -1239,66 +1239,128 @@ function SvarDetail() {
   );
 }
 
-// ─── WorkforceShortage: ByggeTalent Viden feed ────────────────────────────────
+// ─── WorkforceShortage: Nordea-style single card med accordion ────────────────
+
+const NB = "#00005E";
+const NB_LIGHT = "#F0F0F8";
 
 function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => void }) {
-  const [activeCard, setActiveCard] = useState<null | "mangel" | "roller" | "drivere" | "svar">(null);
+  const [open, setOpen] = useState<Record<string, boolean>>({ roller: true });
+  const [visAlle, setVisAlle] = useState(false);
 
-  const backBtn = (label: string, onClick: () => void) => (
-    <button onClick={onClick}
-      style={{ background: "none", border: "none", cursor: "pointer", fontSize: "14px", fontWeight: 700, color: CURRY, padding: 0, display: "flex", alignItems: "center", gap: "6px" }}>
-      ← {label}
-    </button>
-  );
+  const toggle = (key: string) => setOpen(o => ({ ...o, [key]: !o[key] }));
 
-  if (activeCard === "mangel")  return <div style={{ display: "grid", gap: "12px" }}>{backBtn("Viden", () => setActiveCard(null))}<MangelDetail /></div>;
-  if (activeCard === "roller")  return <div style={{ display: "grid", gap: "12px" }}>{backBtn("Viden", () => setActiveCard(null))}<RollerDetail /></div>;
-  if (activeCard === "drivere") return <div style={{ display: "grid", gap: "12px" }}>{backBtn("Viden", () => setActiveCard(null))}<DrivereDetail /></div>;
-  if (activeCard === "svar")    return <div style={{ display: "grid", gap: "12px" }}>{backBtn("Viden", () => setActiveCard(null))}<SvarDetail /></div>;
-
-  const articles: { id: "mangel" | "roller" | "drivere" | "svar"; tag: string; date: string; title: string; body: string; stat: string; statLabel: string; urgent?: boolean }[] = [
-    { id: "mangel",  tag: "Arbejdskraft",  date: "AE-rådet · 2024", title: "99.000 faglærte mangler inden 2030", body: "Branchen står over for sin største strukturelle udfordring. Jo tidligere I handler, jo stærkere er jeres position.", stat: "99k", statLabel: "faglærte", urgent: true },
-    { id: "roller",  tag: "Kritiske roller", date: "AE-rådet · 2024", title: "11 fagområder under pres", body: "Fra tømrere til BIM-specialister — manglen er ikke ensartet. Kend jeres eksponering.", stat: "11", statLabel: "fagområder", urgent: true },
-    { id: "drivere", tag: "Analyse", date: "AE-rådet · 2024", title: "Tre strukturelle drivkræfter", body: "Demografi, grøn omstilling og renoveringsbølgen forstærker hinanden. Ingen af dem forsvinder.", stat: "3", statLabel: "drivkræfter" },
-    { id: "svar",    tag: "Strategi",   date: "ByggeTalent · 2024", title: "Hvad gør de bedste virksomheder?", body: "Præfabrikation, tidlig rekruttering og intern opkvalificering er de tre svar der virker.", stat: "↗", statLabel: "vækst" },
+  const topRoller = [
+    { navn: "Elektriker",      note: "Solceller & ladestandere", color: "#6A9060" },
+    { navn: "VVS",             note: "Grønne varmekilder",       color: "#6A9060" },
+    { navn: "Energirådgiver",  note: "EPBD & energimærkning",    color: "#C4A03A" },
+    { navn: "BIM-specialist",  note: "Digitalisering",           color: "#2563EB" },
+  ];
+  const alleRoller = [
+    { navn: "Tømrer",              note: "Renovering",             color: "#6A9060" },
+    { navn: "Maskinsnedker",       note: "Præfabrikation",         color: "#6A9060" },
+    { navn: "Anlægsstruktør",      note: "Infrastruktur",          color: "#6A9060" },
+    { navn: "Materialespecialist", note: "Cirkulære materialer",   color: "#C4A03A" },
+    { navn: "Renoveringsfaglært",  note: "Energiforbedring",       color: "#C4A03A" },
+    { navn: "Byggeleder",          note: "DGNB / BREEAM",          color: "#2563EB" },
+    { navn: "Projektleder",        note: "Planlægning",            color: "#2563EB" },
   ];
 
+  const Section = ({ id, label, children }: { id: string; label: string; children: React.ReactNode }) => (
+    <div style={{ borderTop: "1px solid #E8E8F0" }}>
+      <button
+        onClick={() => toggle(id)}
+        style={{ width: "100%", background: "none", border: "none", cursor: "pointer", padding: "14px 0", display: "flex", justifyContent: "space-between", alignItems: "center" }}
+      >
+        <span style={{ fontSize: "13px", fontWeight: 700, color: NB }}>{label}</span>
+        <span style={{ fontSize: "16px", color: NB, transform: open[id] ? "rotate(90deg)" : "none", transition: "transform 0.2s" }}>›</span>
+      </button>
+      {open[id] && <div style={{ paddingBottom: "14px" }}>{children}</div>}
+    </div>
+  );
+
   return (
-    <div style={{ display: "grid", gap: "0px", background: "#F4F4F4", margin: "-20px", padding: "20px", minHeight: "100vh" }}>
+    <div style={{ background: "#F0F0F8", margin: "-20px", padding: "20px", minHeight: "100vh" }}>
+      <button onClick={onExitToVirksomhed} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: 700, color: NB, padding: 0, marginBottom: "16px", display: "flex", alignItems: "center", gap: "5px" }}>← Virksomhed</button>
 
-      <div style={{ marginBottom: "16px" }}>{backBtn("Virksomhed", onExitToVirksomhed)}</div>
+      {/* Kort */}
+      <div style={{ background: WHITE, borderRadius: "14px", overflow: "hidden", boxShadow: "0 2px 12px rgba(0,0,30,0.10)" }}>
 
-      {/* Feed header */}
-      <div style={{ background: WHITE, borderRadius: "10px", padding: "16px", marginBottom: "8px", borderLeft: `4px solid ${CURRY}` }}>
-        <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: MUTED, marginBottom: "2px" }}>Brancheanalyse · AE-rådet 2024</div>
-        <div style={{ fontSize: "18px", fontWeight: 700, color: TEXT, lineHeight: 1.2 }}>Arbejdskraft i bygge & anlæg</div>
-        <div style={{ fontSize: "12px", color: MUTED, marginTop: "4px" }}>4 indsigter · tryk for at læse</div>
-      </div>
-
-      <div style={{ display: "grid", gap: "8px" }}>
-        {articles.map((a) => (
-          <button
-            key={a.id}
-            onClick={() => setActiveCard(a.id)}
-            style={{ width: "100%", textAlign: "left", background: WHITE, borderRadius: "10px", border: "none", borderLeft: `4px solid ${a.urgent ? "#C0392B" : CURRY}`, padding: "14px 16px", cursor: "pointer", display: "grid", gap: "6px", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
-          >
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: a.urgent ? "#C0392B" : MUTED }}>{a.tag}{a.urgent ? " ●" : ""}</span>
-              <span style={{ fontSize: "10px", color: MUTED }}>{a.date}</span>
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "12px" }}>
-              <div style={{ fontSize: "15px", fontWeight: 700, color: TEXT, lineHeight: 1.3, flex: 1 }}>{a.title}</div>
-              <div style={{ textAlign: "right", flexShrink: 0, paddingTop: "2px" }}>
-                <div style={{ fontSize: "22px", fontWeight: 700, color: a.urgent ? "#C0392B" : CURRY, lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>{a.stat}</div>
-                <div style={{ fontSize: "9px", color: MUTED, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>{a.statLabel}</div>
+        {/* Nordea-style header */}
+        <div style={{ background: NB, padding: "20px 18px 16px" }}>
+          <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", marginBottom: "4px" }}>Brancheanalyse · AE-rådet 2024</div>
+          <div style={{ fontSize: "20px", fontWeight: 700, color: WHITE, lineHeight: 1.2, marginBottom: "16px" }}>Arbejdskraft i bygge & anlæg frem mod 2030</div>
+          {/* Tre nøgletal */}
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px" }}>
+            {[{ n: "99.000", label: "Faglærte", urgent: true }, { n: "24.000", label: "KVU", urgent: false }, { n: "13.000", label: "MVU", urgent: false }].map(s => (
+              <div key={s.label} style={{ background: s.urgent ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.06)", borderRadius: "8px", padding: "10px 8px", textAlign: "center" }}>
+                <div style={{ fontSize: s.urgent ? "20px" : "16px", fontWeight: 700, color: s.urgent ? "#FFD700" : "rgba(255,255,255,0.8)", lineHeight: 1 }}>{s.n}</div>
+                <div style={{ fontSize: "9px", color: "rgba(255,255,255,0.5)", marginTop: "3px", textTransform: "uppercase", letterSpacing: "0.08em" }}>{s.label} mangler</div>
               </div>
-            </div>
-            <div style={{ fontSize: "12px", color: MUTED, lineHeight: 1.5 }}>{a.body}</div>
-            <div style={{ fontSize: "11px", fontWeight: 700, color: CURRY, paddingTop: "2px", display: "flex", alignItems: "center", gap: "4px" }}>Åbn analyse <span>›</span></div>
-          </button>
-        ))}
-      </div>
+            ))}
+          </div>
+        </div>
 
+        {/* Accordion sektioner */}
+        <div style={{ padding: "0 18px" }}>
+
+          <Section id="roller" label="11 kritiske fagområder">
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "10px" }}>
+              {topRoller.map(r => (
+                <div key={r.navn} style={{ background: r.color + "15", border: `1px solid ${r.color}40`, borderRadius: "20px", padding: "5px 10px" }}>
+                  <div style={{ fontSize: "12px", fontWeight: 700, color: r.color }}>{r.navn}</div>
+                  <div style={{ fontSize: "10px", color: MUTED }}>{r.note}</div>
+                </div>
+              ))}
+            </div>
+            {!visAlle ? (
+              <button onClick={() => setVisAlle(true)} style={{ background: "none", border: `1px solid ${NB}`, borderRadius: "20px", padding: "5px 12px", fontSize: "11px", fontWeight: 700, color: NB, cursor: "pointer" }}>
+                + Vis alle 11 fagområder
+              </button>
+            ) : (
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                {alleRoller.map(r => (
+                  <div key={r.navn} style={{ background: r.color + "10", border: `1px solid ${r.color}30`, borderRadius: "20px", padding: "5px 10px" }}>
+                    <div style={{ fontSize: "11px", fontWeight: 600, color: r.color }}>{r.navn}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </Section>
+
+          <Section id="drivere" label="3 strukturelle drivkræfter">
+            <div style={{ display: "grid", gap: "8px" }}>
+              {SD.drivere.map((d, i) => (
+                <div key={d.label} style={{ display: "flex", gap: "12px", alignItems: "flex-start", padding: "10px", background: NB_LIGHT, borderRadius: "8px" }}>
+                  <div style={{ fontSize: "20px", flexShrink: 0 }}>{d.icon}</div>
+                  <div>
+                    <div style={{ fontSize: "12px", fontWeight: 700, color: NB }}>{i + 1}. {d.label}</div>
+                    <div style={{ fontSize: "11px", color: MUTED, marginTop: "2px", lineHeight: 1.4 }}>{d.sub}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Section>
+
+          <Section id="svar" label="Virksomhedernes svar">
+            <div style={{ display: "grid", gap: "8px" }}>
+              {SD.svar.map(s => (
+                <div key={s.label} style={{ display: "flex", gap: "12px", alignItems: "flex-start", padding: "10px", background: NB_LIGHT, borderRadius: "8px" }}>
+                  <div style={{ fontSize: "20px", flexShrink: 0 }}>{s.icon}</div>
+                  <div>
+                    <div style={{ fontSize: "12px", fontWeight: 700, color: NB }}>{s.label}</div>
+                    <div style={{ fontSize: "11px", color: MUTED, marginTop: "2px", lineHeight: 1.4 }}>{s.sub}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Section>
+
+          <div style={{ borderTop: "1px solid #E8E8F0", padding: "14px 0" }}>
+            <div style={{ fontSize: "10px", color: MUTED, lineHeight: 1.5 }}>Kilde: AE-rådet 2024 · ByggeTalent brancheanalyse</div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
