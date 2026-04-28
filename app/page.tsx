@@ -1239,7 +1239,7 @@ function SvarDetail() {
   );
 }
 
-// ─── WorkforceShortage: hero + swipeable insight cards ────────────────────────
+// ─── WorkforceShortage: ByggeTalent Viden feed ────────────────────────────────
 
 function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => void }) {
   const [activeCard, setActiveCard] = useState<null | "mangel" | "roller" | "drivere" | "svar">(null);
@@ -1251,117 +1251,51 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
     </button>
   );
 
-  if (activeCard === "mangel")  return <div style={{ display: "grid", gap: "12px" }}>{backBtn("Indsigter", () => setActiveCard(null))}<MangelDetail /></div>;
-  if (activeCard === "roller")  return <div style={{ display: "grid", gap: "12px" }}>{backBtn("Indsigter", () => setActiveCard(null))}<RollerDetail /></div>;
-  if (activeCard === "drivere") return <div style={{ display: "grid", gap: "12px" }}>{backBtn("Indsigter", () => setActiveCard(null))}<DrivereDetail /></div>;
-  if (activeCard === "svar")    return <div style={{ display: "grid", gap: "12px" }}>{backBtn("Indsigter", () => setActiveCard(null))}<SvarDetail /></div>;
+  if (activeCard === "mangel")  return <div style={{ display: "grid", gap: "12px" }}>{backBtn("Viden", () => setActiveCard(null))}<MangelDetail /></div>;
+  if (activeCard === "roller")  return <div style={{ display: "grid", gap: "12px" }}>{backBtn("Viden", () => setActiveCard(null))}<RollerDetail /></div>;
+  if (activeCard === "drivere") return <div style={{ display: "grid", gap: "12px" }}>{backBtn("Viden", () => setActiveCard(null))}<DrivereDetail /></div>;
+  if (activeCard === "svar")    return <div style={{ display: "grid", gap: "12px" }}>{backBtn("Viden", () => setActiveCard(null))}<SvarDetail /></div>;
 
-  const cards: { id: "mangel" | "roller" | "drivere" | "svar"; category: string; title: string; sub: string; visual: React.ReactNode }[] = [
-    {
-      id: "mangel",
-      category: "Uddannelsesniveau",
-      title: "99k faglærte mangler i 2030",
-      sub: "Størst mangel på faglærte — derefter KVU og MVU",
-      visual: <MiniBarChart />,
-    },
-    {
-      id: "roller",
-      category: "Faggrupper",
-      title: "11 kritiske rolleområder",
-      sub: "Håndværk, Bæredygtighed og Teknik & ledelse",
-      visual: <RoleCluster />,
-    },
-    {
-      id: "drivere",
-      category: "Årsager",
-      title: "3 drivere bag manglen",
-      sub: "Demografi · Grøn omstilling · Renovering",
-      visual: <CauseMap />,
-    },
-    {
-      id: "svar",
-      category: "Strategi",
-      title: "Virksomhedernes svar",
-      sub: "Præfabrikation · Rekruttering · Arbejdsmiljø",
-      visual: <DecisionMatrix />,
-    },
+  const articles: { id: "mangel" | "roller" | "drivere" | "svar"; tag: string; date: string; title: string; body: string; stat: string; statLabel: string; urgent?: boolean }[] = [
+    { id: "mangel",  tag: "Arbejdskraft",  date: "AE-rådet · 2024", title: "99.000 faglærte mangler inden 2030", body: "Branchen står over for sin største strukturelle udfordring. Jo tidligere I handler, jo stærkere er jeres position.", stat: "99k", statLabel: "faglærte", urgent: true },
+    { id: "roller",  tag: "Kritiske roller", date: "AE-rådet · 2024", title: "11 fagområder under pres", body: "Fra tømrere til BIM-specialister — manglen er ikke ensartet. Kend jeres eksponering.", stat: "11", statLabel: "fagområder", urgent: true },
+    { id: "drivere", tag: "Analyse", date: "AE-rådet · 2024", title: "Tre strukturelle drivkræfter", body: "Demografi, grøn omstilling og renoveringsbølgen forstærker hinanden. Ingen af dem forsvinder.", stat: "3", statLabel: "drivkræfter" },
+    { id: "svar",    tag: "Strategi",   date: "ByggeTalent · 2024", title: "Hvad gør de bedste virksomheder?", body: "Præfabrikation, tidlig rekruttering og intern opkvalificering er de tre svar der virker.", stat: "↗", statLabel: "vækst" },
   ];
 
   return (
-    <div style={{ display: "grid", gap: "16px" }}>
+    <div style={{ display: "grid", gap: "0px", background: "#F4F4F4", margin: "-20px", padding: "20px", minHeight: "100vh" }}>
 
-      {/* Tilbage til Virksomhed */}
-      {backBtn("Virksomhed", onExitToVirksomhed)}
+      <div style={{ marginBottom: "16px" }}>{backBtn("Virksomhed", onExitToVirksomhed)}</div>
 
-      {/* Hero */}
-      <div style={{ background: NAVY, borderRadius: "16px", padding: "20px 18px" }}>
-        <div style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: CURRY }}>AE-rådet · 2024</div>
-        <div style={{ fontFamily: "Georgia, serif", fontSize: "20px", fontWeight: 700, color: WHITE, marginTop: "6px", lineHeight: 1.2 }}>Arbejdskraftmangel<br />i bygge & anlæg · 2030</div>
-        <div style={{ display: "flex", alignItems: "baseline", gap: "8px", marginTop: "12px" }}>
-          <span style={{ fontFamily: "Georgia, serif", fontSize: "44px", fontWeight: 700, color: CURRY, lineHeight: 1 }}>99k</span>
-          <span style={{ fontSize: "13px", color: "rgba(255,255,255,0.55)" }}>faglærte mangler</span>
-        </div>
+      {/* Feed header */}
+      <div style={{ background: WHITE, borderRadius: "10px", padding: "16px", marginBottom: "8px", borderLeft: `4px solid ${CURRY}` }}>
+        <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: MUTED, marginBottom: "2px" }}>Brancheanalyse · AE-rådet 2024</div>
+        <div style={{ fontSize: "18px", fontWeight: 700, color: TEXT, lineHeight: 1.2 }}>Arbejdskraft i bygge & anlæg</div>
+        <div style={{ fontSize: "12px", color: MUTED, marginTop: "4px" }}>4 indsigter · tryk for at læse</div>
       </div>
 
-      {/* Swipe hint */}
-      <div style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: MUTED }}>
-        4 indsigter — stryg →
-      </div>
-
-      {/* Swipeable insight cards */}
-      <div style={{
-        display: "flex",
-        gap: "10px",
-        overflowX: "auto",
-        scrollSnapType: "x mandatory",
-        scrollbarWidth: "none",
-        WebkitOverflowScrolling: "touch",
-        paddingBottom: "4px",
-        marginLeft: "-20px",
-        paddingLeft: "20px",
-        marginRight: "-20px",
-        paddingRight: "20px",
-      } as React.CSSProperties}>
-        {cards.map(c => (
-          <div key={c.id} style={{
-            minWidth: "78%",
-            maxWidth: "78%",
-            scrollSnapAlign: "start",
-            flexShrink: 0,
-            background: WHITE,
-            borderRadius: "14px",
-            border: `1px solid ${BORDER}`,
-            padding: "16px",
-            display: "flex",
-            flexDirection: "column",
-            gap: "12px",
-          }}>
-            <div style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: MUTED }}>{c.category}</div>
-            <div style={{ fontFamily: "Georgia, serif", fontSize: "15px", fontWeight: 700, color: TEXT, lineHeight: 1.3 }}>{c.title}</div>
-            <div style={{ padding: "4px 0" }}>{c.visual}</div>
-            <div style={{ fontSize: "11px", color: MUTED, lineHeight: 1.5 }}>{c.sub}</div>
-            <button
-              onClick={() => setActiveCard(c.id)}
-              style={{
-                marginTop: "auto",
-                padding: "11px 14px",
-                borderRadius: "10px",
-                border: "none",
-                background: NAVY,
-                color: WHITE,
-                fontSize: "12px",
-                fontWeight: 700,
-                cursor: "pointer",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                width: "100%",
-              }}
-            >
-              <span>Åbn indsigt</span>
-              <span>→</span>
-            </button>
-          </div>
+      <div style={{ display: "grid", gap: "8px" }}>
+        {articles.map((a) => (
+          <button
+            key={a.id}
+            onClick={() => setActiveCard(a.id)}
+            style={{ width: "100%", textAlign: "left", background: WHITE, borderRadius: "10px", border: "none", borderLeft: `4px solid ${a.urgent ? "#C0392B" : CURRY}`, padding: "14px 16px", cursor: "pointer", display: "grid", gap: "6px", boxShadow: "0 1px 3px rgba(0,0,0,0.06)" }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <span style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: a.urgent ? "#C0392B" : MUTED }}>{a.tag}{a.urgent ? " ●" : ""}</span>
+              <span style={{ fontSize: "10px", color: MUTED }}>{a.date}</span>
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "12px" }}>
+              <div style={{ fontSize: "15px", fontWeight: 700, color: TEXT, lineHeight: 1.3, flex: 1 }}>{a.title}</div>
+              <div style={{ textAlign: "right", flexShrink: 0, paddingTop: "2px" }}>
+                <div style={{ fontSize: "22px", fontWeight: 700, color: a.urgent ? "#C0392B" : CURRY, lineHeight: 1, fontVariantNumeric: "tabular-nums" }}>{a.stat}</div>
+                <div style={{ fontSize: "9px", color: MUTED, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em" }}>{a.statLabel}</div>
+              </div>
+            </div>
+            <div style={{ fontSize: "12px", color: MUTED, lineHeight: 1.5 }}>{a.body}</div>
+            <div style={{ fontSize: "11px", fontWeight: 700, color: CURRY, paddingTop: "2px", display: "flex", alignItems: "center", gap: "4px" }}>Åbn analyse <span>›</span></div>
+          </button>
         ))}
       </div>
 
