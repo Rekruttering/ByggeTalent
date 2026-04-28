@@ -320,7 +320,7 @@ export default function Home() {
                 {navCards.map((card) => {
                   const active = selectedUniverse === card.key;
                   return (
-                    <button type="button" key={card.key} onClick={() => setDetailPage(card.key)} style={{
+                    <button type="button" key={card.key} onClick={() => card.key === "Kandidat" ? setStep(1) : setDetailPage(card.key)} style={{
                       borderRadius: "14px",
                       background: card.bg,
                       border: active ? `2px solid ${CURRY}` : "1px solid transparent",
@@ -367,16 +367,6 @@ export default function Home() {
                   INGENIØR · ARKITEKT · HÅNDVÆRKER
                 </div>
               </div>
-
-              {/* CTA knap */}
-              <button
-                type="button"
-                onClick={() => setStep(1)}
-                style={{ width: "100%", padding: "17px", borderRadius: "16px", border: "none", background: CURRY, color: WHITE, fontSize: "16px", fontWeight: 700, cursor: "pointer", letterSpacing: "0.01em" }}
-              >
-                Kom i gang →
-              </button>
-
 
               {/* Diskret admin-adgang */}
               <div style={{ textAlign: "center", paddingTop: "12px" }}>
