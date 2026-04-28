@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { supabase } from "../../lib/supabase";
 
 const CURRY = "#C4A03A";
 const CURRY_BG = "#FBF7EC";
@@ -242,8 +243,27 @@ export default function Admin() {
 
   useEffect(() => {
     if (loggedIn) {
-      const raw: Application[] = JSON.parse(localStorage.getItem("bt_applications") || "[]");
-      setApplications(raw.map((a) => ({ ...a, status: (a.status ?? "ny") as StatusKey, notes: a.notes ?? "" })));
+      supabase.from("applications").select("*").order("submitted_at", { ascending: false }).then(({ data }) => {
+        if (data) setApplications(data.map((a) => ({
+          id: String(a.id),
+          name: a.name ?? "",
+          lastName: a.last_name ?? "",
+          email: a.email ?? "",
+          phone: a.phone ?? "",
+          address: a.address ?? "",
+          currentTitle: a.current_title ?? "",
+          experience: a.experience ?? "",
+          linkedin: a.linkedin ?? "",
+          salary: a.salary ?? "",
+          distance: a.distance ?? "",
+          supplementaryInfo: a.supplementary_info ?? "",
+          profiles: a.profiles ?? [],
+          profileOtherTitle: a.profile_other_title ?? "",
+          submittedAt: a.submitted_at ?? "",
+          status: (a.status ?? "ny") as StatusKey,
+          notes: a.notes ?? "",
+        })));
+      });
       setJobs(JSON.parse(localStorage.getItem("bt_jobs") || "[]"));
     }
   }, [loggedIn]);
@@ -257,23 +277,20 @@ export default function Admin() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showJobForm, editingJob]);
 
-  function saveApplications(updated: Application[]) {
-    setApplications(updated);
-    localStorage.setItem("bt_applications", JSON.stringify(updated));
-  }
   function updateStatus(id: string, status: StatusKey) {
-    const updated = applications.map((a) => a.id === id ? { ...a, status } : a);
-    saveApplications(updated);
+    setApplications((prev) => prev.map((a) => a.id === id ? { ...a, status } : a));
     if (selectedApp?.id === id) setSelectedApp((p) => p ? { ...p, status } : p);
+    supabase.from("applications").update({ status }).eq("id", id);
   }
   function saveNote(id: string) {
-    const updated = applications.map((a) => a.id === id ? { ...a, notes: noteInput } : a);
-    saveApplications(updated);
+    setApplications((prev) => prev.map((a) => a.id === id ? { ...a, notes: noteInput } : a));
     if (selectedApp?.id === id) setSelectedApp((p) => p ? { ...p, notes: noteInput } : p);
+    supabase.from("applications").update({ notes: noteInput }).eq("id", id);
   }
   function deleteApp(id: string) {
-    saveApplications(applications.filter((a) => a.id !== id));
+    setApplications((prev) => prev.filter((a) => a.id !== id));
     setSelectedApp(null);
+    supabase.from("applications").delete().eq("id", id);
   }
   function saveJob(publish: boolean) {
     const jobData = { ...jobForm, active: publish };

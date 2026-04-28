@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, type Dispatch, type SetStateAction } from "react";
+import { supabase } from "../lib/supabase";
 import { groupedRoles, groupNames, testQuestions } from "./data";
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
@@ -85,28 +86,24 @@ export default function Home() {
     setJobView("list");
   }
 
-  function submitJobApplication() {
+  async function submitJobApplication() {
     if (!selectedJob) return;
     setJobSending(true);
-    setTimeout(() => {
-      const app = {
-        id: Date.now().toString(),
-        name: jobForm.name.split(" ")[0] || jobForm.name,
-        lastName: jobForm.name.split(" ").slice(1).join(" ") || "",
-        email: jobForm.email, phone: jobForm.phone, address: "",
-        currentTitle: "", linkedin: "", salary: "", distance: "",
-        experience: jobForm.experience ? `${jobForm.experience} år` : "",
-        supplementaryInfo: `${jobForm.motivation}${jobForm.skills ? `\n\nKompetencer: ${jobForm.skills}` : ""}`,
-        profiles: jobForm.skills ? jobForm.skills.split(",").map((s) => s.trim()).filter(Boolean) : [],
-        profileOtherTitle: "",
-        submittedAt: new Date().toISOString(),
-        status: "ny", notes: "", jobId: selectedJob.id, jobTitle: selectedJob.title,
-      };
-      const existing = JSON.parse(localStorage.getItem("bt_applications") || "[]");
-      localStorage.setItem("bt_applications", JSON.stringify([...existing, app]));
-      setJobSending(false);
-      setJobView("success");
-    }, 800);
+    const app = {
+      name: jobForm.name.split(" ")[0] || jobForm.name,
+      last_name: jobForm.name.split(" ").slice(1).join(" ") || "",
+      email: jobForm.email, phone: jobForm.phone, address: "",
+      current_title: "", linkedin: "", salary: "", distance: "",
+      experience: jobForm.experience ? `${jobForm.experience} år` : "",
+      supplementary_info: `${jobForm.motivation}${jobForm.skills ? `\n\nKompetencer: ${jobForm.skills}` : ""}`,
+      profiles: jobForm.skills ? jobForm.skills.split(",").map((s: string) => s.trim()).filter(Boolean) : [],
+      profile_other_title: "",
+      submitted_at: new Date().toISOString(),
+      status: "ny", notes: "", job_id: selectedJob.id, job_title: selectedJob.title,
+    };
+    await supabase.from("applications").insert([app]);
+    setJobSending(false);
+    setJobView("success");
   }
   const [cvFile, setCvFile] = useState<File | null>(null);
   const [applicationFile, setApplicationFile] = useState<File | null>(null);
@@ -441,10 +438,26 @@ export default function Home() {
               <div style={{ position: "sticky", bottom: 0, background: WHITE, padding: "14px 20px 32px", borderTop: `1px solid ${BORDER}`, display: "flex", flexDirection: "column", gap: "10px" }}>
                 <button
                   style={{ width: "100%", padding: "16px", borderRadius: "14px", border: "none", background: CURRY, color: WHITE, fontSize: "15px", fontWeight: 700, cursor: "pointer", letterSpacing: "0.01em" }}
-                  onClick={() => {
-                    const application = { ...form, id: Date.now().toString(), submittedAt: new Date().toISOString() };
-                    const existing = JSON.parse(localStorage.getItem("bt_applications") || "[]");
-                    localStorage.setItem("bt_applications", JSON.stringify([...existing, application]));
+                  onClick={async () => {
+                    const application = {
+                      name: form.name,
+                      last_name: form.lastName,
+                      email: form.email,
+                      phone: form.phone,
+                      address: form.address,
+                      current_title: form.currentTitle,
+                      experience: form.experience,
+                      linkedin: form.linkedin,
+                      salary: form.salary,
+                      distance: form.distance,
+                      supplementary_info: form.supplementaryInfo,
+                      profiles: form.profiles,
+                      profile_other_title: form.profileOtherTitle,
+                      submitted_at: new Date().toISOString(),
+                      status: "ny",
+                      notes: "",
+                    };
+                    await supabase.from("applications").insert([application]);
                     window.location.href = "/alt-test";
                   }}
                 >
