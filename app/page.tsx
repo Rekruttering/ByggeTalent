@@ -350,7 +350,7 @@ export default function Home() {
                   muted
                   loop
                   playsInline
-                  style={{ width: "100%", display: "block" }}
+                  style={{ width: "100%", height: "260px", objectFit: "cover", display: "block" }}
                 />
               </div>
 
@@ -359,7 +359,7 @@ export default function Home() {
                 <img
                   src="/images/DIn faglg profil.png"
                   alt="Ingeniør med ByggeTalent på telefonen"
-                  style={{ width: "100%", height: "380px", objectFit: "cover", objectPosition: "center 42%", display: "block" }}
+                  style={{ width: "100%", height: "280px", objectFit: "cover", objectPosition: "center top", display: "block" }}
                 />
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "80px", background: "linear-gradient(to top, rgba(10,22,40,0.55) 0%, transparent 100%)" }} />
                 <div style={{ position: "absolute", bottom: "16px", left: "16px", fontSize: "13px", fontWeight: 700, color: "rgba(255,255,255,0.90)", letterSpacing: "0.06em" }}>
