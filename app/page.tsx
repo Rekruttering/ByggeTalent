@@ -301,7 +301,7 @@ export default function Home() {
 
               {/* Logo */}
               <div style={{ textAlign: "center", paddingTop: "36px", display: "grid", gap: "10px" }}>
-                <div style={{ fontFamily: "Georgia, serif", fontSize: "11px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>
+                <div style={{ fontFamily: "Georgia, serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>
                   BYGGE & ANLÆG
                 </div>
                 <div>
@@ -310,7 +310,7 @@ export default function Home() {
                   </div>
                   <div style={{ width: "48px", height: "1.5px", background: CURRY, margin: "10px auto 0" }} />
                 </div>
-                <div style={{ fontFamily: "Georgia, serif", fontSize: "11px", fontWeight: 400, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED }}>
+                <div style={{ fontFamily: "Georgia, serif", fontSize: "14px", fontWeight: 400, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED }}>
                   REKRUTTERING MED BRANCHEFORSTÅELSE
                 </div>
               </div>
