@@ -1239,126 +1239,142 @@ function SvarDetail() {
   );
 }
 
-// ─── WorkforceShortage: Nordea-style single card med accordion ────────────────
+// ─── WorkforceShortage: Nordea-style visuelt kort med billeder ────────────────
 
 const NB = "#00005E";
-const NB_LIGHT = "#F0F0F8";
 
 function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => void }) {
-  const [open, setOpen] = useState<Record<string, boolean>>({ roller: true });
+  const [open, setOpen] = useState<Record<string, boolean>>({});
   const [visAlle, setVisAlle] = useState(false);
 
   const toggle = (key: string) => setOpen(o => ({ ...o, [key]: !o[key] }));
 
   const topRoller = [
-    { navn: "Elektriker",      note: "Solceller & ladestandere", color: "#6A9060" },
-    { navn: "VVS",             note: "Grønne varmekilder",       color: "#6A9060" },
-    { navn: "Energirådgiver",  note: "EPBD & energimærkning",    color: "#C4A03A" },
-    { navn: "BIM-specialist",  note: "Digitalisering",           color: "#2563EB" },
+    { navn: "Elektriker",     note: "Solceller & ladestandere", color: "#6A9060" },
+    { navn: "VVS",            note: "Grønne varmekilder",       color: "#6A9060" },
+    { navn: "Energirådgiver", note: "EPBD & energimærkning",    color: "#C4A03A" },
+    { navn: "BIM-specialist", note: "Digitalisering",           color: "#2563EB" },
   ];
   const alleRoller = [
-    { navn: "Tømrer",              note: "Renovering",             color: "#6A9060" },
-    { navn: "Maskinsnedker",       note: "Præfabrikation",         color: "#6A9060" },
-    { navn: "Anlægsstruktør",      note: "Infrastruktur",          color: "#6A9060" },
-    { navn: "Materialespecialist", note: "Cirkulære materialer",   color: "#C4A03A" },
-    { navn: "Renoveringsfaglært",  note: "Energiforbedring",       color: "#C4A03A" },
-    { navn: "Byggeleder",          note: "DGNB / BREEAM",          color: "#2563EB" },
-    { navn: "Projektleder",        note: "Planlægning",            color: "#2563EB" },
+    { navn: "Tømrer",              color: "#6A9060" },
+    { navn: "Maskinsnedker",       color: "#6A9060" },
+    { navn: "Anlægsstruktør",      color: "#6A9060" },
+    { navn: "Materialespecialist", color: "#C4A03A" },
+    { navn: "Renoveringsfaglært",  color: "#C4A03A" },
+    { navn: "Byggeleder",          color: "#2563EB" },
+    { navn: "Projektleder",        color: "#2563EB" },
   ];
 
   const Section = ({ id, label, children }: { id: string; label: string; children: React.ReactNode }) => (
-    <div style={{ borderTop: "1px solid #E8E8F0" }}>
-      <button
-        onClick={() => toggle(id)}
-        style={{ width: "100%", background: "none", border: "none", cursor: "pointer", padding: "14px 0", display: "flex", justifyContent: "space-between", alignItems: "center" }}
-      >
-        <span style={{ fontSize: "13px", fontWeight: 700, color: NB }}>{label}</span>
-        <span style={{ fontSize: "16px", color: NB, transform: open[id] ? "rotate(90deg)" : "none", transition: "transform 0.2s" }}>›</span>
+    <div style={{ borderTop: "1px solid #EBEBEB" }}>
+      <button onClick={() => toggle(id)} style={{ width: "100%", background: "none", border: "none", cursor: "pointer", padding: "15px 0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <span style={{ fontSize: "14px", fontWeight: 600, color: "#1A1A1A" }}>{label}</span>
+        <span style={{ fontSize: "18px", color: MUTED, transform: open[id] ? "rotate(90deg)" : "none", transition: "transform 0.2s", display: "inline-block" }}>›</span>
       </button>
-      {open[id] && <div style={{ paddingBottom: "14px" }}>{children}</div>}
+      {open[id] && <div style={{ paddingBottom: "16px" }}>{children}</div>}
     </div>
   );
 
   return (
-    <div style={{ background: "#F0F0F8", margin: "-20px", padding: "20px", minHeight: "100vh" }}>
-      <button onClick={onExitToVirksomhed} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: 700, color: NB, padding: 0, marginBottom: "16px", display: "flex", alignItems: "center", gap: "5px" }}>← Virksomhed</button>
+    <div style={{ background: "#F2F2F2", margin: "-20px", minHeight: "100vh" }}>
 
-      {/* Kort */}
-      <div style={{ background: WHITE, borderRadius: "14px", overflow: "hidden", boxShadow: "0 2px 12px rgba(0,0,30,0.10)" }}>
+      {/* Hero med billede og overlay */}
+      <div style={{ position: "relative", height: "220px", overflow: "hidden" }}>
+        <img src="/images/håndpåbyggepladsen.png" alt="" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,94,0.55) 0%, rgba(0,0,94,0.85) 100%)" }} />
+        <div style={{ position: "absolute", top: "16px", left: "16px" }}>
+          <button onClick={onExitToVirksomhed} style={{ background: "rgba(255,255,255,0.15)", border: "none", borderRadius: "20px", padding: "6px 12px", fontSize: "12px", fontWeight: 700, color: WHITE, cursor: "pointer" }}>← Virksomhed</button>
+        </div>
+        <div style={{ position: "absolute", bottom: "20px", left: "18px", right: "18px" }}>
+          <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)", marginBottom: "4px" }}>AE-rådet · 2024</div>
+          <div style={{ fontSize: "22px", fontWeight: 700, color: WHITE, lineHeight: 1.2 }}>Arbejdskraft i bygge & anlæg</div>
+        </div>
+      </div>
 
-        {/* Nordea-style header */}
-        <div style={{ background: NB, padding: "20px 18px 16px" }}>
-          <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "rgba(255,255,255,0.5)", marginBottom: "4px" }}>Brancheanalyse · AE-rådet 2024</div>
-          <div style={{ fontSize: "20px", fontWeight: 700, color: WHITE, lineHeight: 1.2, marginBottom: "16px" }}>Arbejdskraft i bygge & anlæg frem mod 2030</div>
-          {/* Tre nøgletal */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px" }}>
-            {[{ n: "99.000", label: "Faglærte", urgent: true }, { n: "24.000", label: "KVU", urgent: false }, { n: "13.000", label: "MVU", urgent: false }].map(s => (
-              <div key={s.label} style={{ background: s.urgent ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.06)", borderRadius: "8px", padding: "10px 8px", textAlign: "center" }}>
-                <div style={{ fontSize: s.urgent ? "20px" : "16px", fontWeight: 700, color: s.urgent ? "#FFD700" : "rgba(255,255,255,0.8)", lineHeight: 1 }}>{s.n}</div>
-                <div style={{ fontSize: "9px", color: "rgba(255,255,255,0.5)", marginTop: "3px", textTransform: "uppercase", letterSpacing: "0.08em" }}>{s.label} mangler</div>
+      {/* Nøgletal strip */}
+      <div style={{ background: NB, padding: "14px 18px", display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
+        {[{ n: "99k", label: "Faglærte", highlight: true }, { n: "24k", label: "KVU" }, { n: "13k", label: "MVU" }].map(s => (
+          <div key={s.label} style={{ textAlign: "center" }}>
+            <div style={{ fontSize: s.highlight ? "22px" : "18px", fontWeight: 700, color: s.highlight ? "#FFD700" : "rgba(255,255,255,0.75)", lineHeight: 1 }}>{s.n}</div>
+            <div style={{ fontSize: "9px", color: "rgba(255,255,255,0.45)", marginTop: "2px", textTransform: "uppercase", letterSpacing: "0.08em" }}>{s.label} mangler</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Billed-grid: 2×2 temaer */}
+      <div style={{ padding: "14px 14px 0", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
+        {[
+          { img: "/images/DIn faglg profil.png",    label: "Faglærte",   sub: "99.000 mangler",        color: "#6A9060" },
+          { img: "/images/Frontbillede.png",         label: "Roller",     sub: "11 fagområder",         color: "#C4A03A" },
+          { img: "/images/mobil-haanden.png",        label: "Drivkræfter",sub: "3 strukturelle årsager",color: "#2563EB" },
+          { img: "/images/Karina Maria - Founder.png", label: "Strategi", sub: "Virksomhedernes svar",  color: NB },
+        ].map(c => (
+          <div key={c.label} style={{ borderRadius: "10px", overflow: "hidden", position: "relative", height: "110px" }}>
+            <img src={c.img} alt={c.label} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${c.color}DD 0%, transparent 55%)` }} />
+            <div style={{ position: "absolute", bottom: "8px", left: "10px" }}>
+              <div style={{ fontSize: "12px", fontWeight: 700, color: WHITE }}>{c.label}</div>
+              <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.75)" }}>{c.sub}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Accordion */}
+      <div style={{ background: WHITE, borderRadius: "14px", margin: "14px", padding: "0 16px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
+
+        <Section id="roller" label="11 kritiske fagområder">
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "10px" }}>
+            {topRoller.map(r => (
+              <div key={r.navn} style={{ background: r.color + "15", border: `1px solid ${r.color}40`, borderRadius: "20px", padding: "5px 11px" }}>
+                <div style={{ fontSize: "12px", fontWeight: 700, color: r.color }}>{r.navn}</div>
+                <div style={{ fontSize: "10px", color: MUTED }}>{r.note}</div>
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Accordion sektioner */}
-        <div style={{ padding: "0 18px" }}>
-
-          <Section id="roller" label="11 kritiske fagområder">
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "10px" }}>
-              {topRoller.map(r => (
-                <div key={r.navn} style={{ background: r.color + "15", border: `1px solid ${r.color}40`, borderRadius: "20px", padding: "5px 10px" }}>
-                  <div style={{ fontSize: "12px", fontWeight: 700, color: r.color }}>{r.navn}</div>
-                  <div style={{ fontSize: "10px", color: MUTED }}>{r.note}</div>
-                </div>
+          {!visAlle ? (
+            <button onClick={() => setVisAlle(true)} style={{ background: "none", border: `1px solid #CCCCCC`, borderRadius: "20px", padding: "5px 14px", fontSize: "11px", fontWeight: 600, color: "#555", cursor: "pointer" }}>
+              + Vis alle 11 →
+            </button>
+          ) : (
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+              {alleRoller.map(r => (
+                <div key={r.navn} style={{ background: r.color + "12", border: `1px solid ${r.color}30`, borderRadius: "20px", padding: "4px 10px", fontSize: "11px", fontWeight: 600, color: r.color }}>{r.navn}</div>
               ))}
             </div>
-            {!visAlle ? (
-              <button onClick={() => setVisAlle(true)} style={{ background: "none", border: `1px solid ${NB}`, borderRadius: "20px", padding: "5px 12px", fontSize: "11px", fontWeight: 700, color: NB, cursor: "pointer" }}>
-                + Vis alle 11 fagområder
-              </button>
-            ) : (
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-                {alleRoller.map(r => (
-                  <div key={r.navn} style={{ background: r.color + "10", border: `1px solid ${r.color}30`, borderRadius: "20px", padding: "5px 10px" }}>
-                    <div style={{ fontSize: "11px", fontWeight: 600, color: r.color }}>{r.navn}</div>
-                  </div>
-                ))}
+          )}
+        </Section>
+
+        <Section id="drivere" label="3 strukturelle drivkræfter">
+          <div style={{ display: "grid", gap: "8px" }}>
+            {SD.drivere.map((d, i) => (
+              <div key={d.label} style={{ display: "flex", gap: "12px", alignItems: "center", padding: "10px 12px", background: "#F8F8F8", borderRadius: "8px" }}>
+                <div style={{ fontSize: "22px" }}>{d.icon}</div>
+                <div>
+                  <div style={{ fontSize: "13px", fontWeight: 700, color: "#1A1A1A" }}>{i + 1}. {d.label}</div>
+                  <div style={{ fontSize: "11px", color: MUTED, marginTop: "2px", lineHeight: 1.4 }}>{d.sub}</div>
+                </div>
               </div>
-            )}
-          </Section>
-
-          <Section id="drivere" label="3 strukturelle drivkræfter">
-            <div style={{ display: "grid", gap: "8px" }}>
-              {SD.drivere.map((d, i) => (
-                <div key={d.label} style={{ display: "flex", gap: "12px", alignItems: "flex-start", padding: "10px", background: NB_LIGHT, borderRadius: "8px" }}>
-                  <div style={{ fontSize: "20px", flexShrink: 0 }}>{d.icon}</div>
-                  <div>
-                    <div style={{ fontSize: "12px", fontWeight: 700, color: NB }}>{i + 1}. {d.label}</div>
-                    <div style={{ fontSize: "11px", color: MUTED, marginTop: "2px", lineHeight: 1.4 }}>{d.sub}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Section>
-
-          <Section id="svar" label="Virksomhedernes svar">
-            <div style={{ display: "grid", gap: "8px" }}>
-              {SD.svar.map(s => (
-                <div key={s.label} style={{ display: "flex", gap: "12px", alignItems: "flex-start", padding: "10px", background: NB_LIGHT, borderRadius: "8px" }}>
-                  <div style={{ fontSize: "20px", flexShrink: 0 }}>{s.icon}</div>
-                  <div>
-                    <div style={{ fontSize: "12px", fontWeight: 700, color: NB }}>{s.label}</div>
-                    <div style={{ fontSize: "11px", color: MUTED, marginTop: "2px", lineHeight: 1.4 }}>{s.sub}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </Section>
-
-          <div style={{ borderTop: "1px solid #E8E8F0", padding: "14px 0" }}>
-            <div style={{ fontSize: "10px", color: MUTED, lineHeight: 1.5 }}>Kilde: AE-rådet 2024 · ByggeTalent brancheanalyse</div>
+            ))}
           </div>
+        </Section>
+
+        <Section id="svar" label="Virksomhedernes svar">
+          <div style={{ display: "grid", gap: "8px" }}>
+            {SD.svar.map(s => (
+              <div key={s.label} style={{ display: "flex", gap: "12px", alignItems: "center", padding: "10px 12px", background: "#F8F8F8", borderRadius: "8px" }}>
+                <div style={{ fontSize: "22px" }}>{s.icon}</div>
+                <div>
+                  <div style={{ fontSize: "13px", fontWeight: 700, color: "#1A1A1A" }}>{s.label}</div>
+                  <div style={{ fontSize: "11px", color: MUTED, marginTop: "2px", lineHeight: 1.4 }}>{s.sub}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </Section>
+
+        <div style={{ borderTop: "1px solid #EBEBEB", padding: "12px 0" }}>
+          <div style={{ fontSize: "10px", color: MUTED }}>Kilde: AE-rådet 2024 · ByggeTalent brancheanalyse</div>
         </div>
       </div>
     </div>
