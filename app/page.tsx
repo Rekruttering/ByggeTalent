@@ -321,10 +321,10 @@ export default function Home() {
                   const active = selectedUniverse === card.key;
                   return (
                     <button type="button" key={card.key} onClick={() => card.key === "Kandidat" ? setStep(1) : setDetailPage(card.key)} style={{
-                      borderRadius: "14px",
+                      borderRadius: "6px",
                       background: card.bg,
                       border: active ? `2px solid ${CURRY}` : "1px solid transparent",
-                      padding: "12px 10px",
+                      padding: "14px 10px",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
@@ -334,8 +334,7 @@ export default function Home() {
                       width: "100%",
                     }}>
                       <span style={{ fontSize: "12px", fontWeight: 700, color: WHITE, textAlign: "left", lineHeight: 1.3 }}>
-                        {card.label}<br />
-                        <span style={{ fontWeight: 400, fontSize: "11px", opacity: 0.8 }}>{card.sub}</span>
+                        {card.label}
                       </span>
                       <span style={{ fontSize: "14px", color: "rgba(255,255,255,0.75)", flexShrink: 0 }}>→</span>
                     </button>
