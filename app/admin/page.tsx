@@ -243,7 +243,7 @@ export default function Admin() {
   useEffect(() => {
     if (loggedIn) {
       const raw: Application[] = JSON.parse(localStorage.getItem("bt_applications") || "[]");
-      setApplications(raw.map((a) => ({ status: "ny" as StatusKey, notes: "", ...a })));
+      setApplications(raw.map((a) => ({ ...a, status: (a.status ?? "ny") as StatusKey, notes: a.notes ?? "" })));
       setJobs(JSON.parse(localStorage.getItem("bt_jobs") || "[]"));
     }
   }, [loggedIn]);
