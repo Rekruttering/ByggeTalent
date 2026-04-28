@@ -1,0 +1,65 @@
+export const groupedRoles = {
+  "Faglærte og tekniske stillinger (udførende)": [
+    "Anlægsstruktør",
+    "Bygningsstruktør",
+    "Brolægger",
+    "Byggemontagetekniker",
+    "Kloakmester",
+    "Monteringstekniker",
+  ],
+  "Funktionærer, ledelse og teknisk personale": [
+    "Projektleder (byggeri/anlæg)",
+    "Byggeleder",
+    "Entrepriseleder",
+    "Projekteringsleder",
+    "Fagchef",
+    "Markedschef / forretningsudvikling",
+    "Byggetekniker",
+    "Byggesagsbehandler",
+    "Kvalitetsansvarlig",
+    "PQ-ansvarlig",
+    "Kalkulatør",
+    "Planlægger (tid/plan)",
+  ],
+  "Rådgivere og projektering": [
+    "Bygningsingeniør",
+    "Konstruktionsingeniør",
+    "Bygningskonstruktør",
+    "Arkitekt",
+    "Brandrådgiver",
+    "Arbejdsmiljøkoordinator (P/B)",
+    "Bæredygtighedskonsulent",
+    "ESG-ansvarlig",
+  ],
+  "Installationer og teknik": [
+    "Installationsingeniør (VVS/EL)",
+    "VVS-projektleder",
+    "El-projektleder",
+    "Teknikentrepriseleder",
+  ],
+  "Inspektører og specialister": [
+    "Broinspektør",
+    "Bygningsinspektør",
+    "Jernbaneinspektør",
+    "Tilsynsførende",
+    "Landinspektør",
+    "Geotekniker",
+    "Spildevandsingeniør",
+  ],
+  "Drift og facility": ["Driftsleder", "Facility Manager"],
+};
+
+export const groupNames = Object.keys(groupedRoles);
+
+export const testQuestions = [
+  "Min nuværende rolle føles naturlig for mig",
+  "Mine stærkeste sider kommer i spil i mit job",
+  "De opgaver, jeg sidder med, giver mig energi",
+  "Samarbejdet omkring mig understøtter den måde, jeg arbejder bedst på",
+  "Jeg føler mig tryg ved at sige min mening",
+  "Jeg har reel mulighed for at påvirke beslutninger i mit arbejde",
+  "Tempoet og forventningerne passer til mig",
+  "Jeg savner sjældent at bruge andre sider af mig selv i arbejdet",
+  "Jeg kan se mig selv i denne rolle over længere tid",
+  "Mit job giver mening i forhold til, hvor jeg er i arbejdslivet lige nu",
+];

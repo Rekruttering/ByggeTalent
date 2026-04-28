@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Byggetalent - ALT (Arbejdslivstest)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        .gradient-bg { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); }
+        .option-btn:hover { border-color: #3b82f6; background-color: #eff6ff; }
+        .category-pill { font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.05em; }
+        .role-card:hover { transform: translateY(-2px); }
+        .active-role { border-color: #3b82f6 !important; background-color: #eff6ff !important; }
+
+        /* Mobiloptimering */
+        @media (max-width: 768px) {
+            #app {
+                padding: 12px !important;
+                max-width: 100% !important;
+            }
+            h1 { font-size: 2.5rem !important; }
+            h2 { font-size: 1.8rem !important; }
+            .role-card, button {
+                width: 100% !important;
+                display: block !important;
+                margin-bottom: 8px !important;
+                font-size: 1rem !important;
+                padding: 1rem !important;
+            }
+            svg {
+                width: 80px !important;
+                height: auto !important;
+                margin: 10px auto !important;
+            }
+            #question { font-size: 1.4rem !important; margin-bottom: 1.5rem !important; }
+            .p-10, .p-12 { padding: 1.25rem !important; }
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800">
+
+    <div id="app" class="max-w-2xl mx-auto py-8 px-4">
+        <!-- Intro Screen -->
+        <div id="intro" class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100">
+            <div class="gradient-bg p-12 text-white text-center">
+                <div class="text-blue-400 font-bold tracking-widest uppercase text-xs mb-3">Byggetalent præsenterer</div>
+                <h1 class="text-7xl font-extrabold mb-2">ALT</h1>
+                <p class="text-xl opacity-90 uppercase tracking-[0.3em] font-light">Arbejdslivstest</p>
+            </div>
+            
+            <div class="p-10 text-center">
+                <h2 class="text-3xl font-bold mb-8 text-slate-900 italic leading-tight">Hvor står du i dit arbejdsliv lige nu?</h2>
+                
+                <div class="bg-slate-50 p-8 rounded-3xl border border-slate-100 shadow-inner mb-10 text-center text-left-mobile">
+                    <p class="text-lg leading-relaxed text-slate-600 mb-6">
+                        Testen ALT er udviklet specifikt til Bygge og Anlægsbranchen. Denne lightudgave giver dig et første indblik i, hvordan dit arbejdsliv opleves for dig lige nu.
+                    </p>
+                    <p class="text-lg leading-relaxed font-medium text-slate-800 italic">
+                        ALT handler ikke om rigtigt eller forkert, men om at give dig et roligt øjeblik til at mærke efter, tage det lille eller det store blik på dit arbejdsliv og undersøge, om fundamentet stadig bærer den måde, du gerne vil stå i din rolle på.
+                    </p>
+                </div>
+                
+                <div class="border-t border-slate-100 pt-10 text-left">
+                    <h3 class="font-bold mb-6 text-slate-800 text-lg text-center uppercase tracking-widest">Vælg din profil for at starte:</h3>
+                    <div class="grid grid-cols-1 gap-4" id="role-selector">
+                        <button onclick="setRole('leder')" class="role-card text-left p-6 bg-white border-2 border-slate-200 rounded-2xl transition-all">
+                            <span class="block font-bold text-slate-900 text-xl">Leder / Ansvarlig</span>
+                            <span class="text-base text-slate-500">For dig med personale- eller projektansvar.</span>
+                        </button>
+                        <button onclick="setRole('medarbejder')" class="role-card text-left p-6 bg-white border-2 border-slate-200 rounded-2xl transition-all">
+                            <span class="block font-bold text-slate-900 text-xl">Fagspecialist / Udførende</span>
+                            <span class="text-base text-slate-500">For dig der arbejder med faglige leverancer.</span>
+                        </button>
+                        <button onclick="setRole('nyuddannet')" class="role-card text-left p-6 bg-white border-2 border-slate-200 rounded-2xl transition-all">
+                            <span class="block font-bold text-slate-900 text-xl">Nyuddannet (0-2 år)</span>
+                            <span class="text-base text-slate-500">For dig der er ny i branchen.</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mt-10">
+                    <button id="start-btn" disabled onclick="startTest()" class="w-full bg-slate-300 text-white font-bold py-6 rounded-2xl transition-all text-2xl cursor-not-allowed shadow-lg">
+                        Vælg din profil
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz" class="hidden bg-white rounded-3xl shadow-2xl p-10 border border-slate-100">
+            <div class="mb-12 text-center">
+                <div class="flex justify-between items-center mb-4 px-2">
+                    <span id="category-label" class="category-pill bg-blue-100 text-blue-700 italic px-5 py-2">Kategori</span>
+                    <span id="percent" class="text-sm text-slate-400 font-bold tracking-widest">0/15</span>
+                </div>
+                <div class="w-full bg-slate-100 h-4 rounded-full overflow-hidden shadow-inner">
+                    <div id="progress-bar" class="bg-blue-600 h-full transition-all duration-700 ease-out" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <h2 id="question" class="text-2xl font-bold mb-10 leading-tight text-slate-900 text-center italic">Indlæser spørgsmål...</h2>
+            
+            <div id="options" class="space-y-4"></div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result" class="hidden">
+            <div id="result-header" class="mb-8"></div>
+            <div class="bg-white rounded-3xl shadow-2xl p-8 border border-slate-100 mb-8">
+                <h3 class="text-xl font-bold mb-8 text-slate-900 flex items-center italic justify-center">
+                    Dine Refleksionspunkter
+                </h3>
+                <div id="category-results" class="space-y-8"></div>
+            </div>
+            <div id="result-description"></div>
+            <button onclick="resetTest()" class="mt-10 w-full py-4 text-slate-400 hover:text-slate-800 font-semibold transition-colors uppercase text-sm tracking-[0.2em]">Tag testen forfra</button>
+        </div>
+    </div>
+
+    <script>
+        let userRole = '';
+        let currentQuestion = 0;
+        let activeQuestions = [];
+        let categoryScores = { "Kultur & Tone": 0, "Hold & Ressourcer": 0, "Ansvar & Mandat": 0, "Trivsel": 0 };
+        let categoryCounts = { "Kultur & Tone": 0, "Hold & Ressourcer": 0, "Ansvar & Mandat": 0, "Trivsel": 0 };
+
+        // 15+ spørgsmål fordelt på kategorier og roller
+        const questionsDB = {
+            common: [
+                { cat: "Kultur & Tone", q: "Hvordan håndteres fejl i dit nuværende team eller afdeling?", 
+                  options: [{text: "Vi ser fejl som fælles læring og justerer processen løbende.", p: 1}, {text: "Fokus ligger på at finde årsagen, men tonen kan være spids.", p: 2}, {text: "Fejl bliver ofte diskuteret i forhold til personligt ansvar.", p: 3}] },
+                { cat: "Kultur & Tone", q: "Oplever du, at der er en psykologisk tryghed, hvor du kan sige din mening?", 
+                  options: [{text: "Ja, altid. Vi lytter til hinanden uanset hierarki.", p: 1}, {text: "For det meste, men visse emner er svære at tage op.", p: 2}, {text: "Nej, man passer mest på sig selv.", p: 3}] },
+                { cat: "Hold & Ressourcer", q: "Føler du, at dit team har de nødvendige kompetencer til opgaverne?", 
+                  options: [{text: "Ja, vi komplementerer hinanden rigtig godt.", p: 1}, {text: "Vi klarer den, men vi mangler ofte specifik viden.", p: 2}, {text: "Vi er underbemandede eller mangler kritiske kompetencer.", p: 3}] },
+                { cat: "Hold & Ressourcer", q: "Er der tydelighed omkring hvem der gør hvad i jeres projekter?", 
+                  options: [{text: "Ja, ansvarsfordelingen er krystalklar.", p: 1}, {text: "Nogenlunde, men vi løber ind i 'gråzoner'.", p: 2}, {text: "Ofte hersker der tvivl om leverancerne.", p: 3}] },
+                { cat: "Trivsel", q: "Hvordan vil du beskrive dit energiniveau efter en arbejdsdag?", 
+                  options: [{text: "Jeg føler mig brugt på en god måde og har overskud.", p: 1}, {text: "Jeg er ofte træt og skal bruge aftenen på at lade op.", p: 2}, {text: "Jeg er mentalt drænet og kan ikke slippe tankerne.", p: 3}] },
+                { cat: "Trivsel", q: "Hvor ofte føler du dig presset af tidsplaner og deadlines?", 
+                  options: [{text: "Det er en del af gamet, men det føles kontrollerbart.", p: 1}, {text: "Jævnligt, det går ud over kvaliteten engang imellem.", p: 2}, {text: "Konstant, det føles som om vi altid er bagud.", p: 3}] },
+                { cat: "Trivsel", q: "Føler du, at dit arbejde giver mening for dig personligt?", 
+                  options: [{text: "Ja, jeg er stolt af det vi bygger.", p: 1}, {text: "Ja, for det meste, men administrativt bøvl fylder meget.", p: 2}, {text: "Nej, det føles mest som brandslukning.", p: 3}] }
+            ],
+            leder: [
+                { cat: "Ansvar & Mandat", q: "Oplever du, at dit mandat (beslutningskraft) følger dit ansvar?", options: [{text: "Ja, jeg har de beføjelser, jeg skal bruge.", p: 1}, {text: "Delvist, men jeg skal ofte højere op for godkendelse.", p: 2}, {text: "Nej, jeg har ansvaret, men ikke magten.", p: 3}] },
+                { cat: "Ansvar & Mandat", q: "Hvor meget fylder 'politisk spil' i din hverdag?", options: [{text: "Minimalt, vi fokuserer på driften.", p: 1}, {text: "En del, det kræver energi at navigere i.", p: 2}, {text: "Alt for meget, det forstyrrer mine resultater.", p: 3}] },
+                { cat: "Hold & Ressourcer", q: "Har du de ressourcer (økonomi/folk), du skal bruge til dine mål?", options: [{text: "Ja, rammerne er realistiske.", p: 1}, {text: "Det er stramt, men vi får det til at ske.", p: 2}, {text: "Nej, målene er urealistiske ift. ressourcerne.", p: 3}] },
+                { cat: "Kultur & Tone", q: "Føler du dig bakket op af din egen ledelse?", options: [{text: "Ja, de har min ryg når det brænder på.", p: 1}, {text: "Som regel, men jeg kan føle mig alene i svære valg.", p: 2}, {text: "Nej, jeg føler mig ofte udstillet.", p: 3}] }
+            ],
+            medarbejder: [
+                { cat: "Ansvar & Mandat", q: "I hvilken grad oplever du at påtage dig opgaver uden for din rolle?", options: [{text: "Sjældent, mine opgaver er klare.", p: 1}, {text: "Ofte, jeg træder til for at få tingene til at glide.", p: 2}, {text: "Konstant, jeg varetager funktioner jeg ikke er ansat til.", p: 3}] },
+                { cat: "Ansvar & Mandat", q: "Har du indflydelse på hvordan du planlægger din egen dag?", options: [{text: "Høj grad af frihed under ansvar.", p: 1}, {text: "Nogen grad, men meget er fastlagt udefra.", p: 2}, {text: "Ingen, min dag styres 100% af andre.", p: 3}] },
+                { cat: "Kultur & Tone", q: "Bliver dine faglige input hørt af ledelsen?", options: [{text: "Ja, de værdsætter min ekspertise.", p: 1}, {text: "De lytter, men det ændrer sjældent noget.", p: 2}, {text: "Nej, beslutninger tages over hovedet på os.", p: 3}] },
+                { cat: "Hold & Ressourcer", q: "Fungerer samarbejdet mellem de forskellige faggrupper/led?", options: [{text: "Ja, vi arbejder mod samme mål.", p: 1}, {text: "Der er en del kassetænkning, men det går.", p: 2}, {text: "Nej, der er mange konflikter mellem ledene.", p: 3}] }
+            ],
+            nyuddannet: [
+                { cat: "Hold & Ressourcer", q: "Hvordan oplever du overgangen fra uddannelsen til virkeligheden?", options: [{text: "Jeg får god vejledning og føler mig tryg.", p: 1}, {text: "Det er overvældende, men jeg lærer hurtigt.", p: 2}, {text: "Jeg føler mig kastet for løverne uden støtte.", p: 3}] },
+                { cat: "Trivsel", q: "Hvilken betydning har feedback fra erfarne kolleger?", options: [{text: "Den er anerkendende og lærerig.", p: 1}, {text: "Den er mest fokuseret på fejlretning.", p: 2}, {text: "Jeg får næsten ingen feedback.", p: 3}] },
+                { cat: "Ansvar & Mandat", q: "Er du bange for at lave fejl i dit daglige arbejde?", options: [{text: "Nej, jeg ved det er en del af læringen.", p: 1}, {text: "Lidt, jeg dobbelttjekker alt mange gange.", p: 2}, {text: "Ja, jeg er meget bange for konsekvenserne.", p: 3}] },
+                { cat: "Kultur & Tone", q: "Føler du dig som en del af fællesskabet i skurvognen/kontoret?", options: [{text: "Ja, jeg er blevet taget rigtig godt imod.", p: 1}, {text: "Ja, men det tager tid at forstå jargonen.", p: 2}, {text: "Nej, jeg føler mig udenfor.", p: 3}] }
+            ]
+        };
+
+        function setRole(role) {
+            userRole = role;
+            document.querySelectorAll('.role-card').forEach(c => c.classList.remove('active-role'));
+            event.currentTarget.classList.add('active-role');
+            const startBtn = document.getElementById('start-btn');
+            startBtn.disabled = false;
+            startBtn.className = "w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-6 rounded-2xl transition-all text-2xl shadow-xl transform active:scale-95";
+            startBtn.innerText = "Start min test";
+        }
+
+        function startTest() {
+            // Kombiner fælles og rollespecifikke spørgsmål
+            activeQuestions = [...questionsDB.common, ...questionsDB[userRole]];
+            // Tilføj et par ekstra spørgsmål for at ramme præcis 15 eller tæt på
+            activeQuestions.sort((a, b) => 0.5 - Math.random());
+            
+            // Begræns til præcis 15 for en konsistent oplevelse
+            activeQuestions = activeQuestions.slice(0, 15);
+
+            document.getElementById('intro').classList.add('hidden');
+            document.getElementById('quiz').classList.remove('hidden');
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const q = activeQuestions[currentQuestion];
+            document.getElementById('question').innerText = q.q;
+            document.getElementById('category-label').innerText = q.cat;
+            document.getElementById('percent').innerText = `${currentQuestion + 1} / ${activeQuestions.length}`;
+            document.getElementById('progress-bar').style.width = ((currentQuestion + 1) / activeQuestions.length) * 100 + '%';
+
+            const optionsDiv = document.getElementById('options');
+            optionsDiv.innerHTML = '';
+            q.options.forEach((opt, index) => {
+                const btn = document.createElement('button');
+                btn.className = "option-btn w-full text-left p-5 border-2 border-slate-200 rounded-2xl hover:shadow-lg transition-all duration-200 bg-white group flex items-center";
+                btn.innerHTML = `<span class="flex-shrink-0 w-8 h-8 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center mr-4 group-hover:bg-blue-600 group-hover:text-white transition-colors font-bold">${index + 1}</span><span class="text-lg font-medium text-slate-700">${opt.text}</span>`;
+                btn.onclick = () => selectOption(q.cat, opt.p);
+                optionsDiv.appendChild(btn);
+            });
+        }
+
+        function selectOption(cat, p) {
+            categoryScores[cat] += p;
+            categoryCounts[cat]++;
+            currentQuestion++;
+            if (currentQuestion < activeQuestions.length) {
+                showQuestion();
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            document.getElementById('quiz').classList.add('hidden');
+            document.getElementById('result').classList.remove('hidden');
+            
+            let totalPoints = 0, totalCount = 0;
+            const catContainer = document.getElementById('category-results');
+            catContainer.innerHTML = '';
+            
+            for (let cat in categoryScores) {
+                if (categoryCounts[cat] > 0) {
+                    const avg = categoryScores[cat] / categoryCounts[cat];
+                    totalPoints += avg; totalCount++;
+                    const pct = (avg / 3) * 100;
+                    let color = pct < 45 ? 'bg-green-500' : (pct < 75 ? 'bg-amber-500' : 'bg-orange-600');
+                    const div = document.createElement('div');
+                    div.innerHTML = `
+                        <div class="flex justify-between text-xs font-bold mb-2 uppercase text-slate-500 italic tracking-widest">
+                            <span>${cat}</span>
+                            <span>${Math.round(pct)}% belastning</span>
+                        </div>
+                        <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden shadow-inner">
+                            <div class="${color} h-full transition-all duration-1000" style="width: ${pct}%"></div>
+                        </div>`;
+                    catContainer.appendChild(div);
+                }
+            }
+
+            const finalAvg = totalPoints / totalCount;
+            let title, icon, color, badge, desc;
+
+            if (finalAvg <= 1.5) {
+                title = "Fundamentet står stærkt"; icon = "⚖️"; color = "bg-green-600"; badge = "Status: I Balance";
+                desc = "Dine svar tyder på en sund sammenhæng i dit arbejdsliv lige nu.";
+            } else if (finalAvg <= 2.2) {
+                title = "Små revner i fundamentet"; icon = "🔍"; color = "bg-amber-500"; badge = "Status: Opmærksomhed";
+                desc = "Testen peger på enkelte områder, hvor balancen kan optimeres for at undgå slid.";
+            } else {
+                title = "Behov for renovering"; icon = "⚠️"; color = "bg-orange-600"; badge = "Status: Kritisk";
+                desc = "Dine svar indikerer en ubalance, der kræver din aktive opmærksomhed nu.";
+            }
+
+            document.getElementById('result-header').innerHTML = `
+                <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-100">
+                    <div class="${color} p-4 text-center text-white text-sm font-bold uppercase tracking-[0.2em]">${badge}</div>
+                    <div class="p-10 text-center">
+                        <div class="text-7xl mb-6">${icon}</div>
+                        <h2 class="text-4xl font-extrabold mb-4 text-slate-900 italic leading-tight">${title}</h2>
+                        <p class="text-xl text-slate-600 leading-relaxed">${desc}</p>
+                    </div>
+                </div>`;
+
+            document.getElementById('result-description').innerHTML = `
+                <div class="mt-8 p-8 bg-blue-50 rounded-[2.5rem] border border-blue-100 text-center shadow-xl">
+                    <h3 class="font-bold text-blue-900 mb-3 text-xl uppercase italic">Vil du tale om dine resultater?</h3>
+                    <p class="text-blue-700 text-base mb-6 leading-relaxed">Få en uforpligtende samtale om hvordan du genfinder balancen i dit arbejdsliv.</p>
+                    <button class="w-full bg-blue-600 text-white py-5 rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-xl text-lg transform hover:-translate-y-1">Book en samtale nu</button>
+                </div>`;
+        }
+        function resetTest() { location.reload(); }
+    </script>
+</body>
+</html>

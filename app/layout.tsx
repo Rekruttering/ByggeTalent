@@ -21,7 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="da">
-      <body>{children}</body>
+      <body>
+        <style>{`input::placeholder, textarea::placeholder { color: rgba(255,255,255,0.65) !important; }`}</style>
+        {children}
+      </body>
     </html>
   );
 }
