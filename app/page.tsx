@@ -2,7 +2,7 @@
 
 import { useState, useEffect, type Dispatch, type SetStateAction } from "react";
 import { supabase } from "../lib/supabase";
-import { groupedRoles, groupNames, testQuestions } from "./data";
+import { groupedRoles, groupNames, altQuestionsDB, type AltQuestion } from "./data";
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 const CURRY = "#C4A03A";          // Varm rav-guld (som i mockup)
@@ -40,15 +40,108 @@ type AccordionGroupState = Record<string, boolean>;
 
 export default function Home() {
   const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<number[]>(Array(10).fill(0));
-  const [showResult, setShowResult] = useState(false);
+  const [altPhase, setAltPhase] = useState<"intro" | "quiz" | "result">("intro");
+  const [altActiveQuestions, setAltActiveQuestions] = useState<AltQuestion[]>([]);
+  const [altCurrentQ, setAltCurrentQ] = useState(0);
+  const [altAnswers, setAltAnswers] = useState<{ cat: string; p: number }[]>([]);
   const [selectedUniverse, setSelectedUniverse] = useState("Kandidat");
   const [detailPage, setDetailPage] = useState<string | null>(null);
   const [virksomhedView, setVirksomhedView] = useState<null | "data" | "jobmatch" | "samtale">(null);
 
   useEffect(() => { window.scrollTo(0, 0); }, [step]);
 
-  const totalScore = answers.reduce((sum, v) => sum + v, 0);
+  const [altRole, setAltRole] = useState<"Nyuddannet" | "Fagspecialist" | "Leder" | null>(null);
+
+  const ALT_CATEGORIES = [
+    { key: "Kultur & Tone",     color: "#C4A03A" },
+    { key: "Hold & Ressourcer", color: "#2563EB" },
+    { key: "Ansvar & Mandat",   color: "#6A9060" },
+    { key: "Trivsel",           color: "#6E7580" },
+  ] as const;
+
+  const ALT_LEVEL_LABELS = ["Meget lavt", "Lavt", "Middel", "Højt", "Meget højt"] as const;
+
+  const ALT_LEVEL_DESC: Record<string, string[]> = {
+    "Kultur & Tone": [
+      "Der er tydelige tegn på utryghed og dårlig kommunikation i dit team.",
+      "Kulturen i dit team har udfordringer der påvirker samarbejdet.",
+      "Kulturen fungerer, men der er plads til forbedring i tone og tryghed.",
+      "Du oplever en åben kultur med gensidig respekt og god kommunikation.",
+      "Du befinder dig i et stærkt arbejdsmiljø med høj psykologisk tryghed.",
+    ],
+    "Hold & Ressourcer": [
+      "Der mangler kritiske ressourcer og klarhed om opgaverne i dit team.",
+      "Teamets ressourcer og kompetencer matcher ikke fuldt ud opgaverne.",
+      "Ressourcerne er nogenlunde til stede, men der er synlige gaps.",
+      "Dit team er godt udstyret med kompetencer og klar ansvarsfordeling.",
+      "Dit team har stærke ressourcer og høj klarhed om leverancer og roller.",
+    ],
+    "Ansvar & Mandat": [
+      "Der er stor ubalance mellem dit ansvar og din beslutningskraft.",
+      "Du mangler mandat til at løse dine opgaver optimalt.",
+      "Mandatet er delvist til stede, men ikke altid tilstrækkeligt.",
+      "Du har god klarhed om dit ansvar og tilstrækkelig beslutningskraft.",
+      "Du har fuldt mandat, klar rollefordeling og stærk handlekraft.",
+    ],
+    "Trivsel": [
+      "Din trivsel er under pres — der er tydelige tegn på belastning.",
+      "Du oplever vedvarende pres der påvirker dit velvære og din energi.",
+      "Din trivsel er stabil, men der er elementer der trækker ned.",
+      "Du trives godt i dit arbejdsliv med et sundt energiniveau.",
+      "Du har et stærkt fundament for trivsel og høj arbejdsglæde.",
+    ],
+  };
+
+  function getAltLevel(percent: number, bench: number): 1 | 2 | 3 | 4 | 5 {
+    const delta = percent - bench;
+    if (delta <= -25) return 1;
+    if (delta <= -10) return 2;
+    if (delta <= 10)  return 3;
+    if (delta <= 25)  return 4;
+    return 5;
+  }
+
+  const ROLE_BENCHMARKS: Record<string, Record<string, number>> = {
+    "Nyuddannet":    { "Kultur & Tone": 62, "Hold & Ressourcer": 55, "Ansvar & Mandat": 50, "Trivsel": 60 },
+    "Fagspecialist": { "Kultur & Tone": 65, "Hold & Ressourcer": 65, "Ansvar & Mandat": 60, "Trivsel": 65 },
+    "Leder":         { "Kultur & Tone": 68, "Hold & Ressourcer": 68, "Ansvar & Mandat": 70, "Trivsel": 65 },
+  };
+
+  const catScores = ALT_CATEGORIES.map(cat => {
+    const catAnswers = altAnswers.filter(a => a.cat === cat.key);
+    const avg = catAnswers.length > 0 ? catAnswers.reduce((s, a) => s + a.p, 0) / catAnswers.length : 0;
+    const percent = catAnswers.length > 0 ? Math.round(((3 - avg) / 2) * 100) : 0;
+    return { ...cat, percent, count: catAnswers.length };
+  });
+
+  const filledCats = catScores.filter(c => c.count > 0);
+  const overallPct = filledCats.length > 0
+    ? Math.round(filledCats.reduce((s, c) => s + c.percent, 0) / filledCats.length)
+    : 0;
+  const avgScore = filledCats.length > 0 ? (overallPct / 20).toFixed(1) : "–";
+  const benchmark = altRole ? ROLE_BENCHMARKS[altRole] : null;
+
+  function startAlt() {
+    if (!altRole) return;
+    const roleKey = altRole === "Leder" ? "leder" : altRole === "Fagspecialist" ? "medarbejder" : "nyuddannet";
+    const questions = [...altQuestionsDB.common, ...altQuestionsDB[roleKey]];
+    setAltActiveQuestions(questions);
+    setAltCurrentQ(0);
+    setAltAnswers([]);
+    setAltPhase("quiz");
+  }
+
+  function answerAlt(cat: string, p: number) {
+    const updated = [...altAnswers, { cat, p }];
+    setAltAnswers(updated);
+    if (altCurrentQ + 1 < altActiveQuestions.length) {
+      setAltCurrentQ(altCurrentQ + 1);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      setAltPhase("result");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
 
   const [form, setForm] = useState<FormState>({
     name: "",
@@ -590,126 +683,230 @@ export default function Home() {
             </div>
           </div>
 
-          <div style={{ flex: 1, overflowY: "auto", padding: "24px 20px 120px" }}>
-            <h2 style={{ margin: "0 0 6px", fontSize: "24px", lineHeight: 1.15, fontWeight: 700, color: TEXT, fontFamily: "Georgia, serif" }}>
-              Hvordan oplever du dit arbejdsliv lige nu?
-            </h2>
-            <p style={{ margin: "0 0 24px", fontSize: "15px", color: MUTED, lineHeight: 1.6 }}>
-              Vurder hvert udsagn fra 1 til 5.
-            </p>
+          <div style={{ flex: 1, overflowY: "auto", padding: "24px 20px 40px" }}>
 
-            <div style={{ display: "grid", gap: "16px" }}>
-              {testQuestions.map((question, index) => (
-                <div key={index} style={{ background: WHITE, borderRadius: "16px", padding: "16px", border: `1px solid ${BORDER}` }}>
-                  <div style={{ fontSize: "15px", fontWeight: 600, color: TEXT, lineHeight: 1.5, marginBottom: "14px", display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "10px" }}>
-                    <span>{index + 1}. {question}</span>
-                    {answers[index] > 0 && (
-                      <span style={{ flexShrink: 0, width: "28px", height: "28px", borderRadius: "50%", background: CURRY, color: WHITE, display: "grid", placeItems: "center", fontSize: "13px", fontWeight: 700 }}>
-                        {answers[index]}
-                      </span>
+            {/* ── Intro: rollevalg ── */}
+            {altPhase === "intro" && (
+              <div style={{ display: "grid", gap: "16px" }}>
+                <div>
+                  <h2 style={{ margin: "0 0 6px", fontSize: "24px", lineHeight: 1.15, fontWeight: 700, color: TEXT, fontFamily: "Georgia, serif" }}>
+                    Arbejdslivstest · ALT
+                  </h2>
+                  <p style={{ margin: 0, fontSize: "15px", color: MUTED, lineHeight: 1.6 }}>
+                    Testen giver dig et øjebliksbillede af dit arbejdsliv — tilpasset din rolle i branchen.
+                  </p>
+                </div>
+
+                <div style={{ background: WHITE, borderRadius: "16px", padding: "18px", border: `1px solid ${BORDER}` }}>
+                  <div style={{ fontSize: "11px", fontWeight: 700, color: MUTED, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "14px" }}>Vælg din rolle for at starte</div>
+                  <div style={{ display: "grid", gap: "10px" }}>
+                    {([
+                      { r: "Leder", sub: "For dig med personale- eller projektansvar" },
+                      { r: "Fagspecialist", sub: "For dig der arbejder med faglige leverancer" },
+                      { r: "Nyuddannet", sub: "For dig der er ny i branchen (0–2 år)" },
+                    ] as const).map(({ r, sub }) => (
+                      <button key={r} type="button" onClick={() => setAltRole(r)}
+                        style={{ textAlign: "left", padding: "14px 16px", borderRadius: "12px", border: altRole === r ? `2px solid ${CURRY}` : `1.5px solid ${BORDER}`, background: altRole === r ? CURRY_BG : "#FAFAF8", cursor: "pointer" }}>
+                        <div style={{ fontSize: "15px", fontWeight: 700, color: altRole === r ? CURRY : TEXT }}>{r}</div>
+                        <div style={{ fontSize: "13px", color: MUTED, marginTop: "2px" }}>{sub}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <button
+                  onClick={startAlt}
+                  disabled={!altRole}
+                  style={{ padding: "15px", borderRadius: "14px", border: "none", background: altRole ? CURRY : BORDER, color: altRole ? WHITE : MUTED, fontSize: "15px", fontWeight: 700, cursor: altRole ? "pointer" : "not-allowed" }}
+                >
+                  {altRole ? `Start ALT som ${altRole} →` : "Vælg din rolle for at starte"}
+                </button>
+              </div>
+            )}
+
+            {/* ── Quiz: ét spørgsmål ad gangen ── */}
+            {altPhase === "quiz" && altActiveQuestions.length > 0 && (() => {
+              const q = altActiveQuestions[altCurrentQ];
+              const progress = ((altCurrentQ) / altActiveQuestions.length) * 100;
+              return (
+                <div style={{ display: "grid", gap: "16px" }}>
+                  {/* Progress */}
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
+                    <div style={{ fontSize: "11px", fontWeight: 700, color: q.cat === "Kultur & Tone" ? "#C4A03A" : q.cat === "Hold & Ressourcer" ? "#2563EB" : q.cat === "Ansvar & Mandat" ? "#6A9060" : "#6E7580", textTransform: "uppercase", letterSpacing: "0.1em" }}>{q.cat}</div>
+                    <div style={{ fontSize: "12px", color: MUTED, fontWeight: 600 }}>{altCurrentQ + 1} / {altActiveQuestions.length}</div>
+                  </div>
+                  <div style={{ height: "4px", background: BORDER, borderRadius: "2px", overflow: "hidden" }}>
+                    <div style={{ width: `${progress}%`, height: "100%", background: CURRY, borderRadius: "2px" }} />
+                  </div>
+
+                  {/* Spørgsmål */}
+                  <div style={{ background: WHITE, borderRadius: "20px", padding: "22px", border: `1px solid ${BORDER}` }}>
+                    <p style={{ margin: "0 0 22px", fontSize: "18px", fontWeight: 700, color: TEXT, lineHeight: 1.45, fontFamily: "Georgia, serif" }}>
+                      {q.q}
+                    </p>
+                    <div style={{ display: "grid", gap: "10px" }}>
+                      {q.options.map((opt, i) => (
+                        <button key={i} type="button"
+                          onClick={() => answerAlt(q.cat, opt.p)}
+                          style={{ textAlign: "left", padding: "14px 16px", borderRadius: "14px", border: `1.5px solid ${BORDER}`, background: "#FAFAF8", cursor: "pointer", display: "flex", alignItems: "center", gap: "12px" }}>
+                          <span style={{ flexShrink: 0, width: "28px", height: "28px", borderRadius: "50%", background: BORDER, color: MUTED, display: "grid", placeItems: "center", fontSize: "13px", fontWeight: 700 }}>
+                            {i + 1}
+                          </span>
+                          <span style={{ fontSize: "14px", color: TEXT, lineHeight: 1.45, fontWeight: 500 }}>{opt.text}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* ── Resultat ── */}
+            {altPhase === "result" && (
+              <div style={{ display: "grid", gap: "14px" }}>
+
+                {/* Hovedkort: donut + legend */}
+                <div style={{ background: WHITE, borderRadius: "20px", padding: "20px", border: `1.5px solid ${CURRY_BORDER}` }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
+                    <div>
+                      <div style={labelSt}>ALT · Arbejdslivstest</div>
+                      <h3 style={{ margin: "6px 0 0", fontSize: "20px", fontWeight: 700, color: TEXT, fontFamily: "Georgia, serif" }}>
+                        Din arbejdsprofil
+                      </h3>
+                    </div>
+                    {altRole && (
+                      <div style={{ padding: "5px 11px", borderRadius: "999px", background: CURRY_BG, color: CURRY, fontSize: "11px", fontWeight: 700, letterSpacing: "0.06em", whiteSpace: "nowrap" }}>
+                        {altRole}
+                      </div>
                     )}
                   </div>
 
-                  <div style={{ display: "flex", gap: "6px" }}>
-                    {[1, 2, 3, 4, 5].map((val) => {
-                      const sel = answers[index] === val;
-                      return (
-                        <button key={val} type="button"
-                          onClick={() => { const u = [...answers]; u[index] = val; setAnswers(u); }}
-                          style={{
-                            flex: 1, padding: "13px 0", borderRadius: "12px",
-                            border: sel ? `2px solid ${CURRY}` : `1.5px solid ${BORDER}`,
-                            background: sel ? CURRY_BG : "#FAFAF8",
-                            color: sel ? CURRY : MUTED,
-                            fontSize: "16px", fontWeight: 700, cursor: "pointer",
-                          }}
-                        >
-                          {val}
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  <div style={{ display: "flex", justifyContent: "space-between", marginTop: "5px" }}>
-                    <span style={{ fontSize: "10px", color: MUTED }}>Lav</span>
-                    <span style={{ fontSize: "10px", color: MUTED }}>Høj</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Resultat */}
-            {showResult && (
-              <div style={{ marginTop: "20px", display: "grid", gap: "12px" }}>
-                <div style={{ background: WHITE, borderRadius: "20px", padding: "20px", border: `1.5px solid ${CURRY_BORDER}` }}>
-                  <div style={labelSt}>Resultatoversigt</div>
-                  <h3 style={{ margin: "8px 0 6px", fontSize: "22px", fontWeight: 700, color: TEXT, fontFamily: "Georgia, serif" }}>
-                    Din karriereposition lige nu
-                  </h3>
-                  <p style={{ margin: "0 0 20px", fontSize: "14px", color: MUTED, lineHeight: 1.65 }}>
-                    Dine svar giver et samlet billede af, hvor godt din nuværende rolle matcher det, du har brug for i arbejdslivet.
-                  </p>
-
-                  {/* Score cirkel */}
-                  <div style={{ display: "flex", justifyContent: "center", marginBottom: "20px" }}>
-                    <div style={{ textAlign: "center" }}>
-                      <div style={{ width: "130px", height: "130px", borderRadius: "50%", background: `conic-gradient(${CURRY} ${(totalScore / 50) * 360}deg, ${BORDER} 0deg)`, display: "grid", placeItems: "center", margin: "0 auto" }}>
-                        <div style={{ width: "96px", height: "96px", borderRadius: "50%", background: WHITE, display: "grid", placeItems: "center", textAlign: "center" }}>
-                          <div>
-                            <div style={{ fontSize: "32px", fontWeight: 800, color: TEXT, lineHeight: 1 }}>{totalScore}</div>
-                            <div style={{ fontSize: "11px", color: MUTED, marginTop: "3px" }}>ud af 50</div>
-                          </div>
-                        </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "16px", marginBottom: "16px" }}>
+                    <div style={{ position: "relative", flexShrink: 0, width: "120px", height: "120px" }}>
+                      <svg width="120" height="120" viewBox="0 0 140 140">
+                        {(() => {
+                          const r = 52, cx = 70, cy = 70;
+                          const circ = 2 * Math.PI * r;
+                          const total = catScores.reduce((s, c) => s + c.percent, 0) || 1;
+                          let cum = 0;
+                          return catScores.map(cat => {
+                            const segLen = (cat.percent / total) * circ;
+                            const dashOffset = circ / 4 - cum;
+                            const el = (
+                              <circle key={cat.key} cx={cx} cy={cy} r={r}
+                                fill="none" stroke={cat.color} strokeWidth="22"
+                                strokeDasharray={`${segLen} ${circ}`}
+                                strokeDashoffset={dashOffset}
+                              />
+                            );
+                            cum += segLen;
+                            return el;
+                          });
+                        })()}
+                        <circle cx={70} cy={70} r={40} fill="white" />
+                      </svg>
+                      <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", textAlign: "center", pointerEvents: "none" }}>
+                        <div style={{ fontSize: "22px", fontWeight: 800, color: TEXT, lineHeight: 1 }}>{avgScore}</div>
+                        <div style={{ fontSize: "9px", color: MUTED, fontWeight: 600, marginTop: "2px" }}>af 5</div>
                       </div>
-                      <div style={{ marginTop: "10px", fontSize: "13px", fontWeight: 700, color: TEXT }}>Samlet score</div>
+                    </div>
+
+                    <div style={{ display: "grid", gap: "9px", flex: 1 }}>
+                      {catScores.map(cat => (
+                        <div key={cat.key} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                          <div style={{ width: "10px", height: "10px", borderRadius: "3px", background: cat.color, flexShrink: 0 }} />
+                          <div style={{ flex: 1, fontSize: "12px", color: TEXT, fontWeight: 600 }}>{cat.key}</div>
+                          <div style={{ fontSize: "14px", fontWeight: 800, color: TEXT }}>{cat.percent}%</div>
+                        </div>
+                      ))}
                     </div>
                   </div>
 
-                  {/* Insight tiles */}
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-                    {[
-                      { title: "Det du savner", percent: Math.round((((answers[0] || 0) + (answers[1] || 0) + (answers[2] || 0)) / 15) * 100), text: "Match mellem rolle, styrker og energi." },
-                      { title: "Det du ønsker mere af", percent: Math.round((((answers[3] || 0) + (answers[4] || 0) + (answers[5] || 0)) / 15) * 100), text: "Samarbejde, indflydelse og vilkår." },
-                      { title: "Det du ønsker mindre af", percent: Math.round((((answers[6] || 0) + (answers[7] || 0)) / 10) * 100), text: "Tempo, belastning og ubalance." },
-                      { title: "Det der peger fremad", percent: Math.round((((answers[8] || 0) + (answers[9] || 0)) / 10) * 100), text: "Retning, tidshorisont og næste skridt." },
-                    ].map((item) => {
-                      const sc = item.percent < 40 ? "#C0392B" : item.percent < 70 ? "#C9A820" : "#2E7D32";
-                      const sl = item.percent < 40 ? "Lavt fokus" : item.percent < 70 ? "Stabilt signal" : "Høj prioritet";
-                      return (
-                        <div key={item.title} style={{ background: "#FAFAF8", border: `1px solid ${BORDER}`, borderRadius: "14px", padding: "14px", display: "grid", gap: "8px" }}>
-                          <div style={{ fontSize: "10px", fontWeight: 700, color: MUTED, textTransform: "uppercase", letterSpacing: "0.08em" }}>{item.title}</div>
-                          <div style={{ fontSize: "28px", fontWeight: 800, color: TEXT, lineHeight: 1 }}>{item.percent}%</div>
-                          <div style={{ display: "inline-flex", padding: "3px 8px", borderRadius: "999px", background: `${sc}18`, color: sc, fontSize: "10px", fontWeight: 700, letterSpacing: "0.06em", width: "fit-content" }}>{sl}</div>
-                          <div style={{ fontSize: "12px", lineHeight: 1.5, color: MUTED }}>{item.text}</div>
-                        </div>
-                      );
-                    })}
-                  </div>
-
-                  {/* Konklusion */}
-                  <div style={{ marginTop: "14px", padding: "16px", borderRadius: "14px", background: CURRY_BG, border: `1px solid ${CURRY_BORDER}`, display: "grid", gap: "6px" }}>
-                    <div style={labelSt}>Foreløbig konklusion</div>
-                    <h4 style={{ margin: 0, fontSize: "18px", fontWeight: 700, color: TEXT, fontFamily: "Georgia, serif" }}>Din arbejdssituation lige nu</h4>
-                    <p style={{ margin: 0, fontSize: "13px", lineHeight: 1.7, color: MUTED }}>Din score viser klare signaler om, hvad du savner, hvad du ønsker mere af, og hvad der eventuelt kalder på næste skridt.</p>
+                  <div style={{ padding: "11px 14px", borderRadius: "12px", background: CURRY_BG, border: `1px solid ${CURRY_BORDER}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                    <div style={{ fontSize: "13px", fontWeight: 600, color: TEXT }}>Samlet tilfredshed</div>
+                    <div style={{ fontSize: "22px", fontWeight: 800, color: CURRY, lineHeight: 1 }}>
+                      {avgScore}<span style={{ fontSize: "13px", fontWeight: 600, color: MUTED }}>/5</span>
+                    </div>
                   </div>
                 </div>
+
+                {/* Kategori-detaljer — 5-niveau DISC/Garuda stil */}
+                <div style={{ display: "grid", gap: "10px" }}>
+                  {catScores.map(cat => {
+                    const bench = benchmark ? (benchmark as Record<string, number>)[cat.key] : 65;
+                    const level = getAltLevel(cat.percent, bench);
+                    const levelLabel = ALT_LEVEL_LABELS[level - 1];
+                    const levelDesc = ALT_LEVEL_DESC[cat.key][level - 1];
+                    return (
+                      <div key={cat.key} style={{ background: WHITE, border: `1px solid ${BORDER}`, borderLeft: `4px solid ${cat.color}`, borderRadius: "14px", padding: "16px", display: "grid", gap: "10px" }}>
+                        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <div style={{ fontSize: "11px", fontWeight: 700, color: cat.color, textTransform: "uppercase", letterSpacing: "0.1em" }}>{cat.key}</div>
+                          <div style={{ fontSize: "12px", fontWeight: 700, color: TEXT }}>{levelLabel}</div>
+                        </div>
+
+                        {/* 5 bjælker */}
+                        <div style={{ display: "flex", gap: "4px" }}>
+                          {[1, 2, 3, 4, 5].map(n => (
+                            <div key={n} style={{ flex: 1, height: "8px", borderRadius: "4px", background: n <= level ? cat.color : BORDER }} />
+                          ))}
+                        </div>
+
+                        <p style={{ margin: 0, fontSize: "13px", lineHeight: 1.6, color: MUTED }}>{levelDesc}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                {/* Konklusion */}
+                {(() => {
+                  const withBench = catScores.map(cat => ({
+                    ...cat,
+                    level: getAltLevel(cat.percent, benchmark ? (benchmark as Record<string, number>)[cat.key] : 65),
+                  }));
+                  const sorted = [...withBench].sort((a, b) => a.level - b.level);
+                  const lowest = sorted[0];
+                  const highest = sorted[sorted.length - 1];
+                  const roleCtx = altRole === "Nyuddannet"
+                    ? "Som ny i branchen sammenlignes du med normen for nyuddannede — ikke erfarne kolleger."
+                    : altRole === "Leder"
+                    ? "Som leder sammenlignes du med normen for ledere i bygge- og anlægsbranchen."
+                    : "Som fagspecialist sammenlignes du med normen for udførende og tekniske profiler.";
+                  return (
+                    <div style={{ padding: "18px", borderRadius: "16px", background: CURRY_BG, border: `1px solid ${CURRY_BORDER}`, display: "grid", gap: "8px" }}>
+                      <div style={labelSt}>Konklusion · {altRole}</div>
+                      <h4 style={{ margin: 0, fontSize: "17px", fontWeight: 700, color: TEXT, fontFamily: "Georgia, serif" }}>
+                        {highest.key} er dit stærkeste område
+                      </h4>
+                      <p style={{ margin: 0, fontSize: "13px", lineHeight: 1.7, color: MUTED }}>
+                        {roleCtx} Dit stærkeste område er {highest.key.toLowerCase()} ({ALT_LEVEL_LABELS[highest.level - 1]}), mens {lowest.key.toLowerCase()} ({ALT_LEVEL_LABELS[lowest.level - 1]}) har størst udviklingspotentiale.
+                      </p>
+                    </div>
+                  );
+                })()}
+
+                <button
+                  onClick={() => { setAltPhase("intro"); setAltAnswers([]); setAltCurrentQ(0); setAltRole(null); }}
+                  style={{ padding: "13px", borderRadius: "12px", border: `1px solid ${BORDER}`, background: "transparent", color: MUTED, fontSize: "13px", fontWeight: 600, cursor: "pointer" }}
+                >
+                  Tag testen igen
+                </button>
               </div>
             )}
           </div>
 
           {/* Fast bund-navigation */}
           <div style={{ position: "sticky", bottom: 0, background: WHITE, borderTop: `1px solid ${BORDER}`, padding: "14px 20px 24px", display: "flex", gap: "10px" }}>
-            <button onClick={() => showResult ? setShowResult(false) : setStep(1)} style={backBtnSt}>←</button>
-            {!showResult ? (
-              <button
-                style={{ flex: 1, padding: "15px", borderRadius: "14px", border: "none", background: CURRY, color: WHITE, fontSize: "15px", fontWeight: 700, cursor: "pointer" }}
-                onClick={() => { setShowResult(true); setTimeout(() => window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" }), 150); }}
-              >
-                Se mit resultat →
-              </button>
-            ) : (
+            <button
+              onClick={() => {
+                if (altPhase === "quiz") { setAltPhase("intro"); setAltAnswers([]); setAltCurrentQ(0); }
+                else if (altPhase === "result") { setAltPhase("intro"); setAltAnswers([]); setAltCurrentQ(0); }
+                else setStep(1);
+              }}
+              style={backBtnSt}
+            >←</button>
+            {altPhase === "result" && (
               <button style={{ flex: 1, padding: "15px", borderRadius: "14px", border: "none", background: CURRY, color: WHITE, fontSize: "15px", fontWeight: 700, cursor: "pointer" }} onClick={() => {}}>
-                Videre →
+                Book samtale →
               </button>
             )}
           </div>
