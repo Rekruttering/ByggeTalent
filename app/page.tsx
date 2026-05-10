@@ -438,7 +438,7 @@ export default function Home() {
               {/* Video */}
               <div style={{ borderRadius: "16px", overflow: "hidden", boxShadow: "0 4px 16px rgba(10,22,40,0.10)" }}>
                 <video
-                  src="/Byggetalent.mp4"
+                  src="/Byggetalent 2.0.mp4"
                   autoPlay
                   muted
                   loop
@@ -488,7 +488,7 @@ export default function Home() {
 
               {/* Video */}
               <div style={{ height: "200px", overflow: "hidden", flexShrink: 0 }}>
-                <video autoPlay muted loop playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} src="/Byggetalent.mp4" />
+                <video autoPlay muted loop playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} src="/Byggetalent 2.0.mp4" />
               </div>
 
               {/* Kortknapper */}
