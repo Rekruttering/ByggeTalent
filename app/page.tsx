@@ -494,7 +494,7 @@ export default function Home() {
               {/* Kortknapper */}
               <div style={{ flex: 1, padding: "28px 20px 12px", display: "flex", flexDirection: "column", gap: "10px" }}>
                 <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED, fontFamily: "Georgia, serif", textAlign: "center", marginBottom: "4px" }}>
-                  INDEN DU STARTER ALT
+                  START MED
                 </div>
 
                 {([
