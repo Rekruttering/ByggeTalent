@@ -540,7 +540,7 @@ export default function Home() {
                       notes: "",
                     };
                     await supabase.from("applications").insert([application]);
-                    window.location.href = "/alt-test";
+                    setStep(2);
                   }}
                 >
                   Videre til ALT →
