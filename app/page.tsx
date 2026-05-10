@@ -233,8 +233,8 @@ export default function Home() {
           {detailPage ? (
             /* Detail view */
             <div style={{ padding: "8px 20px 40px" }}>
-              {/* Skjules når WorkforceShortage styrer sin egen back-navigation */}
-              {virksomhedView !== "data" && (
+              {/* Skjules når WorkforceShortage styrer sin egen back-navigation, eller når et sub-view er aktivt */}
+              {virksomhedView !== "data" && !virksomhedView && (
                 <button
                   onClick={() => setDetailPage(null)}
                   style={{ background: "none", border: "none", cursor: "pointer", fontSize: "15px", fontWeight: 700, color: CURRY, padding: 0, display: "flex", alignItems: "center", gap: "6px", marginBottom: "12px" }}
@@ -452,11 +452,11 @@ export default function Home() {
                 <img
                   src="/images/DIn faglg profil.png"
                   alt="Ingeniør med ByggeTalent på telefonen"
-                  style={{ width: "100%", height: "280px", objectFit: "cover", objectPosition: "center top", display: "block" }}
+                  style={{ width: "100%", height: "280px", objectFit: "cover", objectPosition: "center 60%", display: "block" }}
                 />
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "80px", background: "linear-gradient(to top, rgba(10,22,40,0.55) 0%, transparent 100%)" }} />
-                <div style={{ position: "absolute", bottom: "16px", left: "16px", fontSize: "13px", fontWeight: 700, color: "rgba(255,255,255,0.90)", letterSpacing: "0.06em" }}>
-                  INGENIØR · ARKITEKT · HÅNDVÆRKER
+                <div style={{ position: "absolute", bottom: "16px", left: "16px", fontSize: "11px", fontWeight: 500, color: "rgba(255,255,255,0.70)", letterSpacing: "0.10em" }}>
+                  Karrieresamtale
                 </div>
               </div>
 
@@ -1168,411 +1168,317 @@ function JobListings() {
   );
 }
 
-// ─── Workforce Shortage Insights ─────────────────────────────────────────────
-
-// ── Data — kun validerede tal og kategorier (AE-rådet 2024) ──
-const SD = {
-  kategorier: [
-    { navn: "Håndværk", color: "#6A9060", roller: [
-      { navn: "Elektriker",       note: "Solceller, ladestandere, energieffektivisering" },
-      { navn: "VVS",              note: "Omstilling til grønne varmekilder" },
-      { navn: "Tømrer",           note: "Central rolle i renoveringsprojekter" },
-      { navn: "Maskinsnedker",    note: "Præfabrikerede byggemoduler" },
-      { navn: "Anlægsstruktør",   note: "Infrastrukturprojekter" },
-    ]},
-    { navn: "Bæredygtighed", color: "#C4A03A", roller: [
-      { navn: "Energirådgiver",       note: "EPBD-direktiv og energimærkning" },
-      { navn: "Materialespecialist",  note: "Bæredygtige og cirkulære materialer" },
-      { navn: "Renoveringsfaglært",   note: "Energiforbedring af eksisterende bygningsmasse" },
-    ]},
-    { navn: "Teknik & ledelse", color: "#2563EB", roller: [
-      { navn: "Byggeleder",     note: "Bæredygtighedscertificeringer (DGNB, BREEAM)" },
-      { navn: "Projektleder",   note: "Bæredygtighedscertificeringer og planlægning" },
-      { navn: "BIM-specialist", note: "Digitalisering og Building Information Modeling" },
-    ]},
-  ],
-  drivere: [
-    { icon: "👴", label: "Demografi",      sub: "Store årgange pensioneres — for få unge erstatter dem" },
-    { icon: "🌿", label: "Grøn omstilling", sub: "Solceller, varmepumper og energiinfrastruktur kræver nye kompetencer" },
-    { icon: "🏗️", label: "Renovering",    sub: "Kræver flere arbejdstimer pr. m² end nybyggeri" },
-  ],
-  svar: [
-    { icon: "🤖", label: "Præfabrikation", sub: "Teknologi og modulbyggeri reducerer behovet for hænder" },
-    { icon: "🌍", label: "Udenlandsk arbejdskraft", sub: "Rekruttering på tværs af grænser" },
-    { icon: "💼", label: "Arbejdsmiljø",   sub: "Fastholdelse via bedre vilkår og trivsel" },
-  ],
-};
-
-// ─── Mini-visualiseringer ──────────────────────────────────────────────────────
-
-function MiniBarChart() {
-  const bars = [
-    { label: "Faglærte", n: 99000, color: CURRY },
-    { label: "KVU",      n: 24000, color: "#6A9060" },
-    { label: "MVU",      n: 13000, color: "#2563EB" },
-  ];
+// ─── WSAccordion ──────────────────────────────────────────────────────────────
+function WSAccordion({ title, sub, children }: { title: string; sub: string; children: React.ReactNode }) {
+  const [open, setOpen] = useState(false);
   return (
-    <div style={{ display: "grid", gap: "10px" }}>
-      {bars.map(b => (
-        <div key={b.label}>
-          <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "4px" }}>
-            <span style={{ fontSize: "12px", fontWeight: 700, color: TEXT }}>{b.label}</span>
-            <span style={{ fontSize: "12px", fontWeight: 700, color: b.color }}>{(b.n / 1000).toFixed(0)}.000</span>
-          </div>
-          <div style={{ height: "10px", background: "#F0ECE5", borderRadius: "5px", overflow: "hidden" }}>
-            <div style={{ height: "100%", width: `${Math.round(b.n / 99000 * 100)}%`, background: b.color, borderRadius: "5px" }} />
-          </div>
+    <div style={{ borderRadius: "16px", background: WHITE, marginBottom: "10px", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
+      <button
+        onClick={() => setOpen(o => !o)}
+        style={{ width: "100%", background: "none", border: "none", cursor: "pointer", padding: "16px 18px", display: "flex", justifyContent: "space-between", alignItems: "center", gap: "12px" }}
+      >
+        <div style={{ textAlign: "left" }}>
+          <div style={{ fontSize: "15px", fontWeight: 700, color: TEXT, lineHeight: 1.2 }}>{title}</div>
+          <div style={{ fontSize: "11px", color: MUTED, marginTop: "2px" }}>{sub}</div>
         </div>
-      ))}
-      <div style={{ fontSize: "9px", color: MUTED, fontStyle: "italic", marginTop: "2px" }}>Absolutte tal · ingen procenter</div>
-    </div>
-  );
-}
-
-function RoleCluster() {
-  return (
-    <svg width="100%" viewBox="0 0 240 90" style={{ overflow: "visible" }}>
-      {/* Håndværk: 5 roller — størst boble */}
-      <circle cx="52" cy="45" r="40" fill="#6A906015" stroke="#6A9060" strokeWidth="1.5" />
-      <text x="52" y="40" textAnchor="middle" fontSize="18" fontWeight="700" fill="#6A9060" fontFamily="Georgia, serif">5</text>
-      <text x="52" y="56" textAnchor="middle" fontSize="9" fontWeight="700" fill="#6A9060" fontFamily="inherit">Håndværk</text>
-      {/* Bæredygtighed: 3 roller */}
-      <circle cx="138" cy="45" r="30" fill="#C4A03A15" stroke="#C4A03A" strokeWidth="1.5" />
-      <text x="138" y="40" textAnchor="middle" fontSize="18" fontWeight="700" fill="#C4A03A" fontFamily="Georgia, serif">3</text>
-      <text x="138" y="56" textAnchor="middle" fontSize="9" fontWeight="700" fill="#C4A03A" fontFamily="inherit">Bæredygtig.</text>
-      {/* Teknik: 3 roller */}
-      <circle cx="210" cy="45" r="30" fill="#2563EB15" stroke="#2563EB" strokeWidth="1.5" />
-      <text x="210" y="40" textAnchor="middle" fontSize="18" fontWeight="700" fill="#2563EB" fontFamily="Georgia, serif">3</text>
-      <text x="210" y="56" textAnchor="middle" fontSize="9" fontWeight="700" fill="#2563EB" fontFamily="inherit">Teknik</text>
-    </svg>
-  );
-}
-
-function CauseMap() {
-  return (
-    <svg width="100%" viewBox="0 0 240 72" style={{ overflow: "visible" }}>
-      <defs>
-        <marker id="arr" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
-          <path d="M0,0 L0,7 L7,3.5z" fill={MUTED} />
-        </marker>
-      </defs>
-      {/* Node 1 */}
-      <rect x="2" y="18" width="66" height="36" rx="10" fill="#FEF2F2" stroke="#DC2626" strokeWidth="1.2" />
-      <text x="35" y="33" textAnchor="middle" fontSize="9" fontWeight="700" fill="#DC2626">Demografi</text>
-      <text x="35" y="46" textAnchor="middle" fontSize="8" fill="#DC2626">−faglærte</text>
-      {/* Arrow */}
-      <line x1="70" y1="36" x2="84" y2="36" stroke={MUTED} strokeWidth="1.5" markerEnd="url(#arr)" />
-      {/* Node 2 */}
-      <rect x="86" y="18" width="68" height="36" rx="10" fill="#F0FDF4" stroke="#6A9060" strokeWidth="1.2" />
-      <text x="120" y="33" textAnchor="middle" fontSize="9" fontWeight="700" fill="#6A9060">Grøn omstilling</text>
-      <text x="120" y="46" textAnchor="middle" fontSize="8" fill="#6A9060">+kompetencer</text>
-      {/* Arrow */}
-      <line x1="156" y1="36" x2="170" y2="36" stroke={MUTED} strokeWidth="1.5" markerEnd="url(#arr)" />
-      {/* Node 3 */}
-      <rect x="172" y="18" width="66" height="36" rx="10" fill="#EFF6FF" stroke="#2563EB" strokeWidth="1.2" />
-      <text x="205" y="33" textAnchor="middle" fontSize="9" fontWeight="700" fill="#2563EB">Renovering</text>
-      <text x="205" y="46" textAnchor="middle" fontSize="8" fill="#2563EB">+arbejdstimer</text>
-    </svg>
-  );
-}
-
-function DecisionMatrix() {
-  const items = [
-    { icon: "🤖", label: "Præfabrikation", color: CURRY },
-    { icon: "🌍", label: "Rekruttér internationalt", color: "#6A9060" },
-    { icon: "💼", label: "Bedre arbejdsmiljø", color: "#2563EB" },
-    { icon: "🤝", label: "Sammensæt tidligt", color: "#7C3AED" },
-  ];
-  return (
-    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "6px" }}>
-      {items.map(i => (
-        <div key={i.label} style={{ background: i.color + "15", border: `1px solid ${i.color}35`, borderRadius: "10px", padding: "10px 8px", textAlign: "center" }}>
-          <div style={{ fontSize: "18px" }}>{i.icon}</div>
-          <div style={{ fontSize: "10px", fontWeight: 700, color: i.color, marginTop: "4px", lineHeight: 1.3 }}>{i.label}</div>
+        <div style={{ flexShrink: 0, width: "28px", height: "28px", borderRadius: "50%", background: open ? CURRY : "#F0F0F0", display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.2s" }}>
+          <span style={{ fontSize: "14px", color: open ? NAVY : MUTED, display: "inline-block", transform: open ? "rotate(90deg)" : "rotate(0deg)", transition: "transform 0.25s", fontWeight: 700 }}>›</span>
         </div>
-      ))}
-    </div>
-  );
-}
-
-// ─── Insight detail views ─────────────────────────────────────────────────────
-
-function MangelDetail() {
-  const bars = [
-    { label: "Faglærte", n: 99000, tag: "Størst mangel", tagColor: "#DC2626", color: CURRY },
-    { label: "KVU",      n: 24000, tag: "Kortere videregående", tagColor: "#D97706", color: "#6A9060" },
-    { label: "MVU",      n: 13000, tag: "Mellemlang uddannelse", tagColor: "#2563EB", color: "#2563EB" },
-  ];
-  return (
-    <div style={{ display: "grid", gap: "12px" }}>
-      <div style={{ background: NAVY, borderRadius: "14px", padding: "18px" }}>
-        <div style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: CURRY }}>AE-rådet · 2024</div>
-        <div style={{ fontFamily: "Georgia, serif", fontSize: "18px", fontWeight: 700, color: WHITE, marginTop: "4px" }}>Mangel pr. uddannelsesniveau</div>
-        <div style={{ fontFamily: "Georgia, serif", fontSize: "40px", fontWeight: 700, color: CURRY, marginTop: "6px", lineHeight: 1 }}>99k</div>
-        <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", marginTop: "2px" }}>faglærte mangler i 2030</div>
-      </div>
-      <div style={{ background: WHITE, borderRadius: "14px", padding: "16px 18px", border: `1px solid ${BORDER}` }}>
-        <div style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: MUTED, marginBottom: "16px" }}>Forventet mangel · absolutte tal</div>
-        {bars.map(b => (
-          <div key={b.label} style={{ marginBottom: "16px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
-              <div>
-                <span style={{ fontSize: "14px", fontWeight: 700, color: TEXT }}>{b.label}</span>
-                <span style={{ fontSize: "10px", color: b.tagColor, fontWeight: 700, background: b.tagColor + "15", borderRadius: "999px", padding: "2px 8px", marginLeft: "8px" }}>{b.tag}</span>
-              </div>
-              <span style={{ fontSize: "16px", fontWeight: 700, color: b.color, fontFamily: "Georgia, serif" }}>{(b.n / 1000).toFixed(0)}.000</span>
-            </div>
-            <div style={{ height: "12px", background: "#F0ECE5", borderRadius: "6px", overflow: "hidden" }}>
-              <div style={{ height: "100%", width: `${Math.round(b.n / 99000 * 100)}%`, background: b.color, borderRadius: "6px" }} />
-            </div>
-          </div>
-        ))}
-        <div style={{ fontSize: "10px", color: MUTED, fontStyle: "italic" }}>Søjler viser absolutte tal — ingen procenter</div>
-      </div>
-      <button style={{ padding: "14px", borderRadius: "12px", border: "none", background: CURRY, color: NAVY, fontSize: "14px", fontWeight: 700, cursor: "pointer" }}>
-        Se jobmatch →
       </button>
+      {open && (
+        <div style={{ padding: "0 18px 18px" }}>
+          {children}
+        </div>
+      )}
     </div>
   );
 }
 
-function RollerDetail() {
-  return (
-    <div style={{ display: "grid", gap: "12px" }}>
-      <div style={{ background: NAVY, borderRadius: "14px", padding: "18px" }}>
-        <div style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: CURRY }}>11 kritiske roller</div>
-        <div style={{ fontFamily: "Georgia, serif", fontSize: "18px", fontWeight: 700, color: WHITE, marginTop: "4px" }}>Rolleområder · bygge & anlæg</div>
-        <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", marginTop: "6px" }}>Håndværk · Bæredygtighed · Teknik & ledelse</div>
-      </div>
-      {SD.kategorier.map(g => (
-        <div key={g.navn} style={{ background: WHITE, borderRadius: "14px", padding: "16px 18px", border: `1px solid ${BORDER}` }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
-            <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: g.color }} />
-            <span style={{ fontSize: "10px", fontWeight: 700, color: g.color, textTransform: "uppercase", letterSpacing: "0.1em" }}>{g.navn} · {g.roller.length} roller</span>
-          </div>
-          <div style={{ display: "grid", gap: "6px" }}>
-            {g.roller.map(r => (
-              <div key={r.navn} style={{ background: g.color + "10", border: `1px solid ${g.color}30`, borderRadius: "10px", padding: "10px 12px" }}>
-                <div style={{ fontSize: "13px", fontWeight: 700, color: TEXT }}>{r.navn}</div>
-                <div style={{ fontSize: "11px", color: MUTED, marginTop: "3px" }}>{r.note}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
-      <button style={{ padding: "14px", borderRadius: "12px", border: "none", background: CURRY, color: NAVY, fontSize: "14px", fontWeight: 700, cursor: "pointer" }}>
-        Find team →
-      </button>
-    </div>
-  );
-}
+// ─── WorkforceShortage ────────────────────────────────────────────────────────
 
-function DrivereDetail() {
-  return (
-    <div style={{ display: "grid", gap: "12px" }}>
-      <div style={{ background: NAVY, borderRadius: "14px", padding: "18px" }}>
-        <div style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: CURRY }}>3 strukturelle årsager</div>
-        <div style={{ fontFamily: "Georgia, serif", fontSize: "18px", fontWeight: 700, color: WHITE, marginTop: "4px" }}>Hvorfor opstår manglen?</div>
-        <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", marginTop: "6px" }}>Demografi · Grøn omstilling · Renovering</div>
-      </div>
-      {SD.drivere.map((d, i) => (
-        <div key={d.label} style={{ background: WHITE, borderRadius: "14px", padding: "16px 18px", border: `1px solid ${BORDER}` }}>
-          <div style={{ display: "flex", gap: "14px", alignItems: "flex-start" }}>
-            <div style={{ fontSize: "28px", flexShrink: 0 }}>{d.icon}</div>
-            <div>
-              <div style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: MUTED, marginBottom: "4px" }}>Årsag {i + 1}</div>
-              <div style={{ fontSize: "15px", fontWeight: 700, color: TEXT }}>{d.label}</div>
-              <div style={{ fontSize: "12px", color: MUTED, marginTop: "6px", lineHeight: 1.5 }}>{d.sub}</div>
-            </div>
-          </div>
-        </div>
-      ))}
-      <button style={{ padding: "14px", borderRadius: "12px", border: "none", background: CURRY, color: NAVY, fontSize: "14px", fontWeight: 700, cursor: "pointer" }}>
-        Start projektsamtale →
-      </button>
-    </div>
-  );
-}
+const WS_STATS = [
+  { n: "99.000", label: "Faglærte mangler", delta: "+12% siden 2022", color: "#C4A03A" },
+  { n: "24.000", label: "KVU mangler",      delta: "Ingeniør & tekniker", color: "#6A9060" },
+  { n: "13.000", label: "MVU mangler",      delta: "Arkitekt & bygningsk.", color: "#6E7580" },
+];
 
-function SvarDetail() {
-  const handlinger = [
-    { icon: "📋", label: "Planlæg", sub: "Kortlæg kritiske roller 2–3 år frem" },
-    { icon: "🎓", label: "Udvikl", sub: "Opkvalificér internt — BIM & energi" },
-    { icon: "🌍", label: "Rekruttér internationalt", sub: "Udvid søgefeltet på tværs af grænser" },
-    { icon: "🤝", label: "Sammensæt tidligt", sub: "Byg projektteams i prækvalificeringen" },
-  ];
-  return (
-    <div style={{ display: "grid", gap: "12px" }}>
-      <div style={{ background: NAVY, borderRadius: "14px", padding: "18px" }}>
-        <div style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: CURRY }}>Virksomhedernes svar</div>
-        <div style={{ fontFamily: "Georgia, serif", fontSize: "18px", fontWeight: 700, color: WHITE, marginTop: "4px" }}>Sådan imødegår I manglen</div>
-        <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", marginTop: "6px" }}>Præfabrikation · Rekruttering · Arbejdsmiljø</div>
-      </div>
-      {SD.svar.map(s => (
-        <div key={s.label} style={{ background: WHITE, borderRadius: "14px", padding: "16px 18px", border: `1px solid ${BORDER}`, display: "flex", gap: "14px", alignItems: "flex-start" }}>
-          <div style={{ fontSize: "26px", flexShrink: 0 }}>{s.icon}</div>
-          <div>
-            <div style={{ fontSize: "14px", fontWeight: 700, color: TEXT }}>{s.label}</div>
-            <div style={{ fontSize: "12px", color: MUTED, marginTop: "5px", lineHeight: 1.5 }}>{s.sub}</div>
-          </div>
-        </div>
-      ))}
-      <div style={{ background: CURRY_BG, borderRadius: "14px", padding: "16px 18px", border: `1px solid ${CURRY_BORDER}` }}>
-        <div style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: CURRY, marginBottom: "12px" }}>Hvad bør I gøre nu?</div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px" }}>
-          {handlinger.map(h => (
-            <div key={h.label} style={{ background: WHITE, borderRadius: "10px", padding: "12px 10px", border: `1px solid ${CURRY_BORDER}` }}>
-              <div style={{ fontSize: "20px", marginBottom: "5px" }}>{h.icon}</div>
-              <div style={{ fontSize: "11px", fontWeight: 700, color: TEXT, lineHeight: 1.3 }}>{h.label}</div>
-              <div style={{ fontSize: "10px", color: MUTED, marginTop: "3px", lineHeight: 1.4 }}>{h.sub}</div>
-            </div>
-          ))}
-        </div>
-      </div>
-      <button style={{ padding: "14px", borderRadius: "12px", border: "none", background: CURRY, color: NAVY, fontSize: "14px", fontWeight: 700, cursor: "pointer" }}>
-        Start projektsamtale →
-      </button>
-    </div>
-  );
-}
+const WS_ROLLER = [
+  { navn: "Elektriker",          note: "Solceller & ladestandere"   },
+  { navn: "VVS-installatør",     note: "Grønne varmekilder"          },
+  { navn: "Energirådgiver",      note: "EPBD & energimærkning"       },
+  { navn: "BIM-specialist",      note: "Digitalisering af byggeri"   },
+  { navn: "Tømrer",              note: "Renovering & nybyggeri"      },
+  { navn: "Anlægsstruktør",      note: "Infrastruktur & veje"        },
+  { navn: "Byggeleder",          note: "Projektstyring på pladsen"   },
+  { navn: "Projektleder",        note: "Totalentreprise"             },
+  { navn: "Maskinsnedker",       note: "Præfabrikation"              },
+  { navn: "Materialespecialist", note: "Bæredygtige materialer"      },
+  { navn: "Renoveringsfaglært",  note: "Efterisolering & facade"     },
+];
 
-// ─── WorkforceShortage: Nordea-style visuelt kort med billeder ────────────────
+const WS_DRIVERE = [
+  {
+    nr: "01", label: "Demografi",
+    body: "Store årgange pensioneres i perioden 2024–2032. For hver 3 der forlader branchen, træder kun 2 nye til — et strukturelt underskud der ikke løses af konjunkturerne.",
+    tag: "Strukturelt",
+    tagColor: "#6E7580",
+  },
+  {
+    nr: "02", label: "Grøn omstilling",
+    body: "Solceller, varmepumper, brintinfrastruktur og energirenovering kræver kompetencer der ikke findes i tilstrækkelig mængde i Danmark i dag.",
+    tag: "Vækst",
+    tagColor: "#6A9060",
+  },
+  {
+    nr: "03", label: "Renoveringsbølgen",
+    body: "Renoveringsopgaver kræver 30–50% flere arbejdstimer pr. m² end nybyggeri. Efterspørgslen stiger mens udbuddet af kvalificerede faglærte falder.",
+    tag: "Efterspørgsel",
+    tagColor: "#C4A03A",
+  },
+];
 
-const NB = "#00005E";
+const WS_SVAR = [
+  {
+    label: "Præfabrikation & teknologi",
+    body: "Modulbyggeri og digitale arbejdsprocesser reducerer afhængigheden af manuelle hænder på byggepladsen.",
+    indikator: "Reducerer behovet",
+    ind: "#6A9060",
+  },
+  {
+    label: "International rekruttering",
+    body: "Virksomheder henter i stigende grad faglært arbejdskraft fra Polen, Rumænien og Baltikum — men kræver onboarding og sproglig integration.",
+    indikator: "Supplerer udbuddet",
+    ind: "#2563EB",
+  },
+  {
+    label: "Fastholdelse & trivsel",
+    body: "Branchen konkurrerer nu på arbejdsmiljø og fleksibilitet. Virksomheder der investerer i kultur og trivsel holder bedre på deres folk.",
+    indikator: "Langsigtet løsning",
+    ind: "#C4A03A",
+  },
+];
+
+const WS_FACTS = [
+  { img: "/images/håndpåbyggepladsen.png",  pos: "center 30%", eyebrow: "AE-rådet 2024",   number: "136.000", label: "manglende fagpersoner i bygge & anlæg frem mod 2030" },
+  { img: "/images/DIn faglg profil.png",    pos: "center 20%", eyebrow: "Faglærte",        number: "99.000",  label: "elektrikere, tømrere og VVS-installatører mangler allerede nu" },
+  { img: "/images/håndpåbyggepladsen.png",  pos: "center 60%", eyebrow: "Videregående",    number: "37.000",  label: "ingeniører og teknikere mangler i branchen" },
+  { img: "/images/DIn faglg profil.png",    pos: "center 40%", eyebrow: "Grøn omstilling", number: "11",      label: "kritiske faggrupper: solceller, varmepumper og BIM" },
+];
 
 function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => void }) {
-  const [open, setOpen] = useState<Record<string, boolean>>({});
-  const [visAlle, setVisAlle] = useState(false);
+  const [fact, setFact] = useState(0);
+  const [visible, setVisible] = useState(true);
+  const [showDetails, setShowDetails] = useState(false);
 
-  const toggle = (key: string) => setOpen(o => ({ ...o, [key]: !o[key] }));
+  useEffect(() => {
+    const t = setInterval(() => {
+      setVisible(false);
+      setTimeout(() => {
+        setFact(f => (f + 1) % WS_FACTS.length);
+        setVisible(true);
+      }, 400);
+    }, 4500);
+    return () => clearInterval(t);
+  }, []);
 
-  const topRoller = [
-    { navn: "Elektriker",     note: "Solceller & ladestandere", color: "#6A9060" },
-    { navn: "VVS",            note: "Grønne varmekilder",       color: "#6A9060" },
-    { navn: "Energirådgiver", note: "EPBD & energimærkning",    color: "#C4A03A" },
-    { navn: "BIM-specialist", note: "Digitalisering",           color: "#2563EB" },
-  ];
-  const alleRoller = [
-    { navn: "Tømrer",              color: "#6A9060" },
-    { navn: "Maskinsnedker",       color: "#6A9060" },
-    { navn: "Anlægsstruktør",      color: "#6A9060" },
-    { navn: "Materialespecialist", color: "#C4A03A" },
-    { navn: "Renoveringsfaglært",  color: "#C4A03A" },
-    { navn: "Byggeleder",          color: "#2563EB" },
-    { navn: "Projektleder",        color: "#2563EB" },
-  ];
-
-  const Section = ({ id, label, children }: { id: string; label: string; children: React.ReactNode }) => (
-    <div style={{ borderTop: "1px solid #EBEBEB" }}>
-      <button onClick={() => toggle(id)} style={{ width: "100%", background: "none", border: "none", cursor: "pointer", padding: "15px 0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <span style={{ fontSize: "14px", fontWeight: 600, color: "#1A1A1A" }}>{label}</span>
-        <span style={{ fontSize: "18px", color: MUTED, transform: open[id] ? "rotate(90deg)" : "none", transition: "transform 0.2s", display: "inline-block" }}>›</span>
-      </button>
-      {open[id] && <div style={{ paddingBottom: "16px" }}>{children}</div>}
-    </div>
-  );
+  const current = WS_FACTS[fact];
 
   return (
-    <div style={{ background: "#F2F2F2", margin: "-20px", minHeight: "100vh" }}>
+    <div style={{ display: "grid", gap: "12px" }}>
 
-      {/* Hero med billede og overlay */}
-      <div style={{ position: "relative", height: "220px", overflow: "hidden" }}>
-        <img src="/images/håndpåbyggepladsen.png" alt="" style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center" }} />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,94,0.55) 0%, rgba(0,0,94,0.85) 100%)" }} />
-        <div style={{ position: "absolute", top: "16px", left: "16px" }}>
-          <button onClick={onExitToVirksomhed} style={{ background: "rgba(255,255,255,0.15)", border: "none", borderRadius: "20px", padding: "6px 12px", fontSize: "12px", fontWeight: 700, color: WHITE, cursor: "pointer" }}>← Virksomhed</button>
-        </div>
-        <div style={{ position: "absolute", bottom: "20px", left: "18px", right: "18px" }}>
-          <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: "rgba(255,255,255,0.6)", marginBottom: "4px" }}>AE-rådet · 2024</div>
-          <div style={{ fontSize: "22px", fontWeight: 700, color: WHITE, lineHeight: 1.2 }}>Arbejdskraft i bygge & anlæg</div>
-        </div>
-      </div>
+      {/* ── Nav ── */}
+      <button onClick={onExitToVirksomhed}
+        style={{ background: "none", border: "none", cursor: "pointer", padding: 0, color: CURRY, fontSize: "13px", fontWeight: 700, display: "flex", alignItems: "center", gap: "4px", justifyContent: "flex-start" }}>
+        ← Virksomhed
+      </button>
 
-      {/* Nøgletal strip */}
-      <div style={{ background: NB, padding: "14px 18px", display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}>
-        {[{ n: "99k", label: "Faglærte", highlight: true }, { n: "24k", label: "KVU" }, { n: "13k", label: "MVU" }].map(s => (
-          <div key={s.label} style={{ textAlign: "center" }}>
-            <div style={{ fontSize: s.highlight ? "22px" : "18px", fontWeight: 700, color: s.highlight ? "#FFD700" : "rgba(255,255,255,0.75)", lineHeight: 1 }}>{s.n}</div>
-            <div style={{ fontSize: "9px", color: "rgba(255,255,255,0.45)", marginTop: "2px", textTransform: "uppercase", letterSpacing: "0.08em" }}>{s.label} mangler</div>
-          </div>
-        ))}
-      </div>
+      {/* ── BYGGETALENT NEWS ── */}
+      <div style={{ borderRadius: "18px", overflow: "hidden", boxShadow: "0 4px 20px rgba(10,22,40,0.14)" }}>
 
-      {/* Billed-grid: 2×2 temaer */}
-      <div style={{ padding: "14px 14px 0", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-        {[
-          { img: "/images/DIn faglg profil.png",    label: "Faglærte",   sub: "99.000 mangler",        color: "#6A9060" },
-          { img: "/images/Frontbillede.png",         label: "Roller",     sub: "11 fagområder",         color: "#C4A03A" },
-          { img: "/images/mobil-haanden.png",        label: "Drivkræfter",sub: "3 strukturelle årsager",color: "#2563EB" },
-          { img: "/images/Karina Maria - Founder.png", label: "Strategi", sub: "Virksomhedernes svar",  color: NB },
-        ].map(c => (
-          <div key={c.label} style={{ borderRadius: "10px", overflow: "hidden", position: "relative", height: "110px" }}>
-            <img src={c.img} alt={c.label} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-            <div style={{ position: "absolute", inset: 0, background: `linear-gradient(to top, ${c.color}DD 0%, transparent 55%)` }} />
-            <div style={{ position: "absolute", bottom: "8px", left: "10px" }}>
-              <div style={{ fontSize: "12px", fontWeight: 700, color: WHITE }}>{c.label}</div>
-              <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.75)" }}>{c.sub}</div>
+        {/* FULD VIDEOBAGGRUND — TV2-stil */}
+        <div style={{ position: "relative", height: "420px", overflow: "hidden" }}>
+
+          {/* Baggrundsvideo */}
+          <video
+            autoPlay muted loop playsInline
+            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+          >
+            <source src="/byggetalent-news.mov" type="video/quicktime" />
+            <source src="/byggetalent-news.mov" type="video/mp4" />
+          </video>
+
+          {/* Gradient overlay — transparent øverst, navy i bunden */}
+          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 35%, rgba(10,22,40,0.75) 65%, rgba(10,22,40,0.97) 100%)" }} />
+
+          {/* TOP: Logo + LIVE */}
+          <div style={{ position: "absolute", top: 0, left: 0, right: 0, display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 16px", zIndex: 2 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "rgba(10,22,40,0.80)", backdropFilter: "blur(6px)", padding: "6px 12px", borderRadius: "8px" }}>
+              <div style={{ fontFamily: "Georgia, serif", fontSize: "14px", fontWeight: 700 }}>
+                <span style={{ color: WHITE }}>Bygge</span><span style={{ color: CURRY }}>Talent</span>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: "4px", background: "#C0392B", borderRadius: "4px", padding: "2px 7px" }}>
+                <span style={{ fontSize: "9px", fontWeight: 800, color: WHITE, letterSpacing: "0.18em" }}>NEWS</span>
+              </div>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", gap: "5px", background: "#C0392B", borderRadius: "5px", padding: "5px 11px" }}>
+              <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: WHITE, animation: "wspulse 1s ease infinite" }} />
+              <span style={{ fontSize: "10px", fontWeight: 800, color: WHITE, letterSpacing: "0.14em" }}>LIVE</span>
             </div>
           </div>
-        ))}
+
+          {/* BUND: TV lower-third — 3 smalle striber */}
+          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 2 }}>
+
+            {/* Stripe 1: Rød — BREAKING NEWS + kategori */}
+            <div style={{ background: "#C0392B", padding: "5px 12px", display: "flex", alignItems: "center", gap: "8px" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+                <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: WHITE, animation: "wspulse 1s ease infinite" }} />
+                <span style={{ fontSize: "9px", fontWeight: 900, color: WHITE, letterSpacing: "0.18em" }}>BREAKING NEWS</span>
+              </div>
+              <div style={{ width: "1px", height: "12px", background: "rgba(255,255,255,0.3)" }} />
+              <span style={{ fontSize: "9px", fontWeight: 700, color: "rgba(255,255,255,0.85)", letterSpacing: "0.10em", opacity: visible ? 1 : 0, transition: "opacity 0.3s" }}>
+                {current.eyebrow.toUpperCase()}
+              </span>
+            </div>
+
+            {/* Stripe 2: Hvid — tal + kort label */}
+            <div style={{ background: WHITE, padding: "6px 12px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <div style={{ display: "flex", alignItems: "baseline", gap: "8px", opacity: visible ? 1 : 0, transition: "opacity 0.3s" }}>
+                <span style={{ fontSize: "20px", fontWeight: 900, color: "#111", letterSpacing: "-0.01em", fontFamily: "Georgia, serif" }}>
+                  {current.number}
+                </span>
+                <span style={{ fontSize: "10px", fontWeight: 700, color: "#444", letterSpacing: "0.04em", textTransform: "uppercase" }}>
+                  {current.eyebrow}
+                </span>
+              </div>
+              <div style={{ display: "flex", gap: "3px" }}>
+                {WS_FACTS.map((_, i) => (
+                  <button key={i} onClick={() => { setVisible(false); setTimeout(() => { setFact(i); setVisible(true); }, 280); }}
+                    style={{ width: i === fact ? "14px" : "4px", height: "4px", borderRadius: "2px", background: i === fact ? "#C0392B" : "#CCCCCC", border: "none", cursor: "pointer", padding: 0, transition: "width 0.3s ease" }} />
+                ))}
+              </div>
+            </div>
+
+            {/* Stripe 3: Sort — beskrivende tekst hvid */}
+            <div style={{ background: "#111111", padding: "5px 12px" }}>
+              <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.90)", lineHeight: 1.3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                {visible && current.label.split(" ").map((word, i) => (
+                  <span key={`${fact}-${i}`} style={{ display: "inline-block", marginRight: "3px", animation: "wsword 0.15s ease forwards", animationDelay: `${i * 0.05}s`, opacity: 0 }}>
+                    {word}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Stripe 4: Gold ticker */}
+            <div style={{ background: CURRY, overflow: "hidden", padding: "5px 0" }}>
+              <div style={{ display: "flex", gap: "32px", animation: "wsticker 12s linear infinite", whiteSpace: "nowrap" }}>
+                {[...Array(5)].flatMap(() => [
+                  "99.000 faglærte mangler", "·", "24.000 KVU mangler", "·", "13.000 MVU mangler", "·",
+                  "11 kritiske faggrupper", "·", "Elektriker · VVS · BIM · Tømrer · Energirådgiver", "·",
+                ]).map((t, i) => (
+                  <span key={i} style={{ fontSize: "10px", fontWeight: t === "·" ? 400 : 700, color: t === "·" ? "rgba(10,22,40,0.30)" : NAVY, letterSpacing: "0.05em" }}>{t}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Accordion */}
-      <div style={{ background: WHITE, borderRadius: "14px", margin: "14px", padding: "0 16px", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}>
 
-        <Section id="roller" label="11 kritiske fagområder">
-          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "10px" }}>
-            {topRoller.map(r => (
-              <div key={r.navn} style={{ background: r.color + "15", border: `1px solid ${r.color}40`, borderRadius: "20px", padding: "5px 11px" }}>
-                <div style={{ fontSize: "12px", fontWeight: 700, color: r.color }}>{r.navn}</div>
-                <div style={{ fontSize: "10px", color: MUTED }}>{r.note}</div>
-              </div>
-            ))}
+      <style>{`
+        @keyframes wsfade    { from{opacity:0;transform:scale(1.04)} to{opacity:1;transform:scale(1)} }
+        @keyframes wsticker  { from{transform:translateX(0)} to{transform:translateX(-20%)} }
+        @keyframes wspulse   { 0%,100%{opacity:1} 50%{opacity:0.15} }
+        @keyframes wsbar     { from{transform:scaleY(0.3);opacity:0.4} to{transform:scaleY(1);opacity:1} }
+        @keyframes wsword    { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+      `}</style>
+
+      {/* ── FOLD UD KNAP ── */}
+      <button
+        onClick={() => setShowDetails(o => !o)}
+        style={{ background: WHITE, border: "none", borderRadius: "14px", padding: "0", display: "flex", flexDirection: "column", cursor: "pointer", width: "100%", overflow: "hidden", boxShadow: "0 2px 8px rgba(10,22,40,0.10)" }}
+      >
+        <div style={{ background: "#C0392B", height: "3px", width: "100%" }} />
+        <div style={{ padding: "14px 18px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ textAlign: "left" }}>
+            <div style={{ fontSize: "9px", fontWeight: 800, letterSpacing: "0.18em", color: "#C0392B", marginBottom: "4px" }}>BYGGETALENT NEWS</div>
+            <div style={{ fontSize: "15px", fontWeight: 700, color: NAVY }}>Arbejdskraftmanglen i tal</div>
+            <div style={{ fontSize: "11px", color: MUTED, marginTop: "2px" }}>Fagområder · Drivkræfter · Virksomhedernes svar</div>
           </div>
-          {!visAlle ? (
-            <button onClick={() => setVisAlle(true)} style={{ background: "none", border: `1px solid #CCCCCC`, borderRadius: "20px", padding: "5px 14px", fontSize: "11px", fontWeight: 600, color: "#555", cursor: "pointer" }}>
-              + Vis alle 11 →
-            </button>
-          ) : (
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-              {alleRoller.map(r => (
-                <div key={r.navn} style={{ background: r.color + "12", border: `1px solid ${r.color}30`, borderRadius: "20px", padding: "4px 10px", fontSize: "11px", fontWeight: 600, color: r.color }}>{r.navn}</div>
+          <div style={{ flexShrink: 0, width: "34px", height: "34px", borderRadius: "50%", background: showDetails ? CURRY : "#F0F0F0", display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.2s" }}>
+            <span style={{ fontSize: "18px", color: showDetails ? NAVY : MUTED, display: "inline-block", transform: showDetails ? "rotate(90deg)" : "rotate(0deg)", transition: "transform 0.25s", fontWeight: 700 }}>›</span>
+          </div>
+        </div>
+      </button>
+
+      {/* ── ACCORDION SEKTIONER ── */}
+      {showDetails && [{
+          id: "roller",
+          title: "11 kritiske fagområder",
+          sub: "Mangel frem mod 2030",
+          content: (
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", padding: "4px 0 4px" }}>
+              {WS_ROLLER.map((r, i) => (
+                <div key={r.navn} style={{ background: WHITE, borderRadius: "12px", padding: "13px 14px", borderLeft: `3px solid ${i < 4 ? CURRY : i < 8 ? "#6A9060" : "#6E7580"}` }}>
+                  <div style={{ fontSize: "13px", fontWeight: 700, color: TEXT }}>{r.navn}</div>
+                  <div style={{ fontSize: "11px", color: MUTED, marginTop: "2px", lineHeight: 1.3 }}>{r.note}</div>
+                </div>
               ))}
             </div>
-          )}
-        </Section>
-
-        <Section id="drivere" label="3 strukturelle drivkræfter">
-          <div style={{ display: "grid", gap: "8px" }}>
-            {SD.drivere.map((d, i) => (
-              <div key={d.label} style={{ display: "flex", gap: "12px", alignItems: "center", padding: "10px 12px", background: "#F8F8F8", borderRadius: "8px" }}>
-                <div style={{ fontSize: "22px" }}>{d.icon}</div>
-                <div>
-                  <div style={{ fontSize: "13px", fontWeight: 700, color: "#1A1A1A" }}>{i + 1}. {d.label}</div>
-                  <div style={{ fontSize: "11px", color: MUTED, marginTop: "2px", lineHeight: 1.4 }}>{d.sub}</div>
+          ),
+        },
+        {
+          id: "drivere",
+          title: "Hvorfor opstår manglen?",
+          sub: "3 strukturelle drivkræfter",
+          content: (
+            <div style={{ display: "grid", gap: "8px", padding: "4px 0" }}>
+              {WS_DRIVERE.map(d => (
+                <div key={d.label} style={{ background: WHITE, borderRadius: "14px", overflow: "hidden", display: "flex" }}>
+                  <div style={{ width: "4px", flexShrink: 0, background: d.tagColor }} />
+                  <div style={{ padding: "14px 16px", flex: 1 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "6px" }}>
+                      <div style={{ fontSize: "14px", fontWeight: 700, color: TEXT }}>{d.label}</div>
+                      <div style={{ fontSize: "9px", fontWeight: 800, padding: "3px 8px", borderRadius: "6px", background: d.tagColor, color: WHITE, letterSpacing: "0.08em", textTransform: "uppercase" }}>{d.tag}</div>
+                    </div>
+                    <div style={{ fontSize: "13px", lineHeight: 1.6, color: MUTED }}>{d.body}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </Section>
-
-        <Section id="svar" label="Virksomhedernes svar">
-          <div style={{ display: "grid", gap: "8px" }}>
-            {SD.svar.map(s => (
-              <div key={s.label} style={{ display: "flex", gap: "12px", alignItems: "center", padding: "10px 12px", background: "#F8F8F8", borderRadius: "8px" }}>
-                <div style={{ fontSize: "22px" }}>{s.icon}</div>
-                <div>
-                  <div style={{ fontSize: "13px", fontWeight: 700, color: "#1A1A1A" }}>{s.label}</div>
-                  <div style={{ fontSize: "11px", color: MUTED, marginTop: "2px", lineHeight: 1.4 }}>{s.sub}</div>
+              ))}
+            </div>
+          ),
+        },
+        {
+          id: "svar",
+          title: "Virksomhedernes svar",
+          sub: "Sådan reagerer branchen",
+          content: (
+            <div style={{ display: "grid", gap: "8px", padding: "4px 0" }}>
+              {WS_SVAR.map(s => (
+                <div key={s.label} style={{ background: WHITE, borderRadius: "14px", padding: "16px" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "10px" }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: "14px", fontWeight: 700, color: TEXT, marginBottom: "5px" }}>{s.label}</div>
+                      <div style={{ fontSize: "13px", lineHeight: 1.6, color: MUTED }}>{s.body}</div>
+                    </div>
+                    <div style={{ flexShrink: 0, padding: "4px 10px", borderRadius: "8px", background: s.ind + "15", border: `1px solid ${s.ind}30`, color: s.ind, fontSize: "10px", fontWeight: 700, whiteSpace: "nowrap", marginTop: "2px" }}>
+                      {s.indikator}
+                    </div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </Section>
+              ))}
+            </div>
+          ),
+        },
+      ].map(sec => (
+        <WSAccordion key={sec.id} title={sec.title} sub={sec.sub}>{sec.content}</WSAccordion>
+      ))}
 
-        <div style={{ borderTop: "1px solid #EBEBEB", padding: "12px 0" }}>
-          <div style={{ fontSize: "10px", color: MUTED }}>Kilde: AE-rådet 2024 · ByggeTalent brancheanalyse</div>
-        </div>
+      {/* Kilde */}
+
+      <div style={{ padding: "4px 4px 8px", fontSize: "10px", color: MUTED }}>
+        Kilde: AE-rådet 2024 · ByggeTalent brancheanalyse
       </div>
     </div>
   );
