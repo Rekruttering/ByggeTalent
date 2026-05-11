@@ -240,7 +240,7 @@ export default function Home() {
               <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 50, background: PAGE_BG, borderTop: `1px solid ${BORDER}`, padding: "16px 20px", display: "flex", justifyContent: "center" }}>
                 <button
                   onClick={() => { setDetailPage(null); setIsPlaying(false); if (claraVideoRef.current) { claraVideoRef.current.pause(); claraVideoRef.current.currentTime = 0; } }}
-                  style={{ background: "none", border: "none", cursor: "pointer", fontSize: "15px", fontWeight: 700, color: CURRY, padding: 0, display: "flex", alignItems: "center", gap: "6px" }}
+                  style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: 600, color: MUTED, padding: 0, display: "flex", alignItems: "center", gap: "6px" }}
                 >
                   ← Tilbage
                 </button>
@@ -342,7 +342,7 @@ export default function Home() {
                 <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 50, background: PAGE_BG, borderTop: `1px solid ${BORDER}`, padding: "16px 20px", display: "flex", justifyContent: "center" }}>
                   <button
                     onClick={() => setDetailPage(null)}
-                    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "15px", fontWeight: 700, color: CURRY, padding: 0, display: "flex", alignItems: "center", gap: "6px" }}
+                    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: 600, color: MUTED, padding: 0, display: "flex", alignItems: "center", gap: "6px" }}
                   >
                     ← Tilbage
                   </button>
@@ -648,7 +648,7 @@ export default function Home() {
 
               {/* Top bar */}
               <div style={{ padding: "18px 20px 14px", borderBottom: `1px solid ${BORDER}`, background: WHITE, position: "sticky", top: 0, zIndex: 10, display: "flex", alignItems: "center", gap: "12px" }}>
-                <button onClick={() => setStep1SubPage(null)} style={{ background: "none", border: "none", cursor: "pointer", color: CURRY, fontSize: "15px", fontWeight: 700, padding: 0 }}>
+                <button onClick={() => setStep1SubPage(null)} style={{ background: "none", border: "none", cursor: "pointer", color: MUTED, fontSize: "13px", fontWeight: 600, padding: 0 }}>
                   ← Tilbage
                 </button>
                 <div style={{ fontFamily: "Georgia, serif", fontSize: "17px", fontWeight: 700, flex: 1, textAlign: "right" }}>
@@ -1187,7 +1187,7 @@ function JobListings() {
       {view === "detail" && selected && (
         <div style={{ background: WHITE, borderRadius: "14px", border: `1px solid ${BORDER}`, overflow: "hidden" }}>
           <div style={{ padding: "20px" }}>
-            <button onClick={() => setView("list")} style={{ background: "none", border: "none", cursor: "pointer", color: CURRY, fontSize: "14px", fontWeight: 700, padding: 0, marginBottom: "14px" }}>← Tilbage</button>
+            <button onClick={() => setView("list")} style={{ background: "none", border: "none", cursor: "pointer", color: MUTED, fontSize: "13px", fontWeight: 600, padding: 0, marginBottom: "14px" }}>← Tilbage</button>
             <div style={{ fontSize: "18px", fontWeight: 700, color: TEXT, marginBottom: "6px", fontFamily: "Georgia, serif" }}>{selected.title}</div>
             <div style={{ fontSize: "13px", color: MUTED, marginBottom: "16px" }}>{selected.location && `📍 ${selected.location} · `}{selected.type}</div>
             {selected.description && <div dangerouslySetInnerHTML={{ __html: selected.description }} style={{ fontSize: "14px", color: MUTED, lineHeight: 1.7, marginBottom: "20px" }} />}
@@ -1200,7 +1200,7 @@ function JobListings() {
 
       {view === "form" && selected && (
         <div style={{ background: WHITE, borderRadius: "14px", padding: "24px 20px", border: `1px solid ${BORDER}` }}>
-          <button onClick={() => setView("detail")} style={{ background: "none", border: "none", cursor: "pointer", color: CURRY, fontSize: "14px", fontWeight: 700, padding: 0, marginBottom: "20px" }}>← Tilbage</button>
+          <button onClick={() => setView("detail")} style={{ background: "none", border: "none", cursor: "pointer", color: MUTED, fontSize: "13px", fontWeight: 600, padding: 0, marginBottom: "20px" }}>← Tilbage</button>
 
           <div style={{ fontSize: "17px", fontWeight: 700, color: TEXT, marginBottom: "4px", fontFamily: "Georgia, serif" }}>Send ansøgning</div>
           <div style={{ fontSize: "13px", color: MUTED, marginBottom: "24px" }}>{selected.title}</div>
