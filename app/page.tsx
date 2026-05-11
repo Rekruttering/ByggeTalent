@@ -420,7 +420,7 @@ export default function Home() {
                       {/* 3 kort */}
                       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
                         {[
-                          { key: "data" as const,    label: "Arbejdskraftdata", sub: "Mangel frem mod 2030",           bg: "#6A9060" },
+                          { key: "data" as const,    label: "Arbejdskraftdata", sub: "Info & data",           bg: "#6A9060" },
                           { key: "jobmatch" as const, label: "Jobmatch",         sub: "Find de rigtige kandidater",    bg: "#6E7580" },
                           { key: "samtale" as const,  label: "Projektsamtale",   sub: "Book en uforpligtende samtale", bg: "#C4A03A" },
                         ].map((card) => (
