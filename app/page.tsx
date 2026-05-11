@@ -246,27 +246,22 @@ export default function Home() {
               )}
 
               {detailPage === "Nyuddannet" && (
-                <div style={{ background: WHITE, borderRadius: "20px", padding: "24px", border: `1px solid ${BORDER}`, boxShadow: "0 4px 20px rgba(10,22,40,0.07)", display: "grid", gap: "20px" }}>
-
-                  {/* Video */}
-                  <div style={{ borderRadius: "16px", overflow: "hidden", boxShadow: "0 4px 16px rgba(10,22,40,0.10)", position: "relative" }}>
-                    <video
-                      ref={claraVideoRef}
-                      src="/Avatar_IV_Video.mov"
-                      autoPlay
-                      muted={isMuted}
-                      loop
-                      playsInline
-                      style={{ width: "100%", objectFit: "cover", display: "block" }}
-                    />
-                    <button
-                      onClick={() => setIsMuted(m => !m)}
-                      style={{ position: "absolute", bottom: "12px", right: "12px", background: "rgba(0,0,0,0.5)", border: "none", borderRadius: "50%", width: "36px", height: "36px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: "16px" }}
-                    >
-                      {isMuted ? "🔇" : "🔊"}
-                    </button>
-                  </div>
-
+                <div style={{ position: "relative", borderRadius: "16px", overflow: "hidden", boxShadow: "0 4px 16px rgba(10,22,40,0.10)" }}>
+                  <video
+                    ref={claraVideoRef}
+                    src="/Avatar_IV_Video.mov"
+                    autoPlay
+                    muted={isMuted}
+                    loop
+                    playsInline
+                    style={{ width: "100%", display: "block" }}
+                  />
+                  <button
+                    onClick={() => setIsMuted(m => !m)}
+                    style={{ position: "absolute", bottom: "12px", right: "12px", background: "rgba(0,0,0,0.5)", border: "none", borderRadius: "50%", width: "36px", height: "36px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: "16px" }}
+                  >
+                    {isMuted ? "🔇" : "🔊"}
+                  </button>
                 </div>
               )}
 
