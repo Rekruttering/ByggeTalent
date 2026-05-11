@@ -237,16 +237,7 @@ export default function Home() {
           {detailPage === "Nyuddannet" ? (
             /* Nyuddannet — scrollbar side */
             <div style={{ position: "fixed", inset: 0, background: PAGE_BG, zIndex: 10, overflowY: "auto" }}>
-              {/* Tilbage — fast i bunden */}
-              <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 50, background: PAGE_BG, borderTop: `1px solid ${BORDER}`, padding: "16px 20px", display: "flex", justifyContent: "center" }}>
-                <button
-                  onClick={() => { setDetailPage(null); setIsPlaying(false); if (claraVideoRef.current) { claraVideoRef.current.pause(); claraVideoRef.current.currentTime = 0; } }}
-                  style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: 600, color: MUTED, padding: 0, display: "flex", alignItems: "center", gap: "6px" }}
-                >
-                  ← Tilbage
-                </button>
-              </div>
-              <div style={{ maxWidth: "480px", margin: "0 auto", padding: "16px 20px 90px" }}>
+              <div style={{ maxWidth: "480px", margin: "0 auto", padding: "16px 20px 40px" }}>
 
 
                 {/* Video */}
@@ -333,22 +324,22 @@ export default function Home() {
 
 
                 </div>
+
+                {/* Tilbage — nederst i indholdet */}
+                <div style={{ borderTop: `1px solid ${BORDER}`, marginTop: "24px", paddingTop: "20px", textAlign: "center" }}>
+                  <button
+                    onClick={() => { setDetailPage(null); setIsPlaying(false); if (claraVideoRef.current) { claraVideoRef.current.pause(); claraVideoRef.current.currentTime = 0; } }}
+                    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: 600, color: "#6B7A8A", padding: 0 }}
+                  >
+                    ← Tilbage
+                  </button>
+                </div>
+
               </div>
             </div>
           ) : detailPage ? (
             /* Detail view */
             <div style={{ padding: "8px 20px 40px" }}>
-              {/* Tilbage — fast i bunden (skjules ved sub-views der styrer sin egen navigation) */}
-              {virksomhedView !== "data" && !virksomhedView && (
-                <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 50, background: PAGE_BG, borderTop: `1px solid ${BORDER}`, padding: "16px 20px", display: "flex", justifyContent: "center" }}>
-                  <button
-                    onClick={() => setDetailPage(null)}
-                    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: 600, color: MUTED, padding: 0, display: "flex", alignItems: "center", gap: "6px" }}
-                  >
-                    ← Tilbage
-                  </button>
-                </div>
-              )}
 
               {detailPage === "Kandidat" && (
                 <div style={{ display: "grid", gap: "16px" }}>
@@ -478,6 +469,18 @@ export default function Home() {
                     </div>
                   )}
 
+                </div>
+              )}
+
+              {/* Tilbage — nederst i indholdet */}
+              {virksomhedView !== "data" && !virksomhedView && (
+                <div style={{ borderTop: `1px solid ${BORDER}`, marginTop: "8px", paddingTop: "20px", textAlign: "center" }}>
+                  <button
+                    onClick={() => setDetailPage(null)}
+                    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: 600, color: "#6B7A8A", padding: 0 }}
+                  >
+                    ← Tilbage
+                  </button>
                 </div>
               )}
             </div>
