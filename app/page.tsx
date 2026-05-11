@@ -637,7 +637,7 @@ export default function Home() {
                 >
                   Videre til ALT →
                 </button>
-                <button onClick={() => setStep(0)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "15px", color: CURRY, fontWeight: 700, padding: 0, textAlign: "center" }}>
+                <button onClick={() => setStep(0)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", color: MUTED, fontWeight: 600, padding: 0, textAlign: "center" }}>
                   ← Tilbage
                 </button>
               </div>
