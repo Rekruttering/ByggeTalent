@@ -236,17 +236,17 @@ export default function Home() {
           {detailPage === "Nyuddannet" ? (
             /* Nyuddannet — scrollbar side */
             <div style={{ position: "fixed", inset: 0, background: PAGE_BG, zIndex: 10, overflowY: "auto" }}>
-              <div style={{ maxWidth: "480px", margin: "0 auto", padding: "16px 20px 60px" }}>
+              {/* Tilbage — fast i bunden */}
+              <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 50, background: PAGE_BG, borderTop: `1px solid ${BORDER}`, padding: "16px 20px", display: "flex", justifyContent: "center" }}>
+                <button
+                  onClick={() => { setDetailPage(null); setIsPlaying(false); if (claraVideoRef.current) { claraVideoRef.current.pause(); claraVideoRef.current.currentTime = 0; } }}
+                  style={{ background: "none", border: "none", cursor: "pointer", fontSize: "15px", fontWeight: 700, color: CURRY, padding: 0, display: "flex", alignItems: "center", gap: "6px" }}
+                >
+                  ← Tilbage
+                </button>
+              </div>
+              <div style={{ maxWidth: "480px", margin: "0 auto", padding: "16px 20px 90px" }}>
 
-                {/* Tilbage — sticky i toppen */}
-                <div style={{ position: "sticky", top: 0, zIndex: 40, background: PAGE_BG, padding: "12px 0 8px", marginBottom: "8px" }}>
-                  <button
-                    onClick={() => { setDetailPage(null); setIsPlaying(false); if (claraVideoRef.current) { claraVideoRef.current.pause(); claraVideoRef.current.currentTime = 0; } }}
-                    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "15px", fontWeight: 700, color: CURRY, padding: 0, display: "flex", alignItems: "center", gap: "6px" }}
-                  >
-                    ← Tilbage
-                  </button>
-                </div>
 
                 {/* Video */}
                 <div style={{ position: "relative", borderRadius: "16px", overflow: "hidden", boxShadow: "0 4px 16px rgba(10,22,40,0.15)", marginBottom: "24px" }}>
@@ -337,9 +337,9 @@ export default function Home() {
           ) : detailPage ? (
             /* Detail view */
             <div style={{ padding: "8px 20px 40px" }}>
-              {/* Skjules når WorkforceShortage styrer sin egen back-navigation, eller når et sub-view er aktivt */}
+              {/* Tilbage — fast i bunden (skjules ved sub-views der styrer sin egen navigation) */}
               {virksomhedView !== "data" && !virksomhedView && (
-                <div style={{ position: "sticky", top: 0, zIndex: 40, background: PAGE_BG, padding: "12px 0 8px", marginBottom: "8px" }}>
+                <div style={{ position: "fixed", bottom: 0, left: 0, right: 0, zIndex: 50, background: PAGE_BG, borderTop: `1px solid ${BORDER}`, padding: "16px 20px", display: "flex", justifyContent: "center" }}>
                   <button
                     onClick={() => setDetailPage(null)}
                     style={{ background: "none", border: "none", cursor: "pointer", fontSize: "15px", fontWeight: 700, color: CURRY, padding: 0, display: "flex", alignItems: "center", gap: "6px" }}
