@@ -1276,8 +1276,8 @@ function JobListings() {
 }
 
 // ─── WSAccordion ──────────────────────────────────────────────────────────────
-function WSAccordion({ title, sub, children }: { title: string; sub: string; children: React.ReactNode }) {
-  const [open, setOpen] = useState(false);
+function WSAccordion({ title, sub, children, defaultOpen }: { title: string; sub: string; children: React.ReactNode; defaultOpen?: boolean }) {
+  const [open, setOpen] = useState(defaultOpen ?? false);
   return (
     <div style={{ borderRadius: "16px", background: WHITE, marginBottom: "10px", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
       <button
@@ -1578,8 +1578,8 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
             </div>
           ),
         },
-      ].map(sec => (
-        <WSAccordion key={sec.id} title={sec.title} sub={sec.sub}>{sec.content}</WSAccordion>
+      ].map((sec, i) => (
+        <WSAccordion key={sec.id} title={sec.title} sub={sec.sub} defaultOpen={i === 0}>{sec.content}</WSAccordion>
       ))}
 
       {/* Kilde */}
