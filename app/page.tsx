@@ -235,7 +235,7 @@ export default function Home() {
 
           {detailPage === "Nyuddannet" ? (
             /* Nyuddannet fullscreen */
-            <div style={{ position: "fixed", inset: 0, background: "#000", zIndex: 10 }}>
+            <div style={{ position: "fixed", inset: 0, background: "#000", zIndex: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
               {/* Tilbage */}
               <button
                 onClick={() => { setDetailPage(null); setIsPlaying(false); if (claraVideoRef.current) { claraVideoRef.current.pause(); claraVideoRef.current.currentTime = 0; } }}
@@ -243,25 +243,27 @@ export default function Home() {
               >
                 ← Tilbage
               </button>
-              {/* Video fylder hele skærmen */}
-              <video
-                ref={claraVideoRef}
-                src="/Avatar_IV_Video.mov"
-                playsInline
-                muted={isMuted}
-                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-              />
-              {/* Play-overlay — vises kun når pauset */}
-              {!isPlaying && (
-                <div
-                  onClick={() => { claraVideoRef.current?.play(); setIsPlaying(true); }}
-                  style={{ position: "absolute", inset: 0, zIndex: 20, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
-                >
-                  <div style={{ width: "80px", height: "80px", background: "rgba(255,255,255,0.2)", border: "3px solid rgba(255,255,255,0.8)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <span style={{ color: WHITE, fontSize: "32px", marginLeft: "6px" }}>▶</span>
+              {/* Video i centreret boks */}
+              <div style={{ position: "relative", width: "100%", maxWidth: "480px", borderRadius: "16px", overflow: "hidden" }}>
+                <video
+                  ref={claraVideoRef}
+                  src="/Avatar_IV_Video.mov"
+                  playsInline
+                  muted={isMuted}
+                  style={{ width: "100%", display: "block", objectFit: "cover" }}
+                />
+                {/* Play-overlay — vises kun når pauset */}
+                {!isPlaying && (
+                  <div
+                    onClick={() => { claraVideoRef.current?.play(); setIsPlaying(true); }}
+                    style={{ position: "absolute", inset: 0, zIndex: 20, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+                  >
+                    <div style={{ width: "80px", height: "80px", background: "rgba(255,255,255,0.2)", border: "3px solid rgba(255,255,255,0.8)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <span style={{ color: WHITE, fontSize: "32px", marginLeft: "6px" }}>▶</span>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           ) : detailPage ? (
             /* Detail view */
