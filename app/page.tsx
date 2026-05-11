@@ -220,7 +220,7 @@ export default function Home() {
   const navCards = [
     { key: "Kandidat", label: "Kandidat", sub: "Karrieresparring og ALT", bg: "#6E7580" },
     { key: "Virksomhed", label: "Virksomhed", sub: "Kandidatbase og projektsamtale", bg: "#6A9060" },
-    { key: "Om Byggetalent", label: "Om Byggetalent", sub: "Menneskerne bag", bg: "#C4A03A" },
+    { key: "Nyuddannet", label: "Nyuddannet", sub: "0–3 års erfaring", bg: "#C4A03A" },
   ];
 
   return (
@@ -243,80 +243,19 @@ export default function Home() {
                 </button>
               )}
 
-              {detailPage === "Om Byggetalent" && (
+              {detailPage === "Nyuddannet" && (
                 <div style={{ background: WHITE, borderRadius: "20px", padding: "24px", border: `1px solid ${BORDER}`, boxShadow: "0 4px 20px rgba(10,22,40,0.07)", display: "grid", gap: "20px" }}>
 
-                  {/* Profil */}
-                  <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
-                    <div style={{ width: "72px", height: "72px", borderRadius: "50%", backgroundImage: "url('/images/Karina Maria - Founder.png')", backgroundSize: "cover", backgroundPosition: "center", border: `2px solid ${CURRY_BORDER}`, flexShrink: 0 }} />
-                    <div>
-                      <div style={labelSt}>Bag ByggeTalent</div>
-                      <div style={{ fontSize: "20px", fontWeight: 700, color: TEXT, fontFamily: "Georgia, serif" }}>Karina Maria Nyberg</div>
-                      <div style={{ fontSize: "12px", color: MUTED, marginTop: "2px" }}>Grundlægger · HR-leder · Ledelseskonsulent</div>
-                    </div>
-                  </div>
-
-                  {/* Intro */}
-                  <div style={{ fontSize: "15px", lineHeight: 1.75, color: TEXT }}>
-                    ByggeTalent er skabt af én, der kender branchen indefra. Som tidligere HR-leder i bygge- og anlægssektoren har jeg siddet med rekruttering og onboarding — og set på tæt hold, hvordan de to hænger uløseligt sammen med god ledelse.
-                  </div>
-
-                  <div style={{ fontSize: "15px", lineHeight: 1.75, color: TEXT }}>
-                    Som selvstændig ledelseskonsulent har jeg rådgivet virksomheder i netop det: at tiltrække de rigtige mennesker, tage godt imod dem og give dem de bedste forudsætninger for at lykkes. Ud af det arbejde er ALT-testen opstået — <strong>Adfærd, Ledelse og Trivsel</strong> — en test udviklet specifikt til bygge- og anlægsbranchen.
-                  </div>
-
-                  {/* Divider */}
-                  <div style={{ height: "1px", background: BORDER }} />
-
-                  {/* 3 ydelser */}
-                  <div>
-                    <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: CURRY, marginBottom: "12px" }}>Hvad vi tilbyder</div>
-                    <div style={{ display: "grid", gap: "10px" }}>
-                      {[
-                        { nr: "01", titel: "Rekruttering", tekst: "Med brancheforståelse og netværk finder vi de profiler, der passer — ikke bare på papiret, men i praksis." },
-                        { nr: "02", titel: "Projekt- og karrieresamtaler", tekst: "Sparring der giver retning — uanset om du er kandidat eller leder med et team i udvikling." },
-                        { nr: "03", titel: "Fokus på nyuddannede (0–3 år)", tekst: "ByggeTalent har en dedikeret Hotline med Clara — vores AI-rådgiver — der besvarer op til 10 spørgsmål og henviser til mig, når behovet er der." },
-                      ].map((y) => (
-                        <div key={y.nr} style={{ display: "flex", gap: "14px", padding: "14px", background: CURRY_BG, borderRadius: "12px", border: `1px solid ${CURRY_BORDER}` }}>
-                          <div style={{ fontSize: "11px", fontWeight: 800, color: CURRY, letterSpacing: "0.08em", flexShrink: 0, paddingTop: "2px" }}>{y.nr}</div>
-                          <div>
-                            <div style={{ fontSize: "14px", fontWeight: 700, color: TEXT, marginBottom: "3px" }}>{y.titel}</div>
-                            <div style={{ fontSize: "13px", color: MUTED, lineHeight: 1.6 }}>{y.tekst}</div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Divider */}
-                  <div style={{ height: "1px", background: BORDER }} />
-
-                  {/* AI */}
-                  <div>
-                    <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: CURRY, marginBottom: "10px" }}>Bygget med AI</div>
-                    <div style={{ fontSize: "14px", lineHeight: 1.75, color: MUTED }}>
-                      Hele ByggeTalent-platformen er udviklet med AI. Vi bruger flere AI-modeller i vores daglige arbejde — fra rekrutteringsprocessen til karriererådgivning. AI transformerer HR fra at være primært administrativt til at blive strategisk og datadrevet: bedre kandidatmatch, mere præcis screening og proaktiv indsigt i trivsel og fastholdelse.
-                    </div>
-                  </div>
-
-                  {/* Brancheudfordring */}
-                  <div style={{ padding: "16px", background: "#0A162808", borderRadius: "12px", border: `1px solid ${BORDER}` }}>
-                    <div style={{ fontSize: "13px", fontWeight: 700, color: TEXT, marginBottom: "6px" }}>Bygge- og anlæg: en branche under pres</div>
-                    <div style={{ fontSize: "13px", color: MUTED, lineHeight: 1.7 }}>
-                      Branchen er en af de sværeste at rekruttere i — og fremskrivningerne er klare: der kommer til at mangle mange faglærte og specialister de kommende år. Det er præcis dér, ByggeTalent gør en forskel.
-                    </div>
-                    <button
-                      onClick={() => { setDetailPage("Virksomhed"); }}
-                      style={{ marginTop: "12px", background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: 700, color: CURRY, padding: 0 }}>
-                      Læs mere om arbejdskraftudfordringen →
-                    </button>
-                  </div>
-
-                  {/* Tags */}
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-                    {["HR · Rekruttering", "Onboarding", "Ledelse", "ALT-testen", "AI-drevet", "Bygge & Anlæg"].map((tag) => (
-                      <div key={tag} style={{ padding: "5px 12px", borderRadius: "999px", background: CURRY_BG, color: CURRY, fontSize: "12px", fontWeight: 700 }}>{tag}</div>
-                    ))}
+                  {/* Video */}
+                  <div style={{ borderRadius: "16px", overflow: "hidden", boxShadow: "0 4px 16px rgba(10,22,40,0.10)" }}>
+                    <video
+                      src="/Avatar_IV_Video.mov"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      style={{ width: "100%", objectFit: "cover", display: "block" }}
+                    />
                   </div>
 
                 </div>
