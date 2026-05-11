@@ -420,9 +420,9 @@ export default function Home() {
                       {/* 3 kort */}
                       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
                         {[
-                          { key: "data" as const,    label: "Arbejdskraftdata", sub: "Info & data",           bg: "#6A9060" },
-                          { key: "jobmatch" as const, label: "Jobmatch",         sub: "Find de rigtige kandidater",    bg: "#6E7580" },
-                          { key: "samtale" as const,  label: "Projektsamtale",   sub: "Book en uforpligtende samtale", bg: "#C4A03A" },
+                          { key: "data" as const,    label: "Data & Info", sub: "", bg: "#6A9060" },
+                          { key: "jobmatch" as const, label: "Jobmatch",    sub: "", bg: "#6E7580" },
+                          { key: "samtale" as const,  label: "Projektsamtale", sub: "", bg: "#C4A03A" },
                         ].map((card) => (
                           <button key={card.key} type="button" onClick={() => setVirksomhedView(card.key)}
                             style={{ borderRadius: "14px", background: card.bg, border: "1px solid transparent",
