@@ -45,7 +45,8 @@ export default function Home() {
   const [altCurrentQ, setAltCurrentQ] = useState(0);
   const [altAnswers, setAltAnswers] = useState<{ cat: string; p: number }[]>([]);
   const [selectedUniverse, setSelectedUniverse] = useState("Kandidat");
-  const [isMuted, setIsMuted] = useState(true);
+  const [isMuted, setIsMuted] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const claraVideoRef = useRef<HTMLVideoElement>(null);
   const [detailPage, setDetailPage] = useState<string | null>(null);
   const [virksomhedView, setVirksomhedView] = useState<null | "data" | "jobmatch" | "samtale">(null);
@@ -236,7 +237,7 @@ export default function Home() {
             /* Nyuddannet fullscreen */
             <div style={{ position: "fixed", inset: 0, background: "#000", zIndex: 10, display: "flex", flexDirection: "column" }}>
               <button
-                onClick={() => setDetailPage(null)}
+                onClick={() => { setDetailPage(null); setIsPlaying(false); if (claraVideoRef.current) { claraVideoRef.current.pause(); claraVideoRef.current.currentTime = 0; } }}
                 style={{ position: "absolute", top: "16px", left: "16px", zIndex: 20, background: "rgba(0,0,0,0.5)", border: "none", borderRadius: "999px", padding: "8px 16px", color: WHITE, fontSize: "14px", fontWeight: 700, cursor: "pointer" }}
               >
                 ← Tilbage
@@ -244,18 +245,18 @@ export default function Home() {
               <video
                 ref={claraVideoRef}
                 src="/Avatar_IV_Video.mov"
-                autoPlay
-                muted={isMuted}
-                loop
                 playsInline
+                muted={isMuted}
                 style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
               />
-              <button
-                onClick={() => setIsMuted(m => !m)}
-                style={{ position: "absolute", bottom: "24px", right: "24px", background: "rgba(0,0,0,0.6)", border: "none", borderRadius: "50%", width: "44px", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: "20px" }}
-              >
-                {isMuted ? "🔇" : "🔊"}
-              </button>
+              {!isPlaying && (
+                <button
+                  onClick={() => { claraVideoRef.current?.play(); setIsPlaying(true); }}
+                  style={{ position: "absolute", inset: 0, margin: "auto", width: "72px", height: "72px", background: "rgba(255,255,255,0.15)", border: "2px solid rgba(255,255,255,0.6)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: "28px" }}
+                >
+                  ▶
+                </button>
+              )}
             </div>
           ) : detailPage ? (
             /* Detail view */
