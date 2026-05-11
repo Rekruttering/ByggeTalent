@@ -52,7 +52,7 @@ export default function Home() {
   const [virksomhedView, setVirksomhedView] = useState<null | "data" | "jobmatch" | "samtale">(null);
 
   useEffect(() => { window.scrollTo(0, 0); }, [step]);
-  useEffect(() => { if (detailPage !== "Nyuddannet") { setIsPlaying(false); } }, [detailPage]);
+  useEffect(() => { setIsPlaying(false); if (claraVideoRef.current) { claraVideoRef.current.pause(); claraVideoRef.current.currentTime = 0; } }, [detailPage]);
 
   const [altRole, setAltRole] = useState<"Nyuddannet" | "Fagspecialist" | "Leder" | null>(null);
 
