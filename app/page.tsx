@@ -1375,7 +1375,7 @@ const WS_FACTS = [
 function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => void }) {
   const [fact, setFact] = useState(0);
   const [visible, setVisible] = useState(true);
-  const [showDetails, setShowDetails] = useState(false);
+  const [showDetails, setShowDetails] = useState(true);
 
   useEffect(() => {
     const t = setInterval(() => {
