@@ -234,35 +234,102 @@ export default function Home() {
         <div style={{ maxWidth: "480px", margin: "0 auto", padding: "24px 0 40px" }}>
 
           {detailPage === "Nyuddannet" ? (
-            /* Nyuddannet fullscreen */
-            <div style={{ position: "fixed", inset: 0, background: "#000", zIndex: 10, display: "flex", alignItems: "center", justifyContent: "center" }}>
-              {/* Tilbage */}
-              <button
-                onClick={() => { setDetailPage(null); setIsPlaying(false); if (claraVideoRef.current) { claraVideoRef.current.pause(); claraVideoRef.current.currentTime = 0; } }}
-                style={{ position: "absolute", top: "16px", left: "16px", zIndex: 30, background: "rgba(0,0,0,0.6)", border: "none", borderRadius: "999px", padding: "8px 16px", color: WHITE, fontSize: "14px", fontWeight: 700, cursor: "pointer" }}
-              >
-                ← Tilbage
-              </button>
-              {/* Video i centreret boks */}
-              <div style={{ position: "relative", width: "100%", maxWidth: "480px", borderRadius: "16px", overflow: "hidden" }}>
-                <video
-                  ref={claraVideoRef}
-                  src="/Avatar_IV_Video.mov"
-                  playsInline
-                  muted={isMuted}
-                  style={{ width: "100%", display: "block", objectFit: "cover" }}
-                />
-                {/* Play-overlay — vises kun når pauset */}
-                {!isPlaying && (
-                  <div
-                    onClick={() => { claraVideoRef.current?.play(); setIsPlaying(true); }}
-                    style={{ position: "absolute", inset: 0, zIndex: 20, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
-                  >
-                    <div style={{ width: "80px", height: "80px", background: "rgba(255,255,255,0.2)", border: "3px solid rgba(255,255,255,0.8)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                      <span style={{ color: WHITE, fontSize: "32px", marginLeft: "6px" }}>▶</span>
+            /* Nyuddannet — scrollbar side */
+            <div style={{ position: "fixed", inset: 0, background: PAGE_BG, zIndex: 10, overflowY: "auto" }}>
+              <div style={{ maxWidth: "480px", margin: "0 auto", padding: "16px 20px 60px" }}>
+
+                {/* Tilbage */}
+                <button
+                  onClick={() => { setDetailPage(null); setIsPlaying(false); if (claraVideoRef.current) { claraVideoRef.current.pause(); claraVideoRef.current.currentTime = 0; } }}
+                  style={{ background: "none", border: "none", cursor: "pointer", fontSize: "15px", fontWeight: 700, color: CURRY, padding: 0, display: "flex", alignItems: "center", gap: "6px", marginBottom: "16px" }}
+                >
+                  ← Tilbage
+                </button>
+
+                {/* Video */}
+                <div style={{ position: "relative", borderRadius: "16px", overflow: "hidden", boxShadow: "0 4px 16px rgba(10,22,40,0.15)", marginBottom: "24px" }}>
+                  <video
+                    ref={claraVideoRef}
+                    src="/Avatar_IV_Video.mov"
+                    playsInline
+                    muted={isMuted}
+                    style={{ width: "100%", display: "block" }}
+                  />
+                  {!isPlaying && (
+                    <div
+                      onClick={() => { claraVideoRef.current?.play(); setIsPlaying(true); }}
+                      style={{ position: "absolute", inset: 0, zIndex: 20, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", background: "rgba(0,0,0,0.15)" }}
+                    >
+                      <div style={{ width: "80px", height: "80px", background: "rgba(255,255,255,0.2)", border: "3px solid rgba(255,255,255,0.8)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <span style={{ color: WHITE, fontSize: "32px", marginLeft: "6px" }}>▶</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Tekst-indhold */}
+                <div style={{ display: "grid", gap: "16px" }}>
+
+                  {/* Intro */}
+                  <div style={{ background: WHITE, borderRadius: "16px", padding: "20px", border: `1px solid ${BORDER}` }}>
+                    <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: CURRY, marginBottom: "10px" }}>Clara · ByggeTalent Hotline</div>
+                    <div style={{ fontFamily: "Georgia, serif", fontSize: "20px", fontWeight: 700, color: TEXT, lineHeight: 1.3, marginBottom: "12px" }}>Din professionelle hotline til branchen</div>
+                    <div style={{ fontSize: "14px", color: MUTED, lineHeight: 1.75 }}>
+                      Som nyuddannet ved du, at hverdagen i bygge- og anlægsbranchen kræver mere end blot teknisk snilde. Komplekse projekter, stramme tidsplaner og en kontant kommunikationsform kræver både robusthed og de rette strategier.
                     </div>
                   </div>
-                )}
+
+                  {/* Sparring med Clara */}
+                  <div style={{ background: WHITE, borderRadius: "16px", padding: "20px", border: `1px solid ${BORDER}` }}>
+                    <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: CURRY, marginBottom: "10px" }}>Sparring med Clara</div>
+                    <div style={{ fontSize: "14px", color: MUTED, lineHeight: 1.75, marginBottom: "16px" }}>
+                      Clara er din AI-rådgiver i ByggeTalent Hotline. Hun er trænet specifikt i branchens mekanismer og de professionelle udfordringer, du møder i din nye rolle.
+                    </div>
+                    <div style={{ fontSize: "13px", fontWeight: 700, color: TEXT, marginBottom: "10px" }}>Brug Clara til direkte sparring om:</div>
+                    <div style={{ display: "grid", gap: "10px" }}>
+                      {[
+                        { titel: "Arbejdskultur og trivsel", tekst: "Strategier til at håndtere arbejdspres og tonen i branchen." },
+                        { titel: "Professionel udvikling", tekst: "Hvordan du finder din plads og får gennemslagskraft." },
+                        { titel: "Konflikthåndtering", tekst: "Input til de svære dialoger med kolleger eller samarbejdspartnere." },
+                      ].map((p) => (
+                        <div key={p.titel} style={{ padding: "12px 14px", background: CURRY_BG, borderRadius: "10px", border: `1px solid ${CURRY_BORDER}` }}>
+                          <div style={{ fontSize: "13px", fontWeight: 700, color: TEXT, marginBottom: "3px" }}>{p.titel}</div>
+                          <div style={{ fontSize: "13px", color: MUTED, lineHeight: 1.6 }}>{p.tekst}</div>
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{ marginTop: "14px", fontSize: "12px", color: MUTED, fontStyle: "italic", lineHeight: 1.6 }}>
+                      Oplysningerne er vejledende. Rådfør dig altid med en professionel for lægefaglig rådgivning eller diagnose.
+                    </div>
+                  </div>
+
+                  {/* Næste skridt */}
+                  <div style={{ background: WHITE, borderRadius: "16px", padding: "20px", border: `1px solid ${BORDER}` }}>
+                    <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: CURRY, marginBottom: "10px" }}>Tag næste skridt</div>
+                    <div style={{ fontSize: "14px", color: MUTED, lineHeight: 1.75, marginBottom: "16px" }}>
+                      Når du har sparret med Clara, kan du gå i dybden med din trivsel og karriere gennem vores målrettede værktøjer:
+                    </div>
+                    <div style={{ display: "grid", gap: "10px" }}>
+                      {[
+                        { titel: "Arbejdslivstesten (ALT)", tekst: "Få sort på hvidt, hvordan du trives. ALT-testen er et professionelt værktøj, der måler din nuværende situation og identificerer præcis, hvor der skal sættes ind for at sikre din langsigtede holdbarhed i branchen." },
+                        { titel: "Personlig Karrieresamtale", tekst: "Har du brug for at tale din profil og retning igennem med en rådgiver? Book en samtale, hvor vi fokuserer på din faglige udvikling og din fremtid i branchen." },
+                      ].map((p) => (
+                        <div key={p.titel} style={{ padding: "12px 14px", background: CURRY_BG, borderRadius: "10px", border: `1px solid ${CURRY_BORDER}` }}>
+                          <div style={{ fontSize: "13px", fontWeight: 700, color: TEXT, marginBottom: "3px" }}>{p.titel}</div>
+                          <div style={{ fontSize: "13px", color: MUTED, lineHeight: 1.6 }}>{p.tekst}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* CTA */}
+                  <button
+                    onClick={() => { setDetailPage(null); setStep(1); }}
+                    style={{ width: "100%", padding: "15px", borderRadius: "12px", border: "none", background: CURRY, color: WHITE, fontSize: "15px", fontWeight: 700, cursor: "pointer" }}>
+                    Skriv til Clara i chatten →
+                  </button>
+
+                </div>
               </div>
             </div>
           ) : detailPage ? (
