@@ -247,7 +247,7 @@ export default function Home() {
                     src="/Avatar_IV_Video.mov"
                     playsInline
                     muted={isMuted}
-                    style={{ width: "100%", height: "280px", objectFit: "cover", display: "block" }}
+                    style={{ width: "100%", height: "360px", objectFit: "cover", display: "block" }}
                   />
                   {!isPlaying && (
                     <div
@@ -263,7 +263,7 @@ export default function Home() {
 
                 {/* CTA direkte under video */}
                 <button
-                  style={{ width: "100%", padding: "15px", borderRadius: "12px", border: "none", background: CURRY, color: WHITE, fontSize: "15px", fontWeight: 700, cursor: "pointer", marginBottom: "16px" }}>
+                  style={{ padding: "10px 24px", borderRadius: "12px", border: "none", background: CURRY, color: WHITE, fontSize: "14px", fontWeight: 700, cursor: "pointer", marginBottom: "16px", display: "block", margin: "0 auto 16px" }}>
                   Skriv til Clara i chatten →
                 </button>
 
