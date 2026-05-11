@@ -261,7 +261,7 @@ export default function Home() {
                     src="/Avatar_IV_Video.mov"
                     playsInline
                     muted={isMuted}
-                    style={{ width: "100%", height: "320px", objectFit: "cover", display: "block", transform: "scale(1.2)", transformOrigin: "center 45%" }}
+                    style={{ width: "100%", height: "320px", objectFit: "cover", display: "block", transform: "scale(1.2)", transformOrigin: "center 65%" }}
                   />
                   {!isPlaying && (
                     <div
