@@ -235,27 +235,32 @@ export default function Home() {
 
           {detailPage === "Nyuddannet" ? (
             /* Nyuddannet fullscreen */
-            <div style={{ position: "fixed", inset: 0, background: "#000", zIndex: 10, display: "flex", flexDirection: "column" }}>
+            <div style={{ position: "fixed", inset: 0, background: "#000", zIndex: 10 }}>
+              {/* Tilbage */}
               <button
                 onClick={() => { setDetailPage(null); setIsPlaying(false); if (claraVideoRef.current) { claraVideoRef.current.pause(); claraVideoRef.current.currentTime = 0; } }}
-                style={{ position: "absolute", top: "16px", left: "16px", zIndex: 20, background: "rgba(0,0,0,0.5)", border: "none", borderRadius: "999px", padding: "8px 16px", color: WHITE, fontSize: "14px", fontWeight: 700, cursor: "pointer" }}
+                style={{ position: "absolute", top: "16px", left: "16px", zIndex: 30, background: "rgba(0,0,0,0.6)", border: "none", borderRadius: "999px", padding: "8px 16px", color: WHITE, fontSize: "14px", fontWeight: 700, cursor: "pointer" }}
               >
                 ← Tilbage
               </button>
+              {/* Video fylder hele skærmen */}
               <video
                 ref={claraVideoRef}
                 src="/Avatar_IV_Video.mov"
                 playsInline
                 muted={isMuted}
-                style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
+                style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
               />
+              {/* Play-overlay — vises kun når pauset */}
               {!isPlaying && (
-                <button
+                <div
                   onClick={() => { claraVideoRef.current?.play(); setIsPlaying(true); }}
-                  style={{ position: "absolute", inset: 0, margin: "auto", width: "72px", height: "72px", background: "rgba(255,255,255,0.15)", border: "2px solid rgba(255,255,255,0.6)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: "28px" }}
+                  style={{ position: "absolute", inset: 0, zIndex: 20, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
                 >
-                  ▶
-                </button>
+                  <div style={{ width: "80px", height: "80px", background: "rgba(255,255,255,0.2)", border: "3px solid rgba(255,255,255,0.8)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <span style={{ color: WHITE, fontSize: "32px", marginLeft: "6px" }}>▶</span>
+                  </div>
+                </div>
               )}
             </div>
           ) : detailPage ? (
