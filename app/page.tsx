@@ -238,13 +238,15 @@ export default function Home() {
             <div style={{ position: "fixed", inset: 0, background: PAGE_BG, zIndex: 10, overflowY: "auto" }}>
               <div style={{ maxWidth: "480px", margin: "0 auto", padding: "16px 20px 60px" }}>
 
-                {/* Tilbage */}
-                <button
-                  onClick={() => { setDetailPage(null); setIsPlaying(false); if (claraVideoRef.current) { claraVideoRef.current.pause(); claraVideoRef.current.currentTime = 0; } }}
-                  style={{ background: "none", border: "none", cursor: "pointer", fontSize: "15px", fontWeight: 700, color: CURRY, padding: 0, display: "flex", alignItems: "center", gap: "6px", marginBottom: "16px" }}
-                >
-                  ← Tilbage
-                </button>
+                {/* Tilbage — sticky i toppen */}
+                <div style={{ position: "sticky", top: 0, zIndex: 40, background: PAGE_BG, padding: "12px 0 8px", marginBottom: "8px" }}>
+                  <button
+                    onClick={() => { setDetailPage(null); setIsPlaying(false); if (claraVideoRef.current) { claraVideoRef.current.pause(); claraVideoRef.current.currentTime = 0; } }}
+                    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "15px", fontWeight: 700, color: CURRY, padding: 0, display: "flex", alignItems: "center", gap: "6px" }}
+                  >
+                    ← Tilbage
+                  </button>
+                </div>
 
                 {/* Video */}
                 <div style={{ position: "relative", borderRadius: "16px", overflow: "hidden", boxShadow: "0 4px 16px rgba(10,22,40,0.15)", marginBottom: "24px" }}>
@@ -337,12 +339,14 @@ export default function Home() {
             <div style={{ padding: "8px 20px 40px" }}>
               {/* Skjules når WorkforceShortage styrer sin egen back-navigation, eller når et sub-view er aktivt */}
               {virksomhedView !== "data" && !virksomhedView && (
-                <button
-                  onClick={() => setDetailPage(null)}
-                  style={{ background: "none", border: "none", cursor: "pointer", fontSize: "15px", fontWeight: 700, color: CURRY, padding: 0, display: "flex", alignItems: "center", gap: "6px", marginBottom: "12px" }}
-                >
-                  ← Tilbage
-                </button>
+                <div style={{ position: "sticky", top: 0, zIndex: 40, background: PAGE_BG, padding: "12px 0 8px", marginBottom: "8px" }}>
+                  <button
+                    onClick={() => setDetailPage(null)}
+                    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "15px", fontWeight: 700, color: CURRY, padding: 0, display: "flex", alignItems: "center", gap: "6px" }}
+                  >
+                    ← Tilbage
+                  </button>
+                </div>
               )}
 
               {detailPage === "Kandidat" && (
