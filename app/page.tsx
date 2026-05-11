@@ -1578,35 +1578,6 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
             </div>
           ),
         },
-        {
-          id: "ai",
-          title: "AI i rekruttering — udfordringer",
-          sub: "Ansvarlig brug i branchespecifik kontekst",
-          content: (
-            <div style={{ display: "grid", gap: "8px", padding: "4px 0" }}>
-              <div style={{ background: WHITE, borderRadius: "14px", padding: "16px", borderLeft: "3px solid #C4A03A" }}>
-                <div style={{ fontSize: "13px", fontWeight: 700, color: TEXT, marginBottom: "5px" }}>Bias i AI-modeller</div>
-                <div style={{ fontSize: "13px", lineHeight: 1.6, color: MUTED }}>AI-modeller er trænet på eksisterende data, der afspejler historiske skævheder. I en mandsdomineret branche som bygge- og anlæg risikerer modeller at reproducere bias i screeningsprocessen og i ALT-testen, hvis data ikke er repræsentativt sammensat.</div>
-              </div>
-              <div style={{ background: WHITE, borderRadius: "14px", padding: "16px", borderLeft: "3px solid #6E7580" }}>
-                <div style={{ fontSize: "13px", fontWeight: 700, color: TEXT, marginBottom: "5px" }}>Hallucination og faktuelle fejl</div>
-                <div style={{ fontSize: "13px", lineHeight: 1.6, color: MUTED }}>Sprogmodeller kan generere overbevisende men forkerte svar — særligt problematisk i rådgivningssammenhænge som Clara-hotlinen. Mennesket skal forblive ansvarligt og validere AI-output, inden det danner grundlag for beslutninger.</div>
-              </div>
-              <div style={{ background: WHITE, borderRadius: "14px", padding: "16px", borderLeft: "3px solid #6A9060" }}>
-                <div style={{ fontSize: "13px", fontWeight: 700, color: TEXT, marginBottom: "5px" }}>Promptdesign og konsistens</div>
-                <div style={{ fontSize: "13px", lineHeight: 1.6, color: MUTED }}>Forskellige formuleringer af samme spørgsmål giver forskellige svar. Et branchespecifikt promptdesign kræver systematisk afprøvning for at sikre, at svar fra Clara er konsistente og relevante på tværs af brugertyper og situationer.</div>
-              </div>
-              <div style={{ background: WHITE, borderRadius: "14px", padding: "16px", borderLeft: "3px solid #C0392B" }}>
-                <div style={{ fontSize: "13px", fontWeight: 700, color: TEXT, marginBottom: "5px" }}>Valg af AI-model</div>
-                <div style={{ fontSize: "13px", lineHeight: 1.6, color: MUTED }}>Forskellige AI-modeller giver forskellige svar på identiske spørgsmål. Valget af model — og versionen af den — påvirker kvaliteten direkte. ByggeTalent tester løbende modeller for at finde det bedste match til branchens behov.</div>
-              </div>
-              <div style={{ background: "#0A1628", borderRadius: "14px", padding: "16px" }}>
-                <div style={{ fontSize: "13px", fontWeight: 700, color: "#C4A03A", marginBottom: "5px" }}>Mennesket forbliver ansvarligt</div>
-                <div style={{ fontSize: "13px", lineHeight: 1.6, color: "rgba(255,255,255,0.75)" }}>AI er et redskab — ikke en beslutningstager. I ByggeTalent bruges AI til at understøtte og kvalificere processer, men den endelige vurdering foretages altid af et menneske med brancheforståelse og faglig kontekst.</div>
-              </div>
-            </div>
-          ),
-        },
       ].map(sec => (
         <WSAccordion key={sec.id} title={sec.title} sub={sec.sub}>{sec.content}</WSAccordion>
       ))}
