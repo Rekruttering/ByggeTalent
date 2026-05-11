@@ -651,9 +651,6 @@ export default function Home() {
                 <button onClick={() => setStep1SubPage(null)} style={{ background: "none", border: "none", cursor: "pointer", color: MUTED, fontSize: "13px", fontWeight: 600, padding: 0 }}>
                   ← Tilbage
                 </button>
-                <div style={{ fontFamily: "Georgia, serif", fontSize: "17px", fontWeight: 700, flex: 1, textAlign: "right" }}>
-                  <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE }}>Talent</span>
-                </div>
               </div>
 
               {/* Din profil */}
