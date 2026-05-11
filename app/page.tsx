@@ -232,7 +232,32 @@ export default function Home() {
       {step === 0 && (
         <div style={{ maxWidth: "480px", margin: "0 auto", padding: "24px 0 40px" }}>
 
-          {detailPage ? (
+          {detailPage === "Nyuddannet" ? (
+            /* Nyuddannet fullscreen */
+            <div style={{ position: "fixed", inset: 0, background: "#000", zIndex: 10, display: "flex", flexDirection: "column" }}>
+              <button
+                onClick={() => setDetailPage(null)}
+                style={{ position: "absolute", top: "16px", left: "16px", zIndex: 20, background: "rgba(0,0,0,0.5)", border: "none", borderRadius: "999px", padding: "8px 16px", color: WHITE, fontSize: "14px", fontWeight: 700, cursor: "pointer" }}
+              >
+                ← Tilbage
+              </button>
+              <video
+                ref={claraVideoRef}
+                src="/Avatar_IV_Video.mov"
+                autoPlay
+                muted={isMuted}
+                loop
+                playsInline
+                style={{ width: "100%", height: "100%", objectFit: "contain", display: "block" }}
+              />
+              <button
+                onClick={() => setIsMuted(m => !m)}
+                style={{ position: "absolute", bottom: "24px", right: "24px", background: "rgba(0,0,0,0.6)", border: "none", borderRadius: "50%", width: "44px", height: "44px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: "20px" }}
+              >
+                {isMuted ? "🔇" : "🔊"}
+              </button>
+            </div>
+          ) : detailPage ? (
             /* Detail view */
             <div style={{ padding: "8px 20px 40px" }}>
               {/* Skjules når WorkforceShortage styrer sin egen back-navigation, eller når et sub-view er aktivt */}
@@ -243,26 +268,6 @@ export default function Home() {
                 >
                   ← Tilbage
                 </button>
-              )}
-
-              {detailPage === "Nyuddannet" && (
-                <div style={{ position: "relative", borderRadius: "16px", overflow: "hidden", boxShadow: "0 4px 16px rgba(10,22,40,0.10)" }}>
-                  <video
-                    ref={claraVideoRef}
-                    src="/Avatar_IV_Video.mov"
-                    autoPlay
-                    muted={isMuted}
-                    loop
-                    playsInline
-                    style={{ width: "100%", display: "block" }}
-                  />
-                  <button
-                    onClick={() => setIsMuted(m => !m)}
-                    style={{ position: "absolute", bottom: "12px", right: "12px", background: "rgba(0,0,0,0.5)", border: "none", borderRadius: "50%", width: "36px", height: "36px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", fontSize: "16px" }}
-                  >
-                    {isMuted ? "🔇" : "🔊"}
-                  </button>
-                </div>
               )}
 
               {detailPage === "Kandidat" && (
