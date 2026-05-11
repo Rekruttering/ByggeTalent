@@ -52,6 +52,7 @@ export default function Home() {
   const [virksomhedView, setVirksomhedView] = useState<null | "data" | "jobmatch" | "samtale">(null);
 
   useEffect(() => { window.scrollTo(0, 0); }, [step]);
+  useEffect(() => { if (detailPage !== "Nyuddannet") { setIsPlaying(false); } }, [detailPage]);
 
   const [altRole, setAltRole] = useState<"Nyuddannet" | "Fagspecialist" | "Leder" | null>(null);
 
@@ -260,10 +261,10 @@ export default function Home() {
                   {!isPlaying && (
                     <div
                       onClick={() => { claraVideoRef.current?.play(); setIsPlaying(true); }}
-                      style={{ position: "absolute", inset: 0, zIndex: 20, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", background: "rgba(0,0,0,0.15)" }}
+                      style={{ position: "absolute", inset: 0, zIndex: 20, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", background: "rgba(0,0,0,0.35)" }}
                     >
-                      <div style={{ width: "80px", height: "80px", background: "rgba(255,255,255,0.2)", border: "3px solid rgba(255,255,255,0.8)", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <span style={{ color: WHITE, fontSize: "32px", marginLeft: "6px" }}>▶</span>
+                      <div style={{ width: "72px", height: "72px", background: CURRY, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 20px rgba(0,0,0,0.4)" }}>
+                        <span style={{ color: WHITE, fontSize: "28px", marginLeft: "6px" }}>▶</span>
                       </div>
                     </div>
                   )}
