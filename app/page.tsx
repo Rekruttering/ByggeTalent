@@ -240,6 +240,20 @@ export default function Home() {
               <div style={{ maxWidth: "480px", margin: "0 auto", padding: "16px 20px 40px" }}>
 
 
+                {/* Logo header */}
+                <div style={{ textAlign: "center", padding: "16px 0 20px", display: "grid", gap: "6px" }}>
+                  <div style={{ fontFamily: "Georgia, serif", fontSize: "11px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>
+                    BYGGE & ANLÆG
+                  </div>
+                  <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "42px", fontWeight: 700, lineHeight: 1.0, letterSpacing: "-0.02em" }}>
+                    <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE }}>Talent</span>
+                  </div>
+                  <div style={{ width: "40px", height: "1.5px", background: CURRY, margin: "4px auto 0" }} />
+                  <div style={{ fontFamily: "Georgia, serif", fontSize: "10px", fontWeight: 400, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED, marginTop: "4px" }}>
+                    KARRIERESAMTALE MED BRANCHEFORSTÅELSE
+                  </div>
+                </div>
+
                 {/* Video */}
                 <div style={{ position: "relative", borderRadius: "16px", overflow: "hidden", boxShadow: "0 4px 16px rgba(10,22,40,0.15)", marginBottom: "24px" }}>
                   <video
