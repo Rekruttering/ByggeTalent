@@ -1479,7 +1479,7 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
 
             {/* Stripe 4: Gold ticker */}
             <div style={{ background: CURRY, overflow: "hidden", padding: "5px 0" }}>
-              <div style={{ display: "flex", gap: "32px", animation: "wsticker 12s linear infinite", whiteSpace: "nowrap" }}>
+              <div style={{ display: "flex", gap: "32px", animation: "wsticker 6s linear infinite", whiteSpace: "nowrap" }}>
                 {[...Array(5)].flatMap(() => [
                   "99.000 faglærte mangler", "·", "24.000 KVU mangler", "·", "13.000 MVU mangler", "·",
                   "11 kritiske faggrupper", "·", "Elektriker · VVS · BIM · Tømrer · Energirådgiver", "·",
