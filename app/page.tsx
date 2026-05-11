@@ -254,8 +254,8 @@ export default function Home() {
                       onClick={() => { claraVideoRef.current?.play(); setIsPlaying(true); }}
                       style={{ position: "absolute", inset: 0, zIndex: 20, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
                     >
-                      <div style={{ width: "48px", height: "48px", background: WHITE, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 20px rgba(0,0,0,0.3)" }}>
-                        <span style={{ color: TEXT, fontSize: "18px", marginLeft: "4px" }}>▶</span>
+                      <div style={{ width: "36px", height: "36px", background: WHITE, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 12px rgba(0,0,0,0.25)" }}>
+                        <span style={{ color: TEXT, fontSize: "13px", marginLeft: "3px" }}>▶</span>
                       </div>
                     </div>
                   )}
