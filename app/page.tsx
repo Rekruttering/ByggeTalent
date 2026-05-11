@@ -1393,12 +1393,6 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
   return (
     <div style={{ display: "grid", gap: "12px" }}>
 
-      {/* ── Nav ── */}
-      <button onClick={onExitToVirksomhed}
-        style={{ background: "none", border: "none", cursor: "pointer", padding: 0, color: CURRY, fontSize: "13px", fontWeight: 700, display: "flex", alignItems: "center", gap: "4px", justifyContent: "flex-start" }}>
-        ← Virksomhed
-      </button>
-
       {/* ── BYGGETALENT NEWS ── */}
       <div style={{ borderRadius: "18px", overflow: "hidden", boxShadow: "0 4px 20px rgba(10,22,40,0.14)" }}>
 
@@ -1586,6 +1580,13 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
 
       <div style={{ padding: "4px 4px 8px", fontSize: "10px", color: MUTED }}>
         Kilde: AE-rådet 2024 · ByggeTalent brancheanalyse
+      </div>
+
+      {/* ← Tilbage */}
+      <div style={{ borderTop: "1px solid rgba(0,0,0,0.07)", marginTop: "8px", paddingTop: "16px", textAlign: "center" }}>
+        <button onClick={onExitToVirksomhed} style={{ background: "none", border: "none", cursor: "pointer", color: "#6B7A8A", fontSize: "13px", fontWeight: 600, padding: 0 }}>
+          ← Tilbage
+        </button>
       </div>
     </div>
   );
