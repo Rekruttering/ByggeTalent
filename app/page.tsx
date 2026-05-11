@@ -250,9 +250,7 @@ export default function Home() {
                   <div style={{ borderRadius: "16px", overflow: "hidden", boxShadow: "0 4px 16px rgba(10,22,40,0.10)" }}>
                     <video
                       src="/Avatar_IV_Video.mov"
-                      autoPlay
-                      muted
-                      loop
+                      controls
                       playsInline
                       style={{ width: "100%", objectFit: "cover", display: "block" }}
                     />
