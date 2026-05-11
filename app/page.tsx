@@ -267,6 +267,13 @@ export default function Home() {
                   )}
                 </div>
 
+                {/* CTA direkte under video */}
+                <button
+                  onClick={() => { setDetailPage(null); setStep(1); }}
+                  style={{ width: "100%", padding: "15px", borderRadius: "12px", border: "none", background: CURRY, color: WHITE, fontSize: "15px", fontWeight: 700, cursor: "pointer", marginBottom: "16px" }}>
+                  Skriv til Clara i chatten →
+                </button>
+
                 {/* Tekst-indhold */}
                 <div style={{ display: "grid", gap: "16px" }}>
 
@@ -322,12 +329,6 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* CTA */}
-                  <button
-                    onClick={() => { setDetailPage(null); setStep(1); }}
-                    style={{ width: "100%", padding: "15px", borderRadius: "12px", border: "none", background: CURRY, color: WHITE, fontSize: "15px", fontWeight: 700, cursor: "pointer" }}>
-                    Skriv til Clara i chatten →
-                  </button>
 
                 </div>
               </div>
