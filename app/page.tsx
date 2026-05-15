@@ -220,7 +220,6 @@ export default function Home() {
   const navCards = [
     { key: "Kandidat", label: "Kandidat", sub: "Karrieresparring og ALT", bg: "#6E7580" },
     { key: "Virksomhed", label: "Virksomhed", sub: "Kandidatbase og projektsamtale", bg: "#6A9060" },
-    { key: "Nyuddannet", label: "Nyuddannet", sub: "For dig der er ny i branchen", bg: "#C4A03A" },
   ];
 
   return (
@@ -473,46 +472,35 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Navigation kort */}
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
-                {navCards.map((card) => {
-                  const active = selectedUniverse === card.key;
-                  return (
-                    <button type="button" key={card.key} onClick={() => card.key === "Kandidat" ? setStep(1) : setDetailPage(card.key)} style={{
-                      borderRadius: "6px",
-                      background: card.bg,
-                      border: active ? `2px solid ${CURRY}` : "1px solid transparent",
-                      padding: "14px 10px 14px 24px",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      gap: "4px",
-                      boxShadow: "0 2px 8px rgba(10,22,40,0.10)",
-                      cursor: "pointer",
-                      width: "100%",
-                    }}>
-                      <span style={{ fontSize: "12px", fontWeight: 700, color: WHITE, textAlign: "left", lineHeight: 1.3 }}>
-                        {card.label}
-                      </span>
-                      <span style={{ fontSize: "14px", color: "rgba(255,255,255,0.75)", flexShrink: 0 }}>→</span>
-                    </button>
-                  );
-                })}
+              {/* Navigation kort — 2 brede stakkede */}
+              <div style={{ display: "grid", gap: "8px" }}>
+                {navCards.map((card) => (
+                  <button type="button" key={card.key}
+                    onClick={() => card.key === "Kandidat" ? setStep(1) : setDetailPage(card.key)}
+                    style={{ borderRadius: "12px", background: card.bg, border: "1px solid transparent", padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px", boxShadow: "0 2px 8px rgba(10,22,40,0.10)", cursor: "pointer", width: "100%", textAlign: "left" }}>
+                    <div>
+                      <div style={{ fontSize: "15px", fontWeight: 700, color: WHITE }}>{card.label}</div>
+                      <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.75)", marginTop: "3px" }}>{card.sub}</div>
+                    </div>
+                    <span style={{ fontSize: "18px", color: "rgba(255,255,255,0.75)", flexShrink: 0 }}>→</span>
+                  </button>
+                ))}
               </div>
 
-              {/* Video */}
-              <div style={{ borderRadius: "16px", overflow: "hidden", boxShadow: "0 4px 16px rgba(10,22,40,0.10)" }}>
-                <video
-                  src="/Byggetalent 2.0.mp4"
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  style={{ width: "100%", height: "260px", objectFit: "cover", display: "block" }}
+              {/* Hero billede — byggeplads */}
+              <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", boxShadow: "0 4px 16px rgba(10,22,40,0.10)" }}>
+                <img
+                  src="/images/håndpåbyggepladsen.png"
+                  alt="Byggeplads"
+                  style={{ width: "100%", height: "280px", objectFit: "cover", objectPosition: "center 30%", display: "block" }}
                 />
+                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "80px", background: "linear-gradient(to top, rgba(10,22,40,0.55) 0%, transparent 100%)" }} />
+                <div style={{ position: "absolute", bottom: "16px", left: "16px", fontSize: "11px", fontWeight: 500, color: "rgba(255,255,255,0.70)", letterSpacing: "0.10em" }}>
+                  ByggeTalent
+                </div>
               </div>
 
-              {/* Hero billede */}
+              {/* Hero billede — karriere */}
               <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", boxShadow: "0 4px 16px rgba(10,22,40,0.10)" }}>
                 <img
                   src="/images/DIn faglg profil.png"
@@ -525,8 +513,19 @@ export default function Home() {
                 </div>
               </div>
 
+              {/* Om ByggeTalent — featured kort */}
+              <button type="button" onClick={() => setDetailPage("Nyuddannet")} style={{ width: "100%", background: NAVY, borderRadius: "16px", border: "none", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", cursor: "pointer", textAlign: "left", boxShadow: "0 4px 16px rgba(10,22,40,0.18)" }}>
+                <div style={{ width: "52px", height: "52px", borderRadius: "50%", backgroundImage: "url('/images/Karina Maria - Founder.png')", backgroundSize: "cover", backgroundPosition: "center", border: `2px solid ${CURRY_BORDER}`, flexShrink: 0 }} />
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: CURRY, marginBottom: "4px" }}>Rekruttering</div>
+                  <div style={{ fontSize: "15px", fontWeight: 700, color: WHITE, lineHeight: 1.2, marginBottom: "3px" }}>Om ByggeTalent</div>
+                  <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.55)" }}>Hvem vi er, og hvad vi tilbyder.</div>
+                </div>
+                <span style={{ fontSize: "18px", color: "rgba(255,255,255,0.55)", flexShrink: 0 }}>→</span>
+              </button>
+
               {/* Diskret admin-adgang */}
-              <div style={{ textAlign: "center", paddingTop: "12px" }}>
+              <div style={{ textAlign: "center", paddingTop: "4px" }}>
                 <a href="/admin" style={{ fontSize: "12px", color: MUTED, textDecoration: "none", fontWeight: 600, display: "inline-flex", alignItems: "center", gap: "5px" }}>
                   ⚙ Admin
                 </a>
