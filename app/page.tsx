@@ -220,7 +220,7 @@ export default function Home() {
   const navCards = [
     { key: "Kandidat", label: "Kandidat", sub: "Karrieresparring og ALT", bg: "#6E7580" },
     { key: "Virksomhed", label: "Virksomhed", sub: "Kandidatbase og projektsamtale", bg: "#6A9060" },
-    { key: "Nyuddannet", label: "Nyuddannet", sub: "For dig der er ny i branchen", bg: "#C4A03A" },
+    { key: "Om Byggetalent", label: "Om Byggetalent", sub: "Menneskerne bag", bg: "#C4A03A" },
   ];
 
   return (
@@ -233,7 +233,6 @@ export default function Home() {
           {detailPage ? (
             /* Detail view */
             <div style={{ padding: "8px 20px 40px" }}>
-              {/* Skjules når WorkforceShortage styrer sin egen back-navigation, eller når et sub-view er aktivt */}
               {virksomhedView !== "data" && !virksomhedView && (
                 <button
                   onClick={() => setDetailPage(null)}
@@ -243,7 +242,7 @@ export default function Home() {
                 </button>
               )}
 
-              {detailPage === "Nyuddannet" && (
+              {detailPage === "Om Byggetalent" && (
                 <div style={{ background: WHITE, borderRadius: "20px", padding: "24px", border: `1px solid ${BORDER}`, boxShadow: "0 4px 20px rgba(10,22,40,0.07)", display: "grid", gap: "20px" }}>
 
                   {/* Profil */}
@@ -265,7 +264,6 @@ export default function Home() {
                     Som selvstændig ledelseskonsulent har jeg rådgivet virksomheder i netop det: at tiltrække de rigtige mennesker, tage godt imod dem og give dem de bedste forudsætninger for at lykkes. Ud af det arbejde er ALT-testen opstået — <strong>Adfærd, Ledelse og Trivsel</strong> — en test udviklet specifikt til bygge- og anlægsbranchen.
                   </div>
 
-                  {/* Divider */}
                   <div style={{ height: "1px", background: BORDER }} />
 
                   {/* 3 ydelser */}
@@ -288,7 +286,6 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Divider */}
                   <div style={{ height: "1px", background: BORDER }} />
 
                   {/* AI */}
@@ -324,7 +321,6 @@ export default function Home() {
 
               {detailPage === "Kandidat" && (
                 <div style={{ display: "grid", gap: "16px" }}>
-                  {/* Hero */}
                   <div style={{ background: CURRY_BG, borderRadius: "20px", padding: "32px 24px", border: `1px solid ${CURRY_BORDER}`, textAlign: "center" }}>
                     <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.22em", textTransform: "uppercase", color: CURRY, marginBottom: "12px" }}>
                       ByggeTalent · Rekruttering
@@ -337,10 +333,8 @@ export default function Home() {
                     </div>
                   </div>
 
-                  {/* Jobopslag */}
                   <JobListings />
 
-                  {/* Karrieresparring */}
                   <div style={{ background: WHITE, borderRadius: "16px", padding: "20px", border: `1px solid ${BORDER}` }}>
                     <div style={labelSt}>Karrieresparring</div>
                     <div style={{ fontSize: "16px", fontWeight: 700, color: TEXT, margin: "8px 0 6px", fontFamily: "Georgia, serif" }}>Få en personlig samtale</div>
@@ -355,8 +349,6 @@ export default function Home() {
 
               {detailPage === "Virksomhed" && (
                 <div style={{ display: "grid", gap: "16px" }}>
-
-                  {/* Tilbage fra sub-view — vises ikke for "data" da WorkforceShortage styrer sin egen navigation */}
                   {virksomhedView && virksomhedView !== "data" && (
                     <button onClick={() => setVirksomhedView(null)}
                       style={{ background: "none", border: "none", cursor: "pointer", fontSize: "14px", fontWeight: 700, color: CURRY, padding: 0, display: "flex", alignItems: "center", gap: "6px" }}>
@@ -364,11 +356,8 @@ export default function Home() {
                     </button>
                   )}
 
-                  {/* Virksomhed forside */}
                   {!virksomhedView && (
                     <div style={{ display: "grid", gap: "8px" }}>
-
-                      {/* Logo */}
                       <div style={{ textAlign: "center", display: "grid", gap: "10px" }}>
                         <div style={{ fontFamily: "Georgia, serif", fontSize: "11px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>
                           BYGGE & ANLÆG
@@ -384,7 +373,6 @@ export default function Home() {
                         </div>
                       </div>
 
-                      {/* 3 kort */}
                       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
                         {[
                           { key: "data" as const,    label: "Arbejdskraftdata", sub: "Mangel frem mod 2030",           bg: "#6A9060" },
@@ -404,19 +392,15 @@ export default function Home() {
                         ))}
                       </div>
 
-                      {/* Billede */}
                       <div style={{ borderRadius: "16px", overflow: "hidden", boxShadow: "0 4px 16px rgba(10,22,40,0.10)" }}>
                         <img src="/images/håndpåbyggepladsen.png" alt="ByggeTalent virksomhed"
                           style={{ width: "100%", display: "block", maxHeight: "430px", objectFit: "cover", objectPosition: "center 30%" }} />
                       </div>
-
                     </div>
                   )}
 
-                  {/* Sub-view: Arbejdskraftdata */}
                   {virksomhedView === "data" && <WorkforceShortage onExitToVirksomhed={() => setVirksomhedView(null)} />}
 
-                  {/* Sub-view: Jobmatch */}
                   {virksomhedView === "jobmatch" && (
                     <div style={{ display: "grid", gap: "14px" }}>
                       <div style={{ background: "#0A1628", borderRadius: "16px", padding: "24px" }}>
@@ -433,7 +417,6 @@ export default function Home() {
                     </div>
                   )}
 
-                  {/* Sub-view: Projektsamtale */}
                   {virksomhedView === "samtale" && (
                     <div style={{ display: "grid", gap: "14px" }}>
                       <div style={{ background: "#0A1628", borderRadius: "16px", padding: "24px" }}>
@@ -449,7 +432,6 @@ export default function Home() {
                       </div>
                     </div>
                   )}
-
                 </div>
               )}
             </div>
@@ -541,9 +523,7 @@ export default function Home() {
         <div style={{ maxWidth: "480px", margin: "0 auto", minHeight: "100vh", display: "flex", flexDirection: "column", background: PAGE_BG }}>
 
           {step1SubPage === null ? (
-            /* ── Hub-visning ── */
             <>
-              {/* Logo */}
               <div style={{ background: WHITE, padding: "28px 20px 20px", textAlign: "center", borderBottom: `1px solid ${BORDER}` }}>
                 <div style={{ fontSize: "42px", fontWeight: 700, lineHeight: 1 }}>
                   <span style={{ color: TEXT, fontFamily: "Georgia, 'Times New Roman', serif" }}>Bygge</span><span style={{ color: GRANITE, fontFamily: "Georgia, 'Times New Roman', serif" }}>Talent</span>
@@ -551,12 +531,10 @@ export default function Home() {
                 <div style={{ width: "40px", height: "1.5px", background: CURRY, margin: "10px auto 0" }} />
               </div>
 
-              {/* Video */}
               <div style={{ height: "200px", overflow: "hidden", flexShrink: 0 }}>
                 <video autoPlay muted loop playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} src="/Byggetalent 2.0.mp4" />
               </div>
 
-              {/* Kortknapper */}
               <div style={{ flex: 1, padding: "28px 20px 12px", display: "flex", flexDirection: "column", gap: "10px" }}>
                 <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED, fontFamily: "Georgia, serif", textAlign: "center", marginBottom: "4px" }}>
                   START MED
@@ -581,7 +559,6 @@ export default function Home() {
                 ))}
               </div>
 
-              {/* Bund-navigation */}
               <div style={{ position: "sticky", bottom: 0, background: WHITE, padding: "14px 20px 32px", borderTop: `1px solid ${BORDER}`, display: "flex", flexDirection: "column", gap: "10px" }}>
                 <button
                   style={{ width: "100%", padding: "16px", borderRadius: "14px", border: "none", background: CURRY, color: WHITE, fontSize: "15px", fontWeight: 700, cursor: "pointer", letterSpacing: "0.01em" }}
@@ -616,10 +593,8 @@ export default function Home() {
               </div>
             </>
           ) : (
-            /* ── Underpaneler ── */
             <div style={{ flex: 1, display: "flex", flexDirection: "column", background: PAGE_BG }}>
 
-              {/* Top bar */}
               <div style={{ padding: "18px 20px 14px", borderBottom: `1px solid ${BORDER}`, background: WHITE, position: "sticky", top: 0, zIndex: 10, display: "flex", alignItems: "center", gap: "12px" }}>
                 <button onClick={() => setStep1SubPage(null)} style={{ background: "none", border: "none", cursor: "pointer", color: CURRY, fontSize: "15px", fontWeight: 700, padding: 0 }}>
                   ← Tilbage
@@ -629,7 +604,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Din profil */}
               {step1SubPage === "profile" && (
                 <div style={{ flex: 1, overflowY: "auto", padding: "24px 20px 100px", display: "flex", flexDirection: "column", gap: "28px" }}>
                   <FormSection label="Dit navn">
@@ -683,7 +657,6 @@ export default function Home() {
                 </div>
               )}
 
-              {/* Samtykke */}
               {step1SubPage === "consent" && (
                 <div style={{ flex: 1, overflowY: "auto", padding: "28px 20px 100px", display: "flex", flexDirection: "column", gap: "16px" }}>
                   <div style={{ fontSize: "22px", fontWeight: 700, color: TEXT, fontFamily: "Georgia, serif", marginBottom: "4px" }}>Samtykke</div>
@@ -709,7 +682,6 @@ export default function Home() {
                 </div>
               )}
 
-              {/* Privatlivspolitik */}
               {step1SubPage === "privacy" && (
                 <div style={{ flex: 1, overflowY: "auto", padding: "28px 20px 100px" }}>
                   <div style={{ fontSize: "22px", fontWeight: 700, color: TEXT, fontFamily: "Georgia, serif", marginBottom: "20px" }}>Privatlivspolitik</div>
@@ -737,7 +709,6 @@ export default function Home() {
       {step === 2 && (
         <div style={{ maxWidth: "480px", margin: "0 auto", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
 
-          {/* Top bar */}
           <div style={{ padding: "18px 20px 14px", borderBottom: `1px solid ${BORDER}`, background: WHITE, position: "sticky", top: 0, zIndex: 10 }}>
             <div style={{ fontFamily: "Georgia, serif", fontSize: "17px", fontWeight: 700, marginBottom: "6px" }}>
               <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE, fontFamily: "Georgia, serif" }}>Talent</span>
@@ -750,7 +721,6 @@ export default function Home() {
 
           <div style={{ flex: 1, overflowY: "auto", padding: "24px 20px 40px" }}>
 
-            {/* ── Intro: rollevalg ── */}
             {altPhase === "intro" && (
               <div style={{ display: "grid", gap: "16px" }}>
                 <div>
@@ -789,13 +759,11 @@ export default function Home() {
               </div>
             )}
 
-            {/* ── Quiz: ét spørgsmål ad gangen ── */}
             {altPhase === "quiz" && altActiveQuestions.length > 0 && (() => {
               const q = altActiveQuestions[altCurrentQ];
               const progress = ((altCurrentQ) / altActiveQuestions.length) * 100;
               return (
                 <div style={{ display: "grid", gap: "16px" }}>
-                  {/* Progress */}
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "4px" }}>
                     <div style={{ fontSize: "11px", fontWeight: 700, color: q.cat === "Kultur & Tone" ? "#C4A03A" : q.cat === "Hold & Ressourcer" ? "#2563EB" : q.cat === "Ansvar & Mandat" ? "#6A9060" : "#6E7580", textTransform: "uppercase", letterSpacing: "0.1em" }}>{q.cat}</div>
                     <div style={{ fontSize: "12px", color: MUTED, fontWeight: 600 }}>{altCurrentQ + 1} / {altActiveQuestions.length}</div>
@@ -804,7 +772,6 @@ export default function Home() {
                     <div style={{ width: `${progress}%`, height: "100%", background: CURRY, borderRadius: "2px" }} />
                   </div>
 
-                  {/* Spørgsmål */}
                   <div style={{ background: WHITE, borderRadius: "20px", padding: "22px", border: `1px solid ${BORDER}` }}>
                     <p style={{ margin: "0 0 22px", fontSize: "18px", fontWeight: 700, color: TEXT, lineHeight: 1.45, fontFamily: "Georgia, serif" }}>
                       {q.q}
@@ -826,11 +793,8 @@ export default function Home() {
               );
             })()}
 
-            {/* ── Resultat ── */}
             {altPhase === "result" && (
               <div style={{ display: "grid", gap: "14px" }}>
-
-                {/* Hovedkort: donut + legend */}
                 <div style={{ background: WHITE, borderRadius: "20px", padding: "20px", border: `1.5px solid ${CURRY_BORDER}` }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "16px" }}>
                     <div>
@@ -895,7 +859,6 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Kategori-detaljer — 5-niveau DISC/Garuda stil */}
                 <div style={{ display: "grid", gap: "10px" }}>
                   {catScores.map(cat => {
                     const bench = benchmark ? (benchmark as Record<string, number>)[cat.key] : 65;
@@ -908,21 +871,17 @@ export default function Home() {
                           <div style={{ fontSize: "11px", fontWeight: 700, color: cat.color, textTransform: "uppercase", letterSpacing: "0.1em" }}>{cat.key}</div>
                           <div style={{ fontSize: "12px", fontWeight: 700, color: TEXT }}>{levelLabel}</div>
                         </div>
-
-                        {/* 5 bjælker */}
                         <div style={{ display: "flex", gap: "4px" }}>
                           {[1, 2, 3, 4, 5].map(n => (
                             <div key={n} style={{ flex: 1, height: "8px", borderRadius: "4px", background: n <= level ? cat.color : BORDER }} />
                           ))}
                         </div>
-
                         <p style={{ margin: 0, fontSize: "13px", lineHeight: 1.6, color: MUTED }}>{levelDesc}</p>
                       </div>
                     );
                   })}
                 </div>
 
-                {/* Konklusion */}
                 {(() => {
                   const withBench = catScores.map(cat => ({
                     ...cat,
@@ -959,7 +918,6 @@ export default function Home() {
             )}
           </div>
 
-          {/* Fast bund-navigation */}
           <div style={{ position: "sticky", bottom: 0, background: WHITE, borderTop: `1px solid ${BORDER}`, padding: "14px 20px 24px", display: "flex", gap: "10px" }}>
             <button
               onClick={() => {
@@ -1103,7 +1061,6 @@ function JobListings() {
     if (!selected || !cvFile) return;
     setSending(true);
     setTimeout(() => {
-      // Hent profildata fra localStorage hvis de findes
       const saved = JSON.parse(localStorage.getItem("bt_applications") || "[]");
       const latest = saved.length > 0 ? saved[saved.length - 1] : null;
       const app = {
@@ -1174,17 +1131,12 @@ function JobListings() {
       {view === "form" && selected && (
         <div style={{ background: WHITE, borderRadius: "14px", padding: "24px 20px", border: `1px solid ${BORDER}` }}>
           <button onClick={() => setView("detail")} style={{ background: "none", border: "none", cursor: "pointer", color: CURRY, fontSize: "14px", fontWeight: 700, padding: 0, marginBottom: "20px" }}>← Tilbage</button>
-
           <div style={{ fontSize: "17px", fontWeight: 700, color: TEXT, marginBottom: "4px", fontFamily: "Georgia, serif" }}>Send ansøgning</div>
           <div style={{ fontSize: "13px", color: MUTED, marginBottom: "24px" }}>{selected.title}</div>
-
-          {/* Info-boks */}
           <div style={{ background: CURRY_BG, border: `1px solid ${CURRY_BORDER}`, borderRadius: "12px", padding: "14px 16px", marginBottom: "20px", fontSize: "13px", color: TEXT, lineHeight: 1.6 }}>
             <strong>Dine oplysninger er allerede udfyldt</strong> under Din Profil. Vedhæft blot dit CV — ansøgningsbrev er valgfrit.
           </div>
-
           <div style={{ display: "grid", gap: "12px" }}>
-            {/* CV — påkrævet */}
             <div>
               <div style={{ fontSize: "12px", fontWeight: 700, color: MUTED, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "8px" }}>CV *</div>
               <label style={{ display: "flex", alignItems: "center", gap: "12px", padding: "14px 16px", borderRadius: "12px", border: `1.5px dashed ${cvFile ? CURRY : "rgba(10,22,40,0.18)"}`, background: cvFile ? CURRY_BG : WHITE, cursor: "pointer" }}>
@@ -1196,8 +1148,6 @@ function JobListings() {
                 </div>
               </label>
             </div>
-
-            {/* Ansøgning — valgfrit */}
             <div>
               <div style={{ fontSize: "12px", fontWeight: 700, color: MUTED, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: "8px" }}>Ansøgning <span style={{ fontWeight: 400, textTransform: "none" }}>(valgfrit)</span></div>
               <label style={{ display: "flex", alignItems: "center", gap: "12px", padding: "14px 16px", borderRadius: "12px", border: `1.5px dashed ${form.motivation ? CURRY : "rgba(10,22,40,0.18)"}`, background: form.motivation ? CURRY_BG : WHITE, cursor: "pointer" }}>
@@ -1209,7 +1159,6 @@ function JobListings() {
                 </div>
               </label>
             </div>
-
             <button onClick={submit} disabled={!cvFile || sending}
               style={{ width: "100%", padding: "15px", borderRadius: "12px", border: "none", background: cvFile ? CURRY : "#D4CCBC", color: WHITE, fontSize: "15px", fontWeight: 700, cursor: cvFile ? "pointer" : "not-allowed", marginTop: "4px" }}>
               {sending ? "Sender..." : "Send ansøgning →"}
@@ -1285,20 +1234,17 @@ const WS_DRIVERE = [
   {
     nr: "01", label: "Demografi",
     body: "Store årgange pensioneres i perioden 2024–2032. For hver 3 der forlader branchen, træder kun 2 nye til — et strukturelt underskud der ikke løses af konjunkturerne.",
-    tag: "Strukturelt",
-    tagColor: "#6E7580",
+    tag: "Strukturelt", tagColor: "#6E7580",
   },
   {
     nr: "02", label: "Grøn omstilling",
     body: "Solceller, varmepumper, brintinfrastruktur og energirenovering kræver kompetencer der ikke findes i tilstrækkelig mængde i Danmark i dag.",
-    tag: "Vækst",
-    tagColor: "#6A9060",
+    tag: "Vækst", tagColor: "#6A9060",
   },
   {
     nr: "03", label: "Renoveringsbølgen",
     body: "Renoveringsopgaver kræver 30–50% flere arbejdstimer pr. m² end nybyggeri. Efterspørgslen stiger mens udbuddet af kvalificerede faglærte falder.",
-    tag: "Efterspørgsel",
-    tagColor: "#C4A03A",
+    tag: "Efterspørgsel", tagColor: "#C4A03A",
   },
 ];
 
@@ -1306,20 +1252,17 @@ const WS_SVAR = [
   {
     label: "Præfabrikation & teknologi",
     body: "Modulbyggeri og digitale arbejdsprocesser reducerer afhængigheden af manuelle hænder på byggepladsen.",
-    indikator: "Reducerer behovet",
-    ind: "#6A9060",
+    indikator: "Reducerer behovet", ind: "#6A9060",
   },
   {
     label: "International rekruttering",
     body: "Virksomheder henter i stigende grad faglært arbejdskraft fra Polen, Rumænien og Baltikum — men kræver onboarding og sproglig integration.",
-    indikator: "Supplerer udbuddet",
-    ind: "#2563EB",
+    indikator: "Supplerer udbuddet", ind: "#2563EB",
   },
   {
     label: "Fastholdelse & trivsel",
     body: "Branchen konkurrerer nu på arbejdsmiljø og fleksibilitet. Virksomheder der investerer i kultur og trivsel holder bedre på deres folk.",
-    indikator: "Langsigtet løsning",
-    ind: "#C4A03A",
+    indikator: "Langsigtet løsning", ind: "#C4A03A",
   },
 ];
 
@@ -1351,31 +1294,18 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
   return (
     <div style={{ display: "grid", gap: "12px" }}>
 
-      {/* ── Nav ── */}
       <button onClick={onExitToVirksomhed}
         style={{ background: "none", border: "none", cursor: "pointer", padding: 0, color: CURRY, fontSize: "13px", fontWeight: 700, display: "flex", alignItems: "center", gap: "4px", justifyContent: "flex-start" }}>
         ← Virksomhed
       </button>
 
-      {/* ── BYGGETALENT NEWS ── */}
       <div style={{ borderRadius: "18px", overflow: "hidden", boxShadow: "0 4px 20px rgba(10,22,40,0.14)" }}>
-
-        {/* FULD VIDEOBAGGRUND — TV2-stil */}
         <div style={{ position: "relative", height: "420px", overflow: "hidden" }}>
-
-          {/* Baggrundsvideo */}
-          <video
-            autoPlay muted loop playsInline
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-          >
+          <video autoPlay muted loop playsInline style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}>
             <source src="/byggetalent-news.mov" type="video/quicktime" />
             <source src="/byggetalent-news.mov" type="video/mp4" />
           </video>
-
-          {/* Gradient overlay — transparent øverst, navy i bunden */}
           <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 35%, rgba(10,22,40,0.75) 65%, rgba(10,22,40,0.97) 100%)" }} />
-
-          {/* TOP: Logo + LIVE */}
           <div style={{ position: "absolute", top: 0, left: 0, right: 0, display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 16px", zIndex: 2 }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "rgba(10,22,40,0.80)", backdropFilter: "blur(6px)", padding: "6px 12px", borderRadius: "8px" }}>
               <div style={{ fontFamily: "Georgia, serif", fontSize: "14px", fontWeight: 700 }}>
@@ -1390,11 +1320,7 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
               <span style={{ fontSize: "10px", fontWeight: 800, color: WHITE, letterSpacing: "0.14em" }}>LIVE</span>
             </div>
           </div>
-
-          {/* BUND: TV lower-third — 3 smalle striber */}
           <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 2 }}>
-
-            {/* Stripe 1: Rød — BREAKING NEWS + kategori */}
             <div style={{ background: "#C0392B", padding: "5px 12px", display: "flex", alignItems: "center", gap: "8px" }}>
               <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
                 <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: WHITE, animation: "wspulse 1s ease infinite" }} />
@@ -1405,16 +1331,10 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
                 {current.eyebrow.toUpperCase()}
               </span>
             </div>
-
-            {/* Stripe 2: Hvid — tal + kort label */}
             <div style={{ background: WHITE, padding: "6px 12px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <div style={{ display: "flex", alignItems: "baseline", gap: "8px", opacity: visible ? 1 : 0, transition: "opacity 0.3s" }}>
-                <span style={{ fontSize: "20px", fontWeight: 900, color: "#111", letterSpacing: "-0.01em", fontFamily: "Georgia, serif" }}>
-                  {current.number}
-                </span>
-                <span style={{ fontSize: "10px", fontWeight: 700, color: "#444", letterSpacing: "0.04em", textTransform: "uppercase" }}>
-                  {current.eyebrow}
-                </span>
+                <span style={{ fontSize: "20px", fontWeight: 900, color: "#111", letterSpacing: "-0.01em", fontFamily: "Georgia, serif" }}>{current.number}</span>
+                <span style={{ fontSize: "10px", fontWeight: 700, color: "#444", letterSpacing: "0.04em", textTransform: "uppercase" }}>{current.eyebrow}</span>
               </div>
               <div style={{ display: "flex", gap: "3px" }}>
                 {WS_FACTS.map((_, i) => (
@@ -1423,8 +1343,6 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
                 ))}
               </div>
             </div>
-
-            {/* Stripe 3: Sort — beskrivende tekst hvid */}
             <div style={{ background: "#111111", padding: "5px 12px" }}>
               <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.90)", lineHeight: 1.3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                 {visible && current.label.split(" ").map((word, i) => (
@@ -1434,8 +1352,6 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
                 ))}
               </div>
             </div>
-
-            {/* Stripe 4: Gold ticker */}
             <div style={{ background: CURRY, overflow: "hidden", padding: "5px 0" }}>
               <div style={{ display: "flex", gap: "32px", animation: "wsticker 12s linear infinite", whiteSpace: "nowrap" }}>
                 {[...Array(5)].flatMap(() => [
@@ -1450,7 +1366,6 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
         </div>
       </div>
 
-
       <style>{`
         @keyframes wsfade    { from{opacity:0;transform:scale(1.04)} to{opacity:1;transform:scale(1)} }
         @keyframes wsticker  { from{transform:translateX(0)} to{transform:translateX(-20%)} }
@@ -1459,7 +1374,6 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
         @keyframes wsword    { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
       `}</style>
 
-      {/* ── FOLD UD KNAP ── */}
       <button
         onClick={() => setShowDetails(o => !o)}
         style={{ background: WHITE, border: "none", borderRadius: "14px", padding: "0", display: "flex", flexDirection: "column", cursor: "pointer", width: "100%", overflow: "hidden", boxShadow: "0 2px 8px rgba(10,22,40,0.10)" }}
@@ -1477,11 +1391,8 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
         </div>
       </button>
 
-      {/* ── ACCORDION SEKTIONER ── */}
       {showDetails && [{
-          id: "roller",
-          title: "11 kritiske fagområder",
-          sub: "Mangel frem mod 2030",
+          id: "roller", title: "11 kritiske fagområder", sub: "Mangel frem mod 2030",
           content: (
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px", padding: "4px 0 4px" }}>
               {WS_ROLLER.map((r, i) => (
@@ -1492,11 +1403,8 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
               ))}
             </div>
           ),
-        },
-        {
-          id: "drivere",
-          title: "Hvorfor opstår manglen?",
-          sub: "3 strukturelle drivkræfter",
+        }, {
+          id: "drivere", title: "Hvorfor opstår manglen?", sub: "3 strukturelle drivkræfter",
           content: (
             <div style={{ display: "grid", gap: "8px", padding: "4px 0" }}>
               {WS_DRIVERE.map(d => (
@@ -1513,11 +1421,8 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
               ))}
             </div>
           ),
-        },
-        {
-          id: "svar",
-          title: "Virksomhedernes svar",
-          sub: "Sådan reagerer branchen",
+        }, {
+          id: "svar", title: "Virksomhedernes svar", sub: "Sådan reagerer branchen",
           content: (
             <div style={{ display: "grid", gap: "8px", padding: "4px 0" }}>
               {WS_SVAR.map(s => (
@@ -1539,8 +1444,6 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
       ].map(sec => (
         <WSAccordion key={sec.id} title={sec.title} sub={sec.sub}>{sec.content}</WSAccordion>
       ))}
-
-      {/* Kilde */}
 
       <div style={{ padding: "4px 4px 8px", fontSize: "10px", color: MUTED }}>
         Kilde: AE-rådet 2024 · ByggeTalent brancheanalyse
