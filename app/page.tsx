@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, type Dispatch, type SetStateAction } from "react";
+import { useState, useEffect, type Dispatch, type SetStateAction } from "react";
 import { supabase } from "../lib/supabase";
 import { groupedRoles, groupNames, altQuestionsDB, type AltQuestion } from "./data";
 
@@ -45,14 +45,10 @@ export default function Home() {
   const [altCurrentQ, setAltCurrentQ] = useState(0);
   const [altAnswers, setAltAnswers] = useState<{ cat: string; p: number }[]>([]);
   const [selectedUniverse, setSelectedUniverse] = useState("Kandidat");
-  const [isMuted, setIsMuted] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const claraVideoRef = useRef<HTMLVideoElement>(null);
   const [detailPage, setDetailPage] = useState<string | null>(null);
   const [virksomhedView, setVirksomhedView] = useState<null | "data" | "jobmatch" | "samtale">(null);
 
   useEffect(() => { window.scrollTo(0, 0); }, [step]);
-  useEffect(() => { setIsPlaying(false); if (claraVideoRef.current) { claraVideoRef.current.pause(); claraVideoRef.current.currentTime = 0; } }, [detailPage]);
 
   const [altRole, setAltRole] = useState<"Nyuddannet" | "Fagspecialist" | "Leder" | null>(null);
 
@@ -224,7 +220,7 @@ export default function Home() {
   const navCards = [
     { key: "Kandidat", label: "Kandidat", sub: "Karrieresparring og ALT", bg: "#6E7580" },
     { key: "Virksomhed", label: "Virksomhed", sub: "Kandidatbase og projektsamtale", bg: "#6A9060" },
-    { key: "Nyuddannet", label: "Nyuddannet", sub: "0–3 års erfaring", bg: "#C4A03A" },
+    { key: "Nyuddannet", label: "Nyuddannet", sub: "For dig der er ny i branchen", bg: "#C4A03A" },
   ];
 
   return (
@@ -234,126 +230,97 @@ export default function Home() {
       {step === 0 && (
         <div style={{ maxWidth: "480px", margin: "0 auto", padding: "24px 0 40px" }}>
 
-          {detailPage === "Nyuddannet" ? (
-            /* Nyuddannet — scrollbar side */
-            <div style={{ position: "fixed", inset: 0, background: PAGE_BG, zIndex: 10, overflowY: "auto" }}>
-              <div style={{ maxWidth: "480px", margin: "0 auto", padding: "16px 20px 40px" }}>
-
-
-                {/* Logo header */}
-                <div style={{ textAlign: "center", padding: "16px 0 20px", display: "grid", gap: "6px" }}>
-                  <div style={{ fontFamily: "Georgia, serif", fontSize: "11px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>
-                    BYGGE & ANLÆG
-                  </div>
-                  <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "42px", fontWeight: 700, lineHeight: 1.0, letterSpacing: "-0.02em" }}>
-                    <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE }}>Talent</span>
-                  </div>
-                  <div style={{ width: "40px", height: "1.5px", background: CURRY, margin: "4px auto 0" }} />
-                  <div style={{ fontFamily: "Georgia, serif", fontSize: "10px", fontWeight: 400, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED, marginTop: "4px" }}>
-                    KARRIERESAMTALE MED BRANCHEFORSTÅELSE
-                  </div>
-                </div>
-
-                {/* Video */}
-                <div style={{ position: "relative", borderRadius: "16px", overflow: "hidden", boxShadow: "0 4px 16px rgba(10,22,40,0.15)", marginBottom: "24px" }}>
-                  <video
-                    ref={claraVideoRef}
-                    src="/Avatar_IV_Video.mov"
-                    playsInline
-                    muted={isMuted}
-                    style={{ width: "100%", height: "320px", objectFit: "cover", display: "block", transform: "scale(1.2)", transformOrigin: "center 65%" }}
-                  />
-                  {!isPlaying && (
-                    <div
-                      onClick={() => { claraVideoRef.current?.play(); setIsPlaying(true); }}
-                      style={{ position: "absolute", inset: 0, zIndex: 20, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
-                    >
-                      <div style={{ width: "36px", height: "36px", background: WHITE, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 2px 12px rgba(0,0,0,0.25)" }}>
-                        <span style={{ color: TEXT, fontSize: "13px", marginLeft: "3px" }}>▶</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* CTA direkte under video */}
-                <button
-                  style={{ padding: "10px 24px", borderRadius: "12px", border: "none", background: CURRY, color: WHITE, fontSize: "14px", fontWeight: 700, cursor: "pointer", marginBottom: "16px", display: "block", margin: "0 auto 16px" }}>
-                  Skriv til Clara i chatten →
-                </button>
-
-                {/* Tekst-indhold */}
-                <div style={{ display: "grid", gap: "16px" }}>
-
-                  {/* Intro */}
-                  <div style={{ background: WHITE, borderRadius: "16px", padding: "20px", border: `1px solid ${BORDER}` }}>
-                    <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: CURRY, marginBottom: "10px" }}>Clara · ByggeTalent Hotline</div>
-                    <div style={{ fontFamily: "Georgia, serif", fontSize: "20px", fontWeight: 700, color: TEXT, lineHeight: 1.3, marginBottom: "12px" }}>Din professionelle hotline til branchen</div>
-                    <div style={{ fontSize: "14px", color: MUTED, lineHeight: 1.75 }}>
-                      Som nyuddannet ved du, at hverdagen i bygge- og anlægsbranchen kræver mere end blot teknisk snilde. Komplekse projekter, stramme tidsplaner og en kontant kommunikationsform kræver både robusthed og de rette strategier.
-                    </div>
-                  </div>
-
-                  {/* Sparring med Clara */}
-                  <div style={{ background: WHITE, borderRadius: "16px", padding: "20px", border: `1px solid ${BORDER}` }}>
-                    <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: CURRY, marginBottom: "10px" }}>Sparring med Clara</div>
-                    <div style={{ fontSize: "14px", color: MUTED, lineHeight: 1.75, marginBottom: "16px" }}>
-                      Clara er din AI-rådgiver i ByggeTalent Hotline. Hun er trænet specifikt i branchens mekanismer og de professionelle udfordringer, du møder i din nye rolle.
-                    </div>
-                    <div style={{ fontSize: "13px", fontWeight: 700, color: TEXT, marginBottom: "10px" }}>Brug Clara til direkte sparring om:</div>
-                    <div style={{ display: "grid", gap: "10px" }}>
-                      {[
-                        { titel: "Arbejdskultur og trivsel", tekst: "Strategier til at håndtere arbejdspres og tonen i branchen." },
-                        { titel: "Professionel udvikling", tekst: "Hvordan du finder din plads og får gennemslagskraft." },
-                        { titel: "Konflikthåndtering", tekst: "Input til de svære dialoger med kolleger eller samarbejdspartnere." },
-                      ].map((p) => (
-                        <div key={p.titel} style={{ padding: "12px 14px", background: CURRY_BG, borderRadius: "10px", border: `1px solid ${CURRY_BORDER}` }}>
-                          <div style={{ fontSize: "13px", fontWeight: 700, color: TEXT, marginBottom: "3px" }}>{p.titel}</div>
-                          <div style={{ fontSize: "13px", color: MUTED, lineHeight: 1.6 }}>{p.tekst}</div>
-                        </div>
-                      ))}
-                    </div>
-                    <div style={{ marginTop: "14px", fontSize: "12px", color: MUTED, fontStyle: "italic", lineHeight: 1.6 }}>
-                      Oplysningerne er vejledende. Rådfør dig altid med en professionel for lægefaglig rådgivning eller diagnose.
-                    </div>
-                  </div>
-
-                  {/* Næste skridt */}
-                  <div style={{ background: WHITE, borderRadius: "16px", padding: "20px", border: `1px solid ${BORDER}` }}>
-                    <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: CURRY, marginBottom: "10px" }}>Tag næste skridt</div>
-                    <div style={{ fontSize: "14px", color: MUTED, lineHeight: 1.75, marginBottom: "16px" }}>
-                      Når du har sparret med Clara, kan du gå i dybden med din trivsel og karriere gennem vores målrettede værktøjer:
-                    </div>
-                    <div style={{ display: "grid", gap: "10px" }}>
-                      {[
-                        { titel: "Arbejdslivstesten (ALT)", tekst: "Få sort på hvidt, hvordan du trives. ALT-testen er et professionelt værktøj, der måler din nuværende situation og identificerer præcis, hvor der skal sættes ind for at sikre din langsigtede holdbarhed i branchen." },
-                        { titel: "Personlig Karrieresamtale", tekst: "Har du brug for at tale din profil og retning igennem med en rådgiver? Book en samtale, hvor vi fokuserer på din faglige udvikling og din fremtid i branchen." },
-                      ].map((p) => (
-                        <div key={p.titel} style={{ padding: "12px 14px", background: CURRY_BG, borderRadius: "10px", border: `1px solid ${CURRY_BORDER}` }}>
-                          <div style={{ fontSize: "13px", fontWeight: 700, color: TEXT, marginBottom: "3px" }}>{p.titel}</div>
-                          <div style={{ fontSize: "13px", color: MUTED, lineHeight: 1.6 }}>{p.tekst}</div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-
-                </div>
-
-                {/* Tilbage — nederst i indholdet */}
-                <div style={{ borderTop: `1px solid ${BORDER}`, marginTop: "24px", paddingTop: "20px", textAlign: "center" }}>
-                  <button
-                    onClick={() => { setDetailPage(null); setIsPlaying(false); if (claraVideoRef.current) { claraVideoRef.current.pause(); claraVideoRef.current.currentTime = 0; } }}
-                    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: 600, color: "#6B7A8A", padding: 0 }}
-                  >
-                    ← Tilbage
-                  </button>
-                </div>
-
-              </div>
-            </div>
-          ) : detailPage ? (
+          {detailPage ? (
             /* Detail view */
             <div style={{ padding: "8px 20px 40px" }}>
+              {/* Skjules når WorkforceShortage styrer sin egen back-navigation, eller når et sub-view er aktivt */}
+              {virksomhedView !== "data" && !virksomhedView && (
+                <button
+                  onClick={() => setDetailPage(null)}
+                  style={{ background: "none", border: "none", cursor: "pointer", fontSize: "15px", fontWeight: 700, color: CURRY, padding: 0, display: "flex", alignItems: "center", gap: "6px", marginBottom: "12px" }}
+                >
+                  ← Tilbage
+                </button>
+              )}
+
+              {detailPage === "Nyuddannet" && (
+                <div style={{ background: WHITE, borderRadius: "20px", padding: "24px", border: `1px solid ${BORDER}`, boxShadow: "0 4px 20px rgba(10,22,40,0.07)", display: "grid", gap: "20px" }}>
+
+                  {/* Profil */}
+                  <div style={{ display: "flex", gap: "16px", alignItems: "center" }}>
+                    <div style={{ width: "72px", height: "72px", borderRadius: "50%", backgroundImage: "url('/images/Karina Maria - Founder.png')", backgroundSize: "cover", backgroundPosition: "center", border: `2px solid ${CURRY_BORDER}`, flexShrink: 0 }} />
+                    <div>
+                      <div style={labelSt}>Bag ByggeTalent</div>
+                      <div style={{ fontSize: "20px", fontWeight: 700, color: TEXT, fontFamily: "Georgia, serif" }}>Karina Maria Nyberg</div>
+                      <div style={{ fontSize: "12px", color: MUTED, marginTop: "2px" }}>Grundlægger · HR-leder · Ledelseskonsulent</div>
+                    </div>
+                  </div>
+
+                  {/* Intro */}
+                  <div style={{ fontSize: "15px", lineHeight: 1.75, color: TEXT }}>
+                    ByggeTalent er skabt af én, der kender branchen indefra. Som tidligere HR-leder i bygge- og anlægssektoren har jeg siddet med rekruttering og onboarding — og set på tæt hold, hvordan de to hænger uløseligt sammen med god ledelse.
+                  </div>
+
+                  <div style={{ fontSize: "15px", lineHeight: 1.75, color: TEXT }}>
+                    Som selvstændig ledelseskonsulent har jeg rådgivet virksomheder i netop det: at tiltrække de rigtige mennesker, tage godt imod dem og give dem de bedste forudsætninger for at lykkes. Ud af det arbejde er ALT-testen opstået — <strong>Adfærd, Ledelse og Trivsel</strong> — en test udviklet specifikt til bygge- og anlægsbranchen.
+                  </div>
+
+                  {/* Divider */}
+                  <div style={{ height: "1px", background: BORDER }} />
+
+                  {/* 3 ydelser */}
+                  <div>
+                    <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: CURRY, marginBottom: "12px" }}>Hvad vi tilbyder</div>
+                    <div style={{ display: "grid", gap: "10px" }}>
+                      {[
+                        { nr: "01", titel: "Rekruttering", tekst: "Med brancheforståelse og netværk finder vi de profiler, der passer — ikke bare på papiret, men i praksis." },
+                        { nr: "02", titel: "Projekt- og karrieresamtaler", tekst: "Sparring der giver retning — uanset om du er kandidat eller leder med et team i udvikling." },
+                        { nr: "03", titel: "Fokus på nyuddannede (0–3 år)", tekst: "ByggeTalent har en dedikeret Hotline med Clara — vores AI-rådgiver — der besvarer op til 10 spørgsmål og henviser til mig, når behovet er der." },
+                      ].map((y) => (
+                        <div key={y.nr} style={{ display: "flex", gap: "14px", padding: "14px", background: CURRY_BG, borderRadius: "12px", border: `1px solid ${CURRY_BORDER}` }}>
+                          <div style={{ fontSize: "11px", fontWeight: 800, color: CURRY, letterSpacing: "0.08em", flexShrink: 0, paddingTop: "2px" }}>{y.nr}</div>
+                          <div>
+                            <div style={{ fontSize: "14px", fontWeight: 700, color: TEXT, marginBottom: "3px" }}>{y.titel}</div>
+                            <div style={{ fontSize: "13px", color: MUTED, lineHeight: 1.6 }}>{y.tekst}</div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Divider */}
+                  <div style={{ height: "1px", background: BORDER }} />
+
+                  {/* AI */}
+                  <div>
+                    <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: CURRY, marginBottom: "10px" }}>Bygget med AI</div>
+                    <div style={{ fontSize: "14px", lineHeight: 1.75, color: MUTED }}>
+                      Hele ByggeTalent-platformen er udviklet med AI. Vi bruger flere AI-modeller i vores daglige arbejde — fra rekrutteringsprocessen til karriererådgivning. AI transformerer HR fra at være primært administrativt til at blive strategisk og datadrevet: bedre kandidatmatch, mere præcis screening og proaktiv indsigt i trivsel og fastholdelse.
+                    </div>
+                  </div>
+
+                  {/* Brancheudfordring */}
+                  <div style={{ padding: "16px", background: "#0A162808", borderRadius: "12px", border: `1px solid ${BORDER}` }}>
+                    <div style={{ fontSize: "13px", fontWeight: 700, color: TEXT, marginBottom: "6px" }}>Bygge- og anlæg: en branche under pres</div>
+                    <div style={{ fontSize: "13px", color: MUTED, lineHeight: 1.7 }}>
+                      Branchen er en af de sværeste at rekruttere i — og fremskrivningerne er klare: der kommer til at mangle mange faglærte og specialister de kommende år. Det er præcis dér, ByggeTalent gør en forskel.
+                    </div>
+                    <button
+                      onClick={() => { setDetailPage("Virksomhed"); }}
+                      style={{ marginTop: "12px", background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: 700, color: CURRY, padding: 0 }}>
+                      Læs mere om arbejdskraftudfordringen →
+                    </button>
+                  </div>
+
+                  {/* Tags */}
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+                    {["HR · Rekruttering", "Onboarding", "Ledelse", "ALT-testen", "AI-drevet", "Bygge & Anlæg"].map((tag) => (
+                      <div key={tag} style={{ padding: "5px 12px", borderRadius: "999px", background: CURRY_BG, color: CURRY, fontSize: "12px", fontWeight: 700 }}>{tag}</div>
+                    ))}
+                  </div>
+
+                </div>
+              )}
 
               {detailPage === "Kandidat" && (
                 <div style={{ display: "grid", gap: "16px" }}>
@@ -420,9 +387,9 @@ export default function Home() {
                       {/* 3 kort */}
                       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
                         {[
-                          { key: "data" as const,    label: "Data & Info", sub: "", bg: "#6A9060" },
-                          { key: "jobmatch" as const, label: "Jobmatch",    sub: "", bg: "#6E7580" },
-                          { key: "samtale" as const,  label: "Projektsamtale", sub: "", bg: "#C4A03A" },
+                          { key: "data" as const,    label: "Arbejdskraftdata", sub: "Mangel frem mod 2030",           bg: "#6A9060" },
+                          { key: "jobmatch" as const, label: "Jobmatch",         sub: "Find de rigtige kandidater",    bg: "#6E7580" },
+                          { key: "samtale" as const,  label: "Projektsamtale",   sub: "Book en uforpligtende samtale", bg: "#C4A03A" },
                         ].map((card) => (
                           <button key={card.key} type="button" onClick={() => setVirksomhedView(card.key)}
                             style={{ borderRadius: "14px", background: card.bg, border: "1px solid transparent",
@@ -483,18 +450,6 @@ export default function Home() {
                     </div>
                   )}
 
-                </div>
-              )}
-
-              {/* Tilbage — nederst i indholdet */}
-              {virksomhedView !== "data" && !virksomhedView && (
-                <div style={{ borderTop: `1px solid ${BORDER}`, marginTop: "8px", paddingTop: "20px", textAlign: "center" }}>
-                  <button
-                    onClick={() => setDetailPage(null)}
-                    style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", fontWeight: 600, color: "#6B7A8A", padding: 0 }}
-                  >
-                    ← Tilbage
-                  </button>
                 </div>
               )}
             </div>
@@ -666,9 +621,12 @@ export default function Home() {
 
               {/* Top bar */}
               <div style={{ padding: "18px 20px 14px", borderBottom: `1px solid ${BORDER}`, background: WHITE, position: "sticky", top: 0, zIndex: 10, display: "flex", alignItems: "center", gap: "12px" }}>
-                <button onClick={() => setStep1SubPage(null)} style={{ background: "none", border: "none", cursor: "pointer", color: MUTED, fontSize: "13px", fontWeight: 600, padding: 0 }}>
+                <button onClick={() => setStep1SubPage(null)} style={{ background: "none", border: "none", cursor: "pointer", color: CURRY, fontSize: "15px", fontWeight: 700, padding: 0 }}>
                   ← Tilbage
                 </button>
+                <div style={{ fontFamily: "Georgia, serif", fontSize: "17px", fontWeight: 700, flex: 1, textAlign: "right" }}>
+                  <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE }}>Talent</span>
+                </div>
               </div>
 
               {/* Din profil */}
@@ -1202,7 +1160,7 @@ function JobListings() {
       {view === "detail" && selected && (
         <div style={{ background: WHITE, borderRadius: "14px", border: `1px solid ${BORDER}`, overflow: "hidden" }}>
           <div style={{ padding: "20px" }}>
-            <button onClick={() => setView("list")} style={{ background: "none", border: "none", cursor: "pointer", color: MUTED, fontSize: "13px", fontWeight: 600, padding: 0, marginBottom: "14px" }}>← Tilbage</button>
+            <button onClick={() => setView("list")} style={{ background: "none", border: "none", cursor: "pointer", color: CURRY, fontSize: "14px", fontWeight: 700, padding: 0, marginBottom: "14px" }}>← Tilbage</button>
             <div style={{ fontSize: "18px", fontWeight: 700, color: TEXT, marginBottom: "6px", fontFamily: "Georgia, serif" }}>{selected.title}</div>
             <div style={{ fontSize: "13px", color: MUTED, marginBottom: "16px" }}>{selected.location && `📍 ${selected.location} · `}{selected.type}</div>
             {selected.description && <div dangerouslySetInnerHTML={{ __html: selected.description }} style={{ fontSize: "14px", color: MUTED, lineHeight: 1.7, marginBottom: "20px" }} />}
@@ -1215,7 +1173,7 @@ function JobListings() {
 
       {view === "form" && selected && (
         <div style={{ background: WHITE, borderRadius: "14px", padding: "24px 20px", border: `1px solid ${BORDER}` }}>
-          <button onClick={() => setView("detail")} style={{ background: "none", border: "none", cursor: "pointer", color: MUTED, fontSize: "13px", fontWeight: 600, padding: 0, marginBottom: "20px" }}>← Tilbage</button>
+          <button onClick={() => setView("detail")} style={{ background: "none", border: "none", cursor: "pointer", color: CURRY, fontSize: "14px", fontWeight: 700, padding: 0, marginBottom: "20px" }}>← Tilbage</button>
 
           <div style={{ fontSize: "17px", fontWeight: 700, color: TEXT, marginBottom: "4px", fontFamily: "Georgia, serif" }}>Send ansøgning</div>
           <div style={{ fontSize: "13px", color: MUTED, marginBottom: "24px" }}>{selected.title}</div>
@@ -1276,8 +1234,8 @@ function JobListings() {
 }
 
 // ─── WSAccordion ──────────────────────────────────────────────────────────────
-function WSAccordion({ title, sub, children, defaultOpen }: { title: string; sub: string; children: React.ReactNode; defaultOpen?: boolean }) {
-  const [open, setOpen] = useState(defaultOpen ?? false);
+function WSAccordion({ title, sub, children }: { title: string; sub: string; children: React.ReactNode }) {
+  const [open, setOpen] = useState(false);
   return (
     <div style={{ borderRadius: "16px", background: WHITE, marginBottom: "10px", overflow: "hidden", boxShadow: "0 1px 4px rgba(0,0,0,0.07)" }}>
       <button
@@ -1375,7 +1333,7 @@ const WS_FACTS = [
 function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => void }) {
   const [fact, setFact] = useState(0);
   const [visible, setVisible] = useState(true);
-  const [showDetails, setShowDetails] = useState(true);
+  const [showDetails, setShowDetails] = useState(false);
 
   useEffect(() => {
     const t = setInterval(() => {
@@ -1392,6 +1350,12 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
 
   return (
     <div style={{ display: "grid", gap: "12px" }}>
+
+      {/* ── Nav ── */}
+      <button onClick={onExitToVirksomhed}
+        style={{ background: "none", border: "none", cursor: "pointer", padding: 0, color: CURRY, fontSize: "13px", fontWeight: 700, display: "flex", alignItems: "center", gap: "4px", justifyContent: "flex-start" }}>
+        ← Virksomhed
+      </button>
 
       {/* ── BYGGETALENT NEWS ── */}
       <div style={{ borderRadius: "18px", overflow: "hidden", boxShadow: "0 4px 20px rgba(10,22,40,0.14)" }}>
@@ -1473,7 +1437,7 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
 
             {/* Stripe 4: Gold ticker */}
             <div style={{ background: CURRY, overflow: "hidden", padding: "5px 0" }}>
-              <div style={{ display: "flex", gap: "32px", animation: "wsticker 6s linear infinite", whiteSpace: "nowrap" }}>
+              <div style={{ display: "flex", gap: "32px", animation: "wsticker 12s linear infinite", whiteSpace: "nowrap" }}>
                 {[...Array(5)].flatMap(() => [
                   "99.000 faglærte mangler", "·", "24.000 KVU mangler", "·", "13.000 MVU mangler", "·",
                   "11 kritiske faggrupper", "·", "Elektriker · VVS · BIM · Tømrer · Energirådgiver", "·",
@@ -1572,21 +1536,14 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
             </div>
           ),
         },
-      ].map((sec, i) => (
-        <WSAccordion key={sec.id} title={sec.title} sub={sec.sub} defaultOpen={i === 0}>{sec.content}</WSAccordion>
+      ].map(sec => (
+        <WSAccordion key={sec.id} title={sec.title} sub={sec.sub}>{sec.content}</WSAccordion>
       ))}
 
       {/* Kilde */}
 
       <div style={{ padding: "4px 4px 8px", fontSize: "10px", color: MUTED }}>
         Kilde: AE-rådet 2024 · ByggeTalent brancheanalyse
-      </div>
-
-      {/* ← Tilbage */}
-      <div style={{ borderTop: "1px solid rgba(0,0,0,0.07)", marginTop: "8px", paddingTop: "16px", textAlign: "center" }}>
-        <button onClick={onExitToVirksomhed} style={{ background: "none", border: "none", cursor: "pointer", color: "#6B7A8A", fontSize: "13px", fontWeight: 600, padding: 0 }}>
-          ← Tilbage
-        </button>
       </div>
     </div>
   );
