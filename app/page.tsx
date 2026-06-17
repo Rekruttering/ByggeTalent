@@ -385,8 +385,8 @@ export default function Home() {
                     <div style={{ display: "flex", alignItems: "center", marginBottom: "12px" }}>
                       <button onClick={() => setDetailPage(null)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "22px", color: TEXT, padding: 0, lineHeight: 1 }}>←</button>
                       <div style={{ flex: 1, textAlign: "center" }}>
-                        <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "10px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>BYGGE & ANLÆG</div>
-                        <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "36px", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.02em" }}>
+                        <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "13px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>BYGGE & ANLÆG</div>
+                        <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "44px", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.02em" }}>
                           <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE }}>Talent</span>
                         </div>
                         <div style={{ width: "36px", height: "1.5px", background: CURRY, margin: "6px auto 0" }} />
@@ -623,8 +623,8 @@ export default function Home() {
                 <div style={{ display: "flex", alignItems: "center", marginBottom: "12px" }}>
                   <button onClick={() => setStep(0)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "22px", color: TEXT, padding: 0, lineHeight: 1 }}>←</button>
                   <div style={{ flex: 1, textAlign: "center" }}>
-                    <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "10px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>BYGGE & ANLÆG</div>
-                    <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "36px", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.02em" }}>
+                    <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "13px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>BYGGE & ANLÆG</div>
+                    <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "44px", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.02em" }}>
                       <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE }}>Talent</span>
                     </div>
                     <div style={{ width: "36px", height: "1.5px", background: CURRY, margin: "6px auto 0" }} />
@@ -641,7 +641,7 @@ export default function Home() {
                         fontSize: "15px", fontWeight: step1Tab === tab ? 700 : 400,
                         color: step1Tab === tab ? TEXT : MUTED,
                         borderBottom: step1Tab === tab ? `2px solid ${CURRY}` : "2px solid transparent",
-                        marginBottom: "-1px" }}>
+                        marginBottom: "-1px", outline: "none" }}>
                       {tab}
                     </button>
                   ))}
@@ -818,8 +818,8 @@ export default function Home() {
                 <div style={{ display: "flex", alignItems: "center", marginBottom: "12px" }}>
                   <button onClick={() => setStep1SubPage(null)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "22px", color: TEXT, padding: 0, lineHeight: 1 }}>←</button>
                   <div style={{ flex: 1, textAlign: "center" }}>
-                    <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "10px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>BYGGE & ANLÆG</div>
-                    <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "36px", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.02em" }}>
+                    <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "13px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>BYGGE & ANLÆG</div>
+                    <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "44px", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.02em" }}>
                       <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE }}>Talent</span>
                     </div>
                     <div style={{ width: "36px", height: "1.5px", background: CURRY, margin: "6px auto 0" }} />
@@ -1003,8 +1003,8 @@ export default function Home() {
             <div style={{ display: "flex", alignItems: "center", marginBottom: "12px" }}>
               <button onClick={() => setStep(1)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "22px", color: TEXT, padding: 0, lineHeight: 1 }}>←</button>
               <div style={{ flex: 1, textAlign: "center" }}>
-                <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "10px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>BYGGE & ANLÆG</div>
-                <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "36px", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.02em" }}>
+                <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "13px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>BYGGE & ANLÆG</div>
+                <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "44px", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.02em" }}>
                   <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE }}>Talent</span>
                 </div>
                 <div style={{ width: "36px", height: "1.5px", background: CURRY, margin: "6px auto 0" }} />
