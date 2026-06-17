@@ -708,7 +708,7 @@ export default function Home() {
               {step1Tab === "Nyuddannede" && (
                 <div style={{ flex: 1, overflowY: "auto", padding: "20px 20px 40px", display: "flex", flexDirection: "column", gap: "16px" }}>
                   {/* Clara video med custom lydknap */}
-                  <div style={{ maxWidth: "360px", margin: "0 auto", width: "100%", display: "flex", flexDirection: "column", gap: "12px" }}>
+                  <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                     {/* Video */}
                     <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", background: NAVY }}>
                       <video autoPlay loop playsInline muted={claraMuted}
