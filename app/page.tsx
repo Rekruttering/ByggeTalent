@@ -671,7 +671,7 @@ export default function Home() {
                   {/* Clara video — ingen overlay der dækker billedet */}
                   <div style={{ borderRadius: "16px", overflow: "hidden", background: NAVY }}>
                     <video controls playsInline
-                      style={{ width: "100%", height: "280px", objectFit: "cover", objectPosition: "center 70%", display: "block" }}
+                      style={{ width: "100%", height: "280px", objectFit: "cover", objectPosition: "center center", display: "block" }}
                       src="/clara-avatar.mp4" />
                   </div>
                   {/* Clara label under videoen */}
