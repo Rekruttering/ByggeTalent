@@ -488,42 +488,17 @@ export default function Home() {
                 ))}
               </div>
 
-              {/* Hero billede — byggeplads */}
+              {/* Hero video */}
               <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", boxShadow: "0 4px 16px rgba(10,22,40,0.10)" }}>
-                <img
-                  src="/images/håndpåbyggepladsen.png"
-                  alt="Byggeplads"
-                  style={{ width: "100%", height: "280px", objectFit: "cover", objectPosition: "center 30%", display: "block" }}
-                />
+                <video autoPlay muted loop playsInline
+                  style={{ width: "100%", height: "320px", objectFit: "cover", display: "block" }}>
+                  <source src="/byggetalent-home.mp4" type="video/mp4" />
+                </video>
                 <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "80px", background: "linear-gradient(to top, rgba(10,22,40,0.55) 0%, transparent 100%)" }} />
                 <div style={{ position: "absolute", bottom: "16px", left: "16px", fontSize: "11px", fontWeight: 500, color: "rgba(255,255,255,0.70)", letterSpacing: "0.10em" }}>
                   ByggeTalent
                 </div>
               </div>
-
-              {/* Hero billede — karriere */}
-              <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", boxShadow: "0 4px 16px rgba(10,22,40,0.10)" }}>
-                <img
-                  src="/images/DIn faglg profil.png"
-                  alt="Ingeniør med ByggeTalent på telefonen"
-                  style={{ width: "100%", height: "280px", objectFit: "cover", objectPosition: "center 60%", display: "block" }}
-                />
-                <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "80px", background: "linear-gradient(to top, rgba(10,22,40,0.55) 0%, transparent 100%)" }} />
-                <div style={{ position: "absolute", bottom: "16px", left: "16px", fontSize: "11px", fontWeight: 500, color: "rgba(255,255,255,0.70)", letterSpacing: "0.10em" }}>
-                  Karrieresamtale
-                </div>
-              </div>
-
-              {/* Om ByggeTalent — featured kort */}
-              <button type="button" onClick={() => setDetailPage("Nyuddannet")} style={{ width: "100%", background: NAVY, borderRadius: "16px", border: "none", padding: "18px 20px", display: "flex", alignItems: "center", gap: "16px", cursor: "pointer", textAlign: "left", boxShadow: "0 4px 16px rgba(10,22,40,0.18)" }}>
-                <div style={{ width: "52px", height: "52px", borderRadius: "50%", backgroundImage: "url('/images/Karina Maria - Founder.png')", backgroundSize: "cover", backgroundPosition: "center", border: `2px solid ${CURRY_BORDER}`, flexShrink: 0 }} />
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: CURRY, marginBottom: "4px" }}>Rekruttering</div>
-                  <div style={{ fontSize: "15px", fontWeight: 700, color: WHITE, lineHeight: 1.2, marginBottom: "3px" }}>Om ByggeTalent</div>
-                  <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.55)" }}>Hvem vi er, og hvad vi tilbyder.</div>
-                </div>
-                <span style={{ fontSize: "18px", color: "rgba(255,255,255,0.55)", flexShrink: 0 }}>→</span>
-              </button>
 
               {/* Diskret admin-adgang */}
               <div style={{ textAlign: "center", paddingTop: "4px" }}>
