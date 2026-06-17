@@ -636,7 +636,7 @@ export default function Home() {
                 {/* Tabs */}
                 <div style={{ display: "flex", borderBottom: `1px solid ${BORDER}`, marginTop: "8px" }}>
                   {(["Karriere", "Nyuddannede"] as const).map((tab) => (
-                    <button key={tab} onClick={() => setStep1Tab(tab)}
+                    <button key={tab} onClick={() => setStep1Tab(tab)} onMouseDown={(e) => e.preventDefault()}
                       style={{ flex: 1, padding: "12px 0", background: "none", border: "none", cursor: "pointer",
                         fontSize: "15px", fontWeight: step1Tab === tab ? 700 : 400,
                         color: step1Tab === tab ? TEXT : MUTED,
