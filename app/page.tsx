@@ -712,7 +712,7 @@ export default function Home() {
                     {/* Video */}
                     <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", background: NAVY }}>
                       <video autoPlay loop playsInline muted={claraMuted}
-                        style={{ width: "100%", aspectRatio: "3/4", objectFit: "cover", objectPosition: "center center", display: "block" }}
+                        style={{ width: "100%", height: "260px", objectFit: "cover", objectPosition: "center 20%", display: "block" }}
                         src="/clara-avatar.mp4" />
                       <button onClick={() => setClaraMuted(!claraMuted)}
                         style={{ position: "absolute", top: "12px", right: "12px", background: claraMuted ? "rgba(255,255,255,0.9)" : CURRY, border: "none", borderRadius: "20px", padding: "6px 12px", cursor: "pointer", display: "flex", alignItems: "center", gap: "5px", fontSize: "12px", fontWeight: 700, color: claraMuted ? TEXT : WHITE }}>
