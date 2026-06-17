@@ -712,20 +712,20 @@ export default function Home() {
                     <video autoPlay loop playsInline muted={claraMuted}
                       style={{ width: "100%", aspectRatio: "3/4", objectFit: "cover", objectPosition: "center center", display: "block" }}
                       src="/clara-avatar.mp4" />
-                    {/* Overlay tekst nederst */}
-                    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "40px 16px 14px", background: "linear-gradient(to top, rgba(10,22,40,0.80) 0%, transparent 100%)", pointerEvents: "none" }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "2px" }}>
-                        <div style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#22C55E" }} />
-                        <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.8)", fontWeight: 600 }}>AI-hotline · ByggeTalent</span>
-                      </div>
-                      <div style={{ fontSize: "26px", fontWeight: 700, color: WHITE, fontFamily: "Georgia, serif", lineHeight: 1 }}>Clara</div>
-                      <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.65)", marginTop: "2px" }}>AI-assistent</div>
-                    </div>
                     {/* Lydknap øverst til højre */}
                     <button onClick={() => setClaraMuted(!claraMuted)}
                       style={{ position: "absolute", top: "12px", right: "12px", background: claraMuted ? "rgba(255,255,255,0.9)" : CURRY, border: "none", borderRadius: "20px", padding: "6px 12px", cursor: "pointer", display: "flex", alignItems: "center", gap: "5px", fontSize: "12px", fontWeight: 700, color: claraMuted ? TEXT : WHITE }}>
                       {claraMuted ? "🔇 Lyd" : "🔊 Lyd til"}
                     </button>
+                  </div>
+                  {/* Tekst under video */}
+                  <div style={{ maxWidth: "360px", margin: "0 auto", width: "100%" }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
+                      <div style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#22C55E" }} />
+                      <span style={{ fontSize: "11px", color: MUTED, fontWeight: 600 }}>AI-hotline · ByggeTalent</span>
+                    </div>
+                    <div style={{ fontSize: "22px", fontWeight: 700, color: TEXT, fontFamily: "Georgia, serif", lineHeight: 1 }}>Clara</div>
+                    <div style={{ fontSize: "12px", color: MUTED, marginTop: "2px" }}>AI-assistent</div>
                   </div>
 
                   <p style={{ fontSize: "14px", color: MUTED, lineHeight: 1.65, margin: 0 }}>
