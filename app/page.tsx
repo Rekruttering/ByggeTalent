@@ -971,40 +971,53 @@ export default function Home() {
 
             {/* ── Intro: rollevalg ── */}
             {altPhase === "intro" && (
-              <div style={{ display: "grid", gap: "16px" }}>
+              <div style={{ display: "grid", gap: "20px" }}>
+                {/* Titel */}
                 <div>
-                  <h2 style={{ margin: "0 0 6px", fontSize: "24px", lineHeight: 1.15, fontWeight: 700, color: TEXT, fontFamily: "Georgia, serif" }}>
-                    Arbejdslivstest · ALT
+                  <div style={{ fontSize: "13px", color: MUTED, marginBottom: "6px" }}>Adfærd · Ledelse · Trivsel</div>
+                  <h2 style={{ margin: "0 0 10px", fontSize: "30px", lineHeight: 1.15, fontWeight: 700, color: TEXT, fontFamily: "Georgia, serif" }}>
+                    Kortlæg din arbejdssituation
                   </h2>
                   <p style={{ margin: 0, fontSize: "15px", color: MUTED, lineHeight: 1.6 }}>
-                    Testen giver dig et øjebliksbillede af dit arbejdsliv — tilpasset din rolle i branchen.
+                    Testen måler fire dimensioner og sammenligner med branchen. Tager ca. 4 minutter.
                   </p>
                 </div>
 
-                <div style={{ background: WHITE, borderRadius: "16px", padding: "18px", border: `1px solid ${BORDER}` }}>
-                  <div style={{ fontSize: "11px", fontWeight: 700, color: MUTED, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "14px" }}>Vælg din rolle for at starte</div>
+                {/* Kategori pills */}
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                  {[
+                    { label: "Kultur & Tone", color: "#C4A03A" },
+                    { label: "Hold & Ressourcer", color: "#2563EB" },
+                    { label: "Ansvar & Mandat", color: "#6A9060" },
+                    { label: "Trivsel", color: "#6E7580" },
+                  ].map(({ label, color }) => (
+                    <div key={label} style={{ display: "flex", alignItems: "center", gap: "7px", padding: "8px 14px", borderRadius: "999px", background: WHITE, border: `1px solid ${BORDER}`, fontSize: "14px", fontWeight: 500, color: TEXT }}>
+                      <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: color, flexShrink: 0 }} />
+                      {label}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Rollevalg */}
+                <div>
+                  <div style={{ fontSize: "16px", fontWeight: 700, color: TEXT, marginBottom: "12px" }}>Vælg din rolle</div>
                   <div style={{ display: "grid", gap: "10px" }}>
                     {([
-                      { r: "Leder", sub: "For dig med personale- eller projektansvar" },
-                      { r: "Fagspecialist", sub: "For dig der arbejder med faglige leverancer" },
-                      { r: "Nyuddannet", sub: "For dig der er ny i branchen (0–2 år)" },
+                      { r: "Nyuddannet", sub: "0–3 år i branchen" },
+                      { r: "Fagspecialist", sub: "Faglært eller specialiseret medarbejder" },
+                      { r: "Leder", sub: "Teamleder, projektleder eller chef" },
                     ] as const).map(({ r, sub }) => (
                       <button key={r} type="button" onClick={() => setAltRole(r)}
-                        style={{ textAlign: "left", padding: "14px 16px", borderRadius: "12px", border: altRole === r ? `2px solid ${CURRY}` : `1.5px solid ${BORDER}`, background: altRole === r ? CURRY_BG : "#FAFAF8", cursor: "pointer" }}>
-                        <div style={{ fontSize: "15px", fontWeight: 700, color: altRole === r ? CURRY : TEXT }}>{r}</div>
-                        <div style={{ fontSize: "13px", color: MUTED, marginTop: "2px" }}>{sub}</div>
+                        style={{ textAlign: "left", padding: "16px", borderRadius: "14px", border: `1.5px solid ${BORDER}`, background: WHITE, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                        <div>
+                          <div style={{ fontSize: "16px", fontWeight: 700, color: TEXT }}>{r}</div>
+                          <div style={{ fontSize: "13px", color: MUTED, marginTop: "2px" }}>{sub}</div>
+                        </div>
+                        <div style={{ width: "22px", height: "22px", borderRadius: "50%", border: altRole === r ? `6px solid ${CURRY}` : `1.5px solid ${BORDER}`, flexShrink: 0 }} />
                       </button>
                     ))}
                   </div>
                 </div>
-
-                <button
-                  onClick={startAlt}
-                  disabled={!altRole}
-                  style={{ padding: "15px", borderRadius: "14px", border: "none", background: altRole ? CURRY : BORDER, color: altRole ? WHITE : MUTED, fontSize: "15px", fontWeight: 700, cursor: altRole ? "pointer" : "not-allowed" }}
-                >
-                  {altRole ? `Start ALT som ${altRole} →` : "Vælg din rolle for at starte"}
-                </button>
               </div>
             )}
 
@@ -1188,6 +1201,15 @@ export default function Home() {
               }}
               style={backBtnSt}
             >←</button>
+            {altPhase === "intro" && (
+              <button
+                onClick={startAlt}
+                disabled={!altRole}
+                style={{ flex: 1, padding: "15px", borderRadius: "14px", border: "none", background: altRole ? CURRY : BORDER, color: altRole ? WHITE : MUTED, fontSize: "15px", fontWeight: 700, cursor: altRole ? "pointer" : "not-allowed" }}
+              >
+                Start testen →
+              </button>
+            )}
             {altPhase === "result" && (
               <button style={{ flex: 1, padding: "15px", borderRadius: "14px", border: "none", background: CURRY, color: WHITE, fontSize: "15px", fontWeight: 700, cursor: "pointer" }} onClick={() => {}}>
                 Book samtale →
