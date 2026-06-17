@@ -552,7 +552,7 @@ export default function Home() {
 
               {/* Video */}
               <div style={{ height: "200px", overflow: "hidden", flexShrink: 0 }}>
-                <video autoPlay muted loop playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} src="/Byggetalent 2.0.mp4" />
+                <video autoPlay muted loop playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} src="/byggetalent-home.mp4" />
               </div>
 
               {/* Kortknapper */}
@@ -1367,8 +1367,7 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
             autoPlay muted loop playsInline
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
           >
-            <source src="/byggetalent-news.mov" type="video/quicktime" />
-            <source src="/byggetalent-news.mov" type="video/mp4" />
+            <source src="/byggetalent-news.mp4" type="video/mp4" />
           </video>
 
           {/* Gradient overlay — transparent øverst, navy i bunden */}
