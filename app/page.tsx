@@ -257,8 +257,8 @@ export default function Home() {
           {detailPage ? (
             /* Detail view */
             <div style={{ padding: "8px 20px 40px" }}>
-              {/* Skjules når WorkforceShortage styrer sin egen back-navigation, eller når et sub-view er aktivt */}
-              {virksomhedView !== "data" && !virksomhedView && (
+              {/* Skjules på Virksomhed (har sin egen header) og WorkforceShortage */}
+              {detailPage !== "Virksomhed" && virksomhedView !== "data" && !virksomhedView && (
                 <button
                   onClick={() => setDetailPage(null)}
                   style={{ background: "none", border: "none", cursor: "pointer", fontSize: "15px", fontWeight: 700, color: CURRY, padding: 0, display: "flex", alignItems: "center", gap: "6px", marginBottom: "12px" }}
@@ -380,8 +380,24 @@ export default function Home() {
               {detailPage === "Virksomhed" && (
                 <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
 
+                  {/* Header */}
+                  <div style={{ background: PAGE_BG, padding: "20px 20px 0", textAlign: "center", position: "sticky", top: 0, zIndex: 10 }}>
+                    <div style={{ display: "flex", alignItems: "center", marginBottom: "12px" }}>
+                      <button onClick={() => setDetailPage(null)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "22px", color: TEXT, padding: 0, lineHeight: 1 }}>←</button>
+                      <div style={{ flex: 1, textAlign: "center" }}>
+                        <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "10px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>BYGGE & ANLÆG</div>
+                        <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "36px", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.02em" }}>
+                          <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE }}>Talent</span>
+                        </div>
+                        <div style={{ width: "36px", height: "1.5px", background: CURRY, margin: "6px auto 0" }} />
+                        <div style={{ fontFamily: "Georgia, serif", fontSize: "9px", letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED, marginTop: "4px" }}>REKRUTTERING MED BRANCHEFORSTÅELSE</div>
+                      </div>
+                      <div style={{ width: "28px" }} />
+                    </div>
+                  </div>
+
                   {/* Tabs */}
-                  <div style={{ display: "flex", borderBottom: `1px solid ${BORDER}`, background: PAGE_BG, position: "sticky", top: 0, zIndex: 5 }}>
+                  <div style={{ display: "flex", borderBottom: `1px solid ${BORDER}`, background: PAGE_BG, position: "sticky", top: "94px", zIndex: 5 }}>
                     {(["Nyheder", "Rekruttering", "Onboarding"] as const).map((tab) => (
                       <button key={tab} onClick={() => setVirksomhedTab(tab)}
                         style={{ flex: 1, padding: "12px 0", background: "none", border: "none", cursor: "pointer",
@@ -934,15 +950,21 @@ export default function Home() {
       {step === 2 && (
         <div style={{ maxWidth: "480px", margin: "0 auto", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
 
-          {/* Top bar */}
-          <div style={{ padding: "18px 20px 14px", borderBottom: `1px solid ${BORDER}`, background: WHITE, position: "sticky", top: 0, zIndex: 10 }}>
-            <div style={{ fontFamily: "Georgia, serif", fontSize: "17px", fontWeight: 700, marginBottom: "6px" }}>
-              <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE, fontFamily: "Georgia, serif" }}>Talent</span>
+          {/* Header */}
+          <div style={{ background: PAGE_BG, padding: "20px 20px 0", textAlign: "center", position: "sticky", top: 0, zIndex: 10 }}>
+            <div style={{ display: "flex", alignItems: "center", marginBottom: "12px" }}>
+              <button onClick={() => setStep(1)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "22px", color: TEXT, padding: 0, lineHeight: 1 }}>←</button>
+              <div style={{ flex: 1, textAlign: "center" }}>
+                <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "10px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>BYGGE & ANLÆG</div>
+                <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "36px", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.02em" }}>
+                  <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE }}>Talent</span>
+                </div>
+                <div style={{ width: "36px", height: "1.5px", background: CURRY, margin: "6px auto 0" }} />
+                <div style={{ fontFamily: "Georgia, serif", fontSize: "9px", letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED, marginTop: "4px" }}>REKRUTTERING MED BRANCHEFORSTÅELSE</div>
+              </div>
+              <div style={{ width: "28px" }} />
             </div>
-            <div style={{ fontSize: "13px", color: MUTED }}>Trin 3 af 4 · ALT</div>
-            <div style={{ marginTop: "8px", height: "3px", background: BORDER, borderRadius: "99px", overflow: "hidden" }}>
-              <div style={{ width: "75%", height: "100%", background: CURRY, borderRadius: "99px" }} />
-            </div>
+            <div style={{ borderBottom: `1px solid ${BORDER}`, marginTop: "8px" }} />
           </div>
 
           <div style={{ flex: 1, overflowY: "auto", padding: "24px 20px 40px" }}>
