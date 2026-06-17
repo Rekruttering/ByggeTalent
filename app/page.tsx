@@ -811,14 +811,21 @@ export default function Home() {
             /* ── Underpaneler ── */
             <div style={{ flex: 1, display: "flex", flexDirection: "column", background: PAGE_BG }}>
 
-              {/* Top bar */}
-              <div style={{ padding: "18px 20px 14px", borderBottom: `1px solid ${BORDER}`, background: WHITE, position: "sticky", top: 0, zIndex: 10, display: "flex", alignItems: "center", gap: "12px" }}>
-                <button onClick={() => setStep1SubPage(null)} style={{ background: "none", border: "none", cursor: "pointer", color: CURRY, fontSize: "15px", fontWeight: 700, padding: 0 }}>
-                  ← Tilbage
-                </button>
-                <div style={{ fontFamily: "Georgia, serif", fontSize: "17px", fontWeight: 700, flex: 1, textAlign: "right" }}>
-                  <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE }}>Talent</span>
+              {/* Header */}
+              <div style={{ background: PAGE_BG, padding: "20px 20px 0", textAlign: "center", position: "sticky", top: 0, zIndex: 10 }}>
+                <div style={{ display: "flex", alignItems: "center", marginBottom: "12px" }}>
+                  <button onClick={() => setStep1SubPage(null)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "22px", color: TEXT, padding: 0, lineHeight: 1 }}>←</button>
+                  <div style={{ flex: 1, textAlign: "center" }}>
+                    <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "10px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>BYGGE & ANLÆG</div>
+                    <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "36px", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.02em" }}>
+                      <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE }}>Talent</span>
+                    </div>
+                    <div style={{ width: "36px", height: "1.5px", background: CURRY, margin: "6px auto 0" }} />
+                    <div style={{ fontFamily: "Georgia, serif", fontSize: "9px", letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED, marginTop: "4px" }}>REKRUTTERING MED BRANCHEFORSTÅELSE</div>
+                  </div>
+                  <div style={{ width: "28px" }} />
                 </div>
+                <div style={{ borderBottom: `1px solid ${BORDER}` }} />
               </div>
 
               {/* Din profil */}
@@ -829,13 +836,13 @@ export default function Home() {
                     <TextInput placeholder="Efternavn" value={form.lastName} onChange={(v) => update("lastName", v)} />
                   </FormSection>
                   <FormSection label="Kontakt">
-                    <TextInput placeholder="E-mail" value={form.email} onChange={(v) => update("email", v)} />
+                    <TextInput placeholder="E-mail *" value={form.email} onChange={(v) => update("email", v)} />
                     <TextInput placeholder="Telefon" value={form.phone} onChange={(v) => update("phone", v)} />
-                    <TextInput placeholder="Adresse / by / postnummer" value={form.address} onChange={(v) => update("address", v)} />
+                    <TextInput placeholder="LinkedIn (valgfrit)" value={form.linkedin} onChange={(v) => update("linkedin", v)} />
                   </FormSection>
                   <FormSection label="Din rolle">
-                    <TextInput placeholder="Nuværende titel / rolle" value={form.currentTitle} onChange={(v) => update("currentTitle", v)} />
-                    <TextInput placeholder="LinkedIn" value={form.linkedin} onChange={(v) => update("linkedin", v)} />
+                    <TextInput placeholder="Nuværende stilling" value={form.currentTitle} onChange={(v) => update("currentTitle", v)} />
+                    <TextInput placeholder="Ønsket stilling" value={form.supplementaryInfo} onChange={(v) => update("supplementaryInfo", v)} />
                   </FormSection>
                   <FormSection label="Anciennitet">
                     <PillGroup options={["0-3 år", "4-7 år", "8-12 år", "12+ år"]} value={form.experience} onChange={(v) => update("experience", v)} />
@@ -1193,14 +1200,6 @@ export default function Home() {
 
           {/* Fast bund-navigation */}
           <div style={{ position: "sticky", bottom: 0, background: WHITE, borderTop: `1px solid ${BORDER}`, padding: "14px 20px 24px", display: "flex", gap: "10px" }}>
-            <button
-              onClick={() => {
-                if (altPhase === "quiz") { setAltPhase("intro"); setAltAnswers([]); setAltCurrentQ(0); }
-                else if (altPhase === "result") { setAltPhase("intro"); setAltAnswers([]); setAltCurrentQ(0); }
-                else setStep(1);
-              }}
-              style={backBtnSt}
-            >←</button>
             {altPhase === "intro" && (
               <button
                 onClick={startAlt}
@@ -1209,6 +1208,12 @@ export default function Home() {
               >
                 Start testen →
               </button>
+            )}
+            {altPhase === "quiz" && (
+              <button
+                onClick={() => { setAltPhase("intro"); setAltAnswers([]); setAltCurrentQ(0); }}
+                style={backBtnSt}
+              >←</button>
             )}
             {altPhase === "result" && (
               <button style={{ flex: 1, padding: "15px", borderRadius: "14px", border: "none", background: CURRY, color: WHITE, fontSize: "15px", fontWeight: 700, cursor: "pointer" }} onClick={() => {}}>
