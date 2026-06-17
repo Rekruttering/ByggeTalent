@@ -708,9 +708,9 @@ export default function Home() {
               {step1Tab === "Nyuddannede" && (
                 <div style={{ flex: 1, overflowY: "auto", padding: "20px 20px 40px", display: "flex", flexDirection: "column", gap: "16px" }}>
                   {/* Clara video med custom lydknap */}
-                  <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", background: NAVY, aspectRatio: "3/4", width: "100%" }}>
+                  <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", background: NAVY }}>
                     <video autoPlay loop playsInline muted={claraMuted}
-                      style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "center center", display: "block" }}
+                      style={{ width: "100%", aspectRatio: "3/4", objectFit: "cover", objectPosition: "center center", display: "block" }}
                       src="/clara-avatar.mp4" />
                     {/* Overlay tekst nederst */}
                     <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "40px 16px 14px", background: "linear-gradient(to top, rgba(10,22,40,0.80) 0%, transparent 100%)", pointerEvents: "none" }}>
