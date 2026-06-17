@@ -830,7 +830,7 @@ export default function Home() {
 
               {/* Din profil */}
               {step1SubPage === "profile" && (
-                <div style={{ flex: 1, overflowY: "auto", padding: "24px 20px 100px", display: "flex", flexDirection: "column", gap: "28px" }}>
+                <div style={{ flex: 1, overflowY: "auto", padding: "24px 20px 40px", display: "flex", flexDirection: "column", gap: "28px" }}>
                   <FormSection label="Dit navn">
                     <TextInput placeholder="Fornavn" value={form.name} onChange={(v) => update("name", v)} />
                     <TextInput placeholder="Efternavn" value={form.lastName} onChange={(v) => update("lastName", v)} />
@@ -842,7 +842,7 @@ export default function Home() {
                   </FormSection>
                   <FormSection label="Din rolle">
                     <TextInput placeholder="Nuværende stilling" value={form.currentTitle} onChange={(v) => update("currentTitle", v)} />
-                    <TextInput placeholder="Ønsket stilling" value={form.supplementaryInfo} onChange={(v) => update("supplementaryInfo", v)} />
+                    <TextInput placeholder="Ønsket stilling" value={form.address} onChange={(v) => update("address", v)} />
                   </FormSection>
                   <FormSection label="Anciennitet">
                     <PillGroup options={["0-3 år", "4-7 år", "8-12 år", "12+ år"]} value={form.experience} onChange={(v) => update("experience", v)} />
@@ -876,9 +876,48 @@ export default function Home() {
                       onOtherTitleChange={(v) => update("profileOtherTitle", v)}
                     />
                   </FormSection>
-                  <FormSection label={<>En kort note <span style={{ fontWeight: 400, textTransform: "none", letterSpacing: 0 }}>(valgfrit)</span></>}>
-                    <textarea style={textareaSt} placeholder="Hvad skal vi vide om dig?" value={form.supplementaryInfo} onChange={(e) => update("supplementaryInfo", e.target.value)} />
+
+                  {/* Samtykke */}
+                  <FormSection label="Samtykke">
+                    <InfoCheckboxCard
+                      checked={form.consent}
+                      onChange={() => update("consent", !form.consent)}
+                      infoOpen={showConsentInfo}
+                      onToggleInfo={() => setShowConsentInfo(!showConsentInfo)}
+                      label="Jeg giver samtykke til at ByggeTalent kontakter mig om relevante karrieremuligheder."
+                      infoText="Dine oplysninger opbevares i op til 6 måneder med henblik på rekruttering og relevante jobmuligheder."
+                    />
+                    <InfoCheckboxCard
+                      checked={form.gdpr}
+                      onChange={() => update("gdpr", !form.gdpr)}
+                      infoOpen={showGdprInfo}
+                      onToggleInfo={() => setShowGdprInfo(!showGdprInfo)}
+                      label="Jeg accepterer ByggeTalents privatlivspolitik og behandling af mine personoplysninger."
+                      infoText="ByggeTalent behandler dine oplysninger med henblik på rekruttering og match med relevante muligheder."
+                    />
                   </FormSection>
+
+                  {/* Indsend knap */}
+                  <button
+                    disabled={!form.email || !form.consent || !form.gdpr}
+                    onClick={async () => {
+                      await supabase.from("applications").insert([{
+                        name: form.name, last_name: form.lastName, email: form.email,
+                        phone: form.phone, address: form.address, current_title: form.currentTitle,
+                        linkedin: form.linkedin, salary: form.salary, distance: form.distance,
+                        experience: form.experience, supplementary_info: form.supplementaryInfo,
+                        profiles: form.profiles, profile_other_title: form.profileOtherTitle,
+                        submitted_at: new Date().toISOString(), status: "ny", notes: "",
+                      }]);
+                      setStep1SubPage(null);
+                    }}
+                    style={{ width: "100%", padding: "16px", borderRadius: "14px", border: "none",
+                      background: (form.email && form.consent && form.gdpr) ? NAVY : BORDER,
+                      color: (form.email && form.consent && form.gdpr) ? WHITE : MUTED,
+                      fontSize: "16px", fontWeight: 700, cursor: (form.email && form.consent && form.gdpr) ? "pointer" : "not-allowed" }}
+                  >
+                    Indsend profil →
+                  </button>
                 </div>
               )}
 
