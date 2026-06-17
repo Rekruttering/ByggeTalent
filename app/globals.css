@@ -30,8 +30,8 @@ textarea::placeholder {
   color: #8B9099 !important;
 }
 
-button:focus,
-button:focus-visible {
+*:focus,
+*:focus-visible {
   outline: none !important;
   box-shadow: none !important;
 }
