@@ -166,6 +166,8 @@ export default function Home() {
   const [step1SubPage, setStep1SubPage] = useState<null | 'profile' | 'consent' | 'privacy' | 'karina'>(null);
   const [step1Tab, setStep1Tab] = useState<"Karriere" | "Nyuddannede">("Karriere");
   const [claraMuted, setClaraMuted] = useState(true);
+  const [claraChat, setClaraChat] = useState<null | { question: string; messages: { from: "user" | "clara"; text: string }[] }>(null);
+  const [claraInput, setClaraInput] = useState("");
 
   // ─── Jobs ───────────────────────────────────────────────────────────────────
   type JobPosting = { id: string; title: string; location: string; region: string; type: string; description: string; active: boolean };
@@ -695,20 +697,70 @@ export default function Home() {
                   </p>
 
                   {/* Spørgsmål */}
-                  {[
-                    "Jeg er ny i branchen og prøver at finde min plads – hvad kan være godt at være opmærksom på?",
-                    "Hvordan kan jeg mærke, om jeg trives i mit nye arbejdsliv?",
-                    "Hvordan lærer jeg bedst kulturen på min arbejdsplads at kende?",
-                    "Hvad kan jeg gøre, hvis jeg er i tvivl om de uskrevne regler på arbejdspladsen?",
-                    "Hvordan kan jeg stille spørgsmål på en god måde til min leder?",
-                    "Hvad gør jeg, hvis jeg føler mig overset eller ikke lyttet til?",
-                  ].map((q, i) => (
-                    <div key={i} style={{ background: WHITE, borderRadius: "14px", padding: "16px 18px", border: `1px solid ${BORDER}`, display: "flex", alignItems: "center", gap: "14px", cursor: "pointer" }}>
-                      <div style={{ width: "36px", height: "36px", borderRadius: "50%", backgroundImage: "url('/images/Karina Maria - Founder.png')", backgroundSize: "cover", backgroundPosition: "center", flexShrink: 0 }} />
-                      <div style={{ flex: 1, fontSize: "14px", color: TEXT, lineHeight: 1.5 }}>{q}</div>
-                      <span style={{ color: MUTED, fontSize: "16px", flexShrink: 0 }}>›</span>
+                  {claraChat ? (
+                    /* ── Clara chat-vindue ── */
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0", background: WHITE, borderRadius: "16px", border: `1px solid ${BORDER}`, overflow: "hidden" }}>
+                      {/* Chat header */}
+                      <div style={{ padding: "12px 16px", borderBottom: `1px solid ${BORDER}`, display: "flex", alignItems: "center", gap: "10px" }}>
+                        <button onClick={() => { setClaraChat(null); setClaraInput(""); }} style={{ background: "none", border: "none", cursor: "pointer", color: CURRY, fontSize: "14px", fontWeight: 700, padding: 0 }}>← Tilbage</button>
+                        <div style={{ flex: 1, textAlign: "center", fontSize: "14px", fontWeight: 700, color: TEXT }}>Clara · AI-assistent</div>
+                      </div>
+                      {/* Beskeder */}
+                      <div style={{ padding: "16px", display: "flex", flexDirection: "column", gap: "12px", maxHeight: "340px", overflowY: "auto" }}>
+                        {claraChat.messages.map((msg, i) => (
+                          <div key={i} style={{ display: "flex", justifyContent: msg.from === "user" ? "flex-end" : "flex-start", gap: "8px", alignItems: "flex-end" }}>
+                            {msg.from === "clara" && <div style={{ width: "28px", height: "28px", borderRadius: "50%", backgroundImage: "url('/images/Karina Maria - Founder.png')", backgroundSize: "cover", flexShrink: 0 }} />}
+                            <div style={{ maxWidth: "78%", padding: "10px 14px", borderRadius: msg.from === "user" ? "16px 16px 4px 16px" : "16px 16px 16px 4px", background: msg.from === "user" ? NAVY : PAGE_BG, color: msg.from === "user" ? WHITE : TEXT, fontSize: "14px", lineHeight: 1.55 }}>
+                              {msg.text}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      {/* Input */}
+                      <div style={{ padding: "12px 16px", borderTop: `1px solid ${BORDER}`, display: "flex", gap: "8px", alignItems: "center" }}>
+                        <input
+                          value={claraInput}
+                          onChange={(e) => setClaraInput(e.target.value)}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" && claraInput.trim()) {
+                              const userMsg = claraInput.trim();
+                              setClaraInput("");
+                              setClaraChat((prev) => prev ? { ...prev, messages: [...prev.messages, { from: "user", text: userMsg }, { from: "clara", text: "Tak for dit spørgsmål. Det er en god pointe — jeg vil anbefale at du taler med Karina Maria direkte for at få den bedste rådgivning til netop din situation. Du kan booke en samtale via Karriere-fanen." }] } : null);
+                            }
+                          }}
+                          placeholder="Skriv til Clara…"
+                          style={{ flex: 1, padding: "10px 14px", borderRadius: "24px", border: `1px solid ${BORDER}`, fontSize: "14px", background: PAGE_BG, outline: "none", color: TEXT }}
+                        />
+                        <button
+                          onClick={() => {
+                            if (!claraInput.trim()) return;
+                            const userMsg = claraInput.trim();
+                            setClaraInput("");
+                            setClaraChat((prev) => prev ? { ...prev, messages: [...prev.messages, { from: "user", text: userMsg }, { from: "clara", text: "Tak for dit spørgsmål. Det er en god pointe — jeg vil anbefale at du taler med Karina Maria direkte for at få den bedste rådgivning til netop din situation. Du kan booke en samtale via Karriere-fanen." }] } : null);
+                          }}
+                          style={{ width: "38px", height: "38px", borderRadius: "50%", background: CURRY, border: "none", cursor: "pointer", color: WHITE, fontSize: "18px", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                          ›
+                        </button>
+                      </div>
                     </div>
-                  ))}
+                  ) : (
+                    /* ── Spørgsmålsliste ── */
+                    [
+                      { q: "Jeg er ny i branchen og prøver at finde min plads – hvad kan være godt at være opmærksom på?", a: "Det er helt normalt at føle sig ny og usikker i starten. Mit bedste råd er at observere mere end du taler de første uger — lær kulturen at kende, lær hvem de uformelle ledere er, og still åbne spørgsmål. Bygg- og anlæg er en branche med mange uskrevne regler, men folk er generelt gode til at hjælpe dem der spørger." },
+                      { q: "Hvordan kan jeg mærke, om jeg trives i mit nye arbejdsliv?", a: "Trivsel handler om mere end bare at have det ok. Spørg dig selv: glæder du dig til at komme på arbejde? Føler du dig set og hørt? Har du energi tilbage efter arbejde? Hvis du svarer nej til flere af disse over tid, er det et tegn på at noget skal justeres — og det er ok at tage den samtale med din leder." },
+                      { q: "Hvordan lærer jeg bedst kulturen på min arbejdsplads at kende?", a: "Vær nysgerrig og deltag aktivt — også i de uformelle situationer som frokost og pauser. Læg mærke til hvad der roses og hvad der aldrig siges højt. Spørg en erfaren kollega om de uskrevne regler — de fleste vil gerne hjælpe en ny med at forstå, hvordan tingene fungerer hos jer." },
+                      { q: "Hvad kan jeg gøre, hvis jeg er i tvivl om de uskrevne regler på arbejdspladsen?", a: "Spørg en kollega du stoler på — direkte og nysgerrigt. Du kan sige: 'Jeg er stadig ved at lære kulturen her. Er der noget jeg skal vide om hvordan I gør tingene?' De fleste vil sætte pris på ærligheden. Og husk: det er bedre at spørge én gang for meget end at træde ved siden af uden at vide det." },
+                      { q: "Hvordan kan jeg stille spørgsmål på en god måde til min leder?", a: "Vælg det rigtige tidspunkt — ikke midt i en travl periode. Forbered dig kort: hvad er spørgsmålet, og hvad har du selv overvejet? Start med 'Jeg vil gerne forstå...' eller 'Kan du hjælpe mig med at...'. Det viser initiativ og respekt. De fleste ledere sætter langt mere pris på en nysgerrig medarbejder end en der lader som om de ved alt." },
+                      { q: "Hvad gør jeg, hvis jeg føler mig overset eller ikke lyttet til?", a: "Det er en svær følelse, men du er ikke alene med den. Start med at sætte ord på det — til dig selv og evt. en du stoler på. Næste skridt kan være en direkte samtale med din leder: 'Jeg vil gerne bidrage mere — kan vi tale om hvordan jeg bedst gør det?' Hvis det ikke hjælper, er jeg her for at hjælpe dig finde næste skridt." },
+                    ].map(({ q, a }, i) => (
+                      <div key={i} onClick={() => setClaraChat({ question: q, messages: [{ from: "clara", text: a }] })}
+                        style={{ background: WHITE, borderRadius: "14px", padding: "14px 16px", border: `1px solid ${BORDER}`, display: "flex", alignItems: "center", gap: "12px", cursor: "pointer" }}>
+                        <div style={{ width: "28px", height: "28px", borderRadius: "50%", background: CURRY, color: WHITE, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "12px", fontWeight: 700, flexShrink: 0 }}>{i + 1}</div>
+                        <div style={{ flex: 1, fontSize: "14px", color: TEXT, lineHeight: 1.5 }}>{q}</div>
+                        <span style={{ color: MUTED, fontSize: "18px", flexShrink: 0 }}>›</span>
+                      </div>
+                    ))
+                  )}
                 </div>
               )}
             </>
