@@ -708,7 +708,7 @@ export default function Home() {
               {step1Tab === "Nyuddannede" && (
                 <div style={{ flex: 1, overflowY: "auto", padding: "20px 20px 40px", display: "flex", flexDirection: "column", gap: "16px" }}>
                   {/* Clara video med custom lydknap */}
-                  <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", background: NAVY }}>
+                  <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", background: NAVY, maxWidth: "360px", margin: "0 auto", width: "100%" }}>
                     <video autoPlay loop playsInline muted={claraMuted}
                       style={{ width: "100%", aspectRatio: "3/4", objectFit: "cover", objectPosition: "center center", display: "block" }}
                       src="/clara-avatar.mp4" />
@@ -723,8 +723,8 @@ export default function Home() {
                     </div>
                     {/* Lydknap øverst til højre */}
                     <button onClick={() => setClaraMuted(!claraMuted)}
-                      style={{ position: "absolute", top: "12px", right: "12px", background: "rgba(10,22,40,0.6)", border: "none", borderRadius: "50%", width: "36px", height: "36px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", color: WHITE }}>
-                      {claraMuted ? "🔇" : "🔊"}
+                      style={{ position: "absolute", top: "12px", right: "12px", background: claraMuted ? "rgba(255,255,255,0.9)" : CURRY, border: "none", borderRadius: "20px", padding: "6px 12px", cursor: "pointer", display: "flex", alignItems: "center", gap: "5px", fontSize: "12px", fontWeight: 700, color: claraMuted ? TEXT : WHITE }}>
+                      {claraMuted ? "🔇 Lyd" : "🔊 Lyd til"}
                     </button>
                   </div>
 
