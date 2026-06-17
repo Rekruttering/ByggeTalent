@@ -668,20 +668,20 @@ export default function Home() {
               {/* Nyuddannede tab */}
               {step1Tab === "Nyuddannede" && (
                 <div style={{ flex: 1, overflowY: "auto", padding: "20px 20px 40px", display: "flex", flexDirection: "column", gap: "16px" }}>
-                  {/* Clara video */}
-                  <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", background: NAVY }}>
-                    {/* Overlay øverst — blokerer ikke videoens afspilknapper */}
-                    <div style={{ position: "absolute", top: 0, left: 0, right: 0, padding: "14px 16px", background: "linear-gradient(to bottom, rgba(10,22,40,0.85) 0%, transparent 100%)", zIndex: 1, pointerEvents: "none" }}>
-                      <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
-                        <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#22C55E" }} />
-                        <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.8)", fontWeight: 600 }}>AI-hotline · ByggeTalent</span>
-                      </div>
-                      <div style={{ fontSize: "28px", fontWeight: 700, color: WHITE, fontFamily: "Georgia, serif", lineHeight: 1 }}>Clara</div>
-                      <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.7)", marginTop: "2px" }}>Karina Maria Nybergs AI-assistent</div>
-                    </div>
+                  {/* Clara video — ingen overlay der dækker billedet */}
+                  <div style={{ borderRadius: "16px", overflow: "hidden", background: NAVY }}>
                     <video controls playsInline
-                      style={{ width: "100%", height: "260px", objectFit: "cover", display: "block" }}
+                      style={{ width: "100%", height: "280px", objectFit: "cover", display: "block" }}
                       src="/clara-avatar.mp4" />
+                  </div>
+                  {/* Clara label under videoen */}
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "4px 0" }}>
+                    <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#22C55E", flexShrink: 0 }} />
+                    <div>
+                      <div style={{ fontSize: "11px", color: MUTED, fontWeight: 600, letterSpacing: "0.04em" }}>AI-hotline · ByggeTalent</div>
+                      <div style={{ fontSize: "20px", fontWeight: 700, color: TEXT, fontFamily: "Georgia, serif", lineHeight: 1.1 }}>Clara</div>
+                      <div style={{ fontSize: "12px", color: MUTED }}>Karina Maria Nybergs AI-assistent</div>
+                    </div>
                   </div>
 
                   <p style={{ fontSize: "14px", color: MUTED, lineHeight: 1.65, margin: 0 }}>
