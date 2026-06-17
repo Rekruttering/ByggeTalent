@@ -47,6 +47,7 @@ export default function Home() {
   const [selectedUniverse, setSelectedUniverse] = useState("Kandidat");
   const [detailPage, setDetailPage] = useState<string | null>(null);
   const [virksomhedView, setVirksomhedView] = useState<null | "data" | "jobmatch" | "samtale">(null);
+  const [virksomhedTab, setVirksomhedTab] = useState<"Nyheder" | "Rekruttering" | "Onboarding">("Nyheder");
 
   useEffect(() => { window.scrollTo(0, 0); }, [step]);
 
@@ -354,99 +355,148 @@ export default function Home() {
               )}
 
               {detailPage === "Virksomhed" && (
-                <div style={{ display: "grid", gap: "16px" }}>
+                <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
 
-                  {/* Tilbage fra sub-view — vises ikke for "data" da WorkforceShortage styrer sin egen navigation */}
-                  {virksomhedView && virksomhedView !== "data" && (
-                    <button onClick={() => setVirksomhedView(null)}
-                      style={{ background: "none", border: "none", cursor: "pointer", fontSize: "14px", fontWeight: 700, color: CURRY, padding: 0, display: "flex", alignItems: "center", gap: "6px" }}>
-                      ← Tilbage
-                    </button>
-                  )}
+                  {/* Tabs */}
+                  <div style={{ display: "flex", borderBottom: `1px solid ${BORDER}`, background: PAGE_BG, position: "sticky", top: 0, zIndex: 5 }}>
+                    {(["Nyheder", "Rekruttering", "Onboarding"] as const).map((tab) => (
+                      <button key={tab} onClick={() => setVirksomhedTab(tab)}
+                        style={{ flex: 1, padding: "12px 0", background: "none", border: "none", cursor: "pointer",
+                          fontSize: "14px", fontWeight: virksomhedTab === tab ? 700 : 400,
+                          color: virksomhedTab === tab ? TEXT : MUTED,
+                          borderBottom: virksomhedTab === tab ? `2px solid ${CURRY}` : "2px solid transparent",
+                          marginBottom: "-1px" }}>
+                        {tab}
+                      </button>
+                    ))}
+                  </div>
 
-                  {/* Virksomhed forside */}
-                  {!virksomhedView && (
-                    <div style={{ display: "grid", gap: "8px" }}>
+                  {/* ── Nyheder ── */}
+                  {virksomhedTab === "Nyheder" && (
+                    <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
 
-                      {/* Logo */}
-                      <div style={{ textAlign: "center", display: "grid", gap: "10px" }}>
-                        <div style={{ fontFamily: "Georgia, serif", fontSize: "11px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>
-                          BYGGE & ANLÆG
-                        </div>
-                        <div>
-                          <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "52px", fontWeight: 700, lineHeight: 1.0, letterSpacing: "-0.02em" }}>
-                            <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE }}>Talent</span>
+                      {/* Hero video */}
+                      <div style={{ position: "relative", background: NAVY }}>
+                        <video autoPlay muted loop playsInline
+                          style={{ width: "100%", height: "280px", objectFit: "cover", display: "block" }}>
+                          <source src="/byggetalent-news.mp4" type="video/mp4" />
+                        </video>
+                        {/* News badge */}
+                        <div style={{ position: "absolute", top: "12px", left: "12px", display: "flex", alignItems: "center", gap: "8px" }}>
+                          <div style={{ background: "rgba(10,22,40,0.85)", borderRadius: "6px", padding: "4px 10px", display: "flex", alignItems: "center", gap: "6px" }}>
+                            <span style={{ fontFamily: "Georgia, serif", fontSize: "13px", fontWeight: 700, color: WHITE }}>Bygge</span>
+                            <span style={{ fontFamily: "Georgia, serif", fontSize: "13px", fontWeight: 700, color: CURRY }}>Talent</span>
+                            <span style={{ fontSize: "10px", fontWeight: 800, color: WHITE, background: "#6A9060", borderRadius: "3px", padding: "1px 5px", letterSpacing: "0.05em" }}>NEWS</span>
                           </div>
-                          <div style={{ width: "48px", height: "1.5px", background: CURRY, margin: "10px auto 0" }} />
+                          <div style={{ background: "#DC2626", borderRadius: "6px", padding: "4px 8px", display: "flex", alignItems: "center", gap: "4px" }}>
+                            <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: WHITE }} />
+                            <span style={{ fontSize: "10px", fontWeight: 800, color: WHITE, letterSpacing: "0.05em" }}>LIVE</span>
+                          </div>
                         </div>
-                        <div style={{ fontFamily: "Georgia, serif", fontSize: "11px", fontWeight: 400, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED }}>
-                          REKRUTTERING MED BRANCHEFORSTÅELSE
+                      </div>
+
+                      {/* Breaking news bar */}
+                      <div style={{ background: "#DC2626", padding: "8px 16px", display: "flex", alignItems: "center", gap: "10px" }}>
+                        <span style={{ fontSize: "10px", fontWeight: 800, color: WHITE, letterSpacing: "0.1em", whiteSpace: "nowrap" }}>● BREAKING NEWS</span>
+                        <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.8)", letterSpacing: "0.06em" }}>AE-RÅDET 2024</span>
+                      </div>
+
+                      {/* Headline */}
+                      <div style={{ padding: "16px 16px 0" }}>
+                        <div style={{ fontSize: "36px", fontWeight: 800, color: TEXT, lineHeight: 1.1, fontFamily: "Georgia, serif" }}>
+                          <span style={{ color: CURRY }}>136.000</span>
+                        </div>
+                        <div style={{ fontSize: "18px", fontWeight: 700, color: TEXT, lineHeight: 1.3, marginTop: "4px" }}>
+                          manglende fagpersoner frem mod 2030
                         </div>
                       </div>
 
-                      {/* 3 kort */}
-                      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
-                        {[
-                          { key: "data" as const,    label: "Arbejdskraftdata", sub: "Mangel frem mod 2030",           bg: "#6A9060" },
-                          { key: "jobmatch" as const, label: "Jobmatch",         sub: "Find de rigtige kandidater",    bg: "#6E7580" },
-                          { key: "samtale" as const,  label: "Projektsamtale",   sub: "Book en uforpligtende samtale", bg: "#C4A03A" },
-                        ].map((card) => (
-                          <button key={card.key} type="button" onClick={() => setVirksomhedView(card.key)}
-                            style={{ borderRadius: "14px", background: card.bg, border: "1px solid transparent",
-                              padding: "12px 10px", display: "flex", alignItems: "center", justifyContent: "space-between",
-                              gap: "4px", boxShadow: "0 2px 8px rgba(10,22,40,0.10)", cursor: "pointer", width: "100%", textAlign: "left" }}>
-                            <span style={{ fontSize: "12px", fontWeight: 700, color: WHITE, lineHeight: 1.3 }}>
-                              {card.label}<br />
-                              <span style={{ fontWeight: 400, fontSize: "11px", opacity: 0.8 }}>{card.sub}</span>
-                            </span>
-                            <span style={{ fontSize: "14px", color: "rgba(255,255,255,0.75)", flexShrink: 0 }}>→</span>
-                          </button>
-                        ))}
+                      {/* Ticker */}
+                      <div style={{ background: NAVY, padding: "8px 0", overflow: "hidden", marginTop: "12px" }}>
+                        <div style={{ display: "flex", gap: "32px", padding: "0 16px", fontSize: "11px", color: "rgba(255,255,255,0.75)", fontWeight: 600, letterSpacing: "0.04em", whiteSpace: "nowrap" }}>
+                          {["Bygge & anlæg", "Faglærte", "Ingeniører", "Specialister", "24.000 KVU mangler", "13.000 MVU mangler", "11 kritiske faggrupper", "Elektrikere", "Tømrere", "Murere"].map((t) => (
+                            <span key={t}>· {t}</span>
+                          ))}
+                        </div>
                       </div>
 
-                      {/* Billede */}
-                      <div style={{ borderRadius: "16px", overflow: "hidden", boxShadow: "0 4px 16px rgba(10,22,40,0.10)" }}>
-                        <img src="/images/håndpåbyggepladsen.png" alt="ByggeTalent virksomhed"
-                          style={{ width: "100%", display: "block", maxHeight: "430px", objectFit: "cover", objectPosition: "center 30%" }} />
+                      {/* Info + knap */}
+                      <div style={{ padding: "16px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                        <div style={{ background: WHITE, borderRadius: "14px", padding: "16px", border: `1px solid ${BORDER}`, display: "flex", gap: "12px", alignItems: "flex-start" }}>
+                          <span style={{ fontSize: "18px", color: CURRY, flexShrink: 0 }}>ⓘ</span>
+                          <div style={{ fontSize: "14px", color: TEXT, lineHeight: 1.65 }}>
+                            Branchen er en af de sværeste at rekruttere i. Fremskrivningerne er klare — det er præcis dér ByggeTalent gør en forskel.
+                          </div>
+                        </div>
+                        <button onClick={() => setVirksomhedView("data")}
+                          style={{ width: "100%", padding: "14px", borderRadius: "12px", border: "none", background: NAVY, color: WHITE, fontSize: "14px", fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
+                          <span>▦</span> Se alle arbejdskraftdata →
+                        </button>
                       </div>
 
+                      {/* Arbejdskraftdata sub-view */}
+                      {virksomhedView === "data" && (
+                        <div style={{ padding: "0 16px 40px" }}>
+                          <button onClick={() => setVirksomhedView(null)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "14px", fontWeight: 700, color: CURRY, padding: "12px 0", display: "flex", alignItems: "center", gap: "6px" }}>← Tilbage</button>
+                          <WorkforceShortage onExitToVirksomhed={() => setVirksomhedView(null)} />
+                        </div>
+                      )}
                     </div>
                   )}
 
-                  {/* Sub-view: Arbejdskraftdata */}
-                  {virksomhedView === "data" && <WorkforceShortage onExitToVirksomhed={() => setVirksomhedView(null)} />}
-
-                  {/* Sub-view: Jobmatch */}
-                  {virksomhedView === "jobmatch" && (
-                    <div style={{ display: "grid", gap: "14px" }}>
-                      <div style={{ background: "#0A1628", borderRadius: "16px", padding: "24px" }}>
-                        <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: CURRY, marginBottom: "10px" }}>Jobmatch</div>
-                        <div style={{ fontFamily: "Georgia, serif", fontSize: "20px", fontWeight: 700, color: WHITE, lineHeight: 1.25, marginBottom: "10px" }}>Find de rigtige profiler til jeres næste projekt</div>
+                  {/* ── Rekruttering ── */}
+                  {virksomhedTab === "Rekruttering" && (
+                    <div style={{ padding: "20px 16px 40px", display: "flex", flexDirection: "column", gap: "16px" }}>
+                      <div style={{ background: NAVY, borderRadius: "16px", padding: "24px" }}>
+                        <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: CURRY, marginBottom: "10px" }}>Rekruttering</div>
+                        <div style={{ fontFamily: "Georgia, serif", fontSize: "22px", fontWeight: 700, color: WHITE, lineHeight: 1.25, marginBottom: "10px" }}>Find de rigtige profiler til jeres næste projekt</div>
                         <div style={{ fontSize: "14px", color: "rgba(255,255,255,0.65)", lineHeight: 1.65 }}>Vi matcher jer med kvalificerede kandidater fra vores netværk — screenet og klar til dialog.</div>
                       </div>
-                      <div style={{ background: WHITE, borderRadius: "14px", padding: "18px", border: `1px solid ${BORDER}` }}>
-                        <div style={{ fontSize: "14px", color: MUTED, lineHeight: 1.7 }}>Beskriv hvilke roller I søger, og vi vender tilbage med relevante profiler inden for 48 timer.</div>
-                        <button style={{ marginTop: "14px", width: "100%", padding: "13px", borderRadius: "12px", border: "none", background: CURRY, color: WHITE, fontSize: "14px", fontWeight: 700, cursor: "pointer" }}>
-                          Kontakt os →
-                        </button>
-                      </div>
+                      {[
+                        { nr: "01", titel: "Behovsafklaring", tekst: "Vi starter med at forstå jeres projekt, kultur og de præcise kompetencer I søger." },
+                        { nr: "02", titel: "Screening & match", tekst: "Vi søger i vores netværk og screener kandidater — I får kun de bedste matches." },
+                        { nr: "03", titel: "Præsentation", tekst: "Vi præsenterer 2-3 kvalificerede profiler med ALT-test resultater og vores anbefaling." },
+                      ].map((y) => (
+                        <div key={y.nr} style={{ background: WHITE, borderRadius: "14px", padding: "16px", border: `1px solid ${BORDER}`, display: "flex", gap: "14px" }}>
+                          <div style={{ fontSize: "11px", fontWeight: 800, color: CURRY, letterSpacing: "0.08em", flexShrink: 0, paddingTop: "2px" }}>{y.nr}</div>
+                          <div>
+                            <div style={{ fontSize: "14px", fontWeight: 700, color: TEXT, marginBottom: "4px" }}>{y.titel}</div>
+                            <div style={{ fontSize: "13px", color: MUTED, lineHeight: 1.6 }}>{y.tekst}</div>
+                          </div>
+                        </div>
+                      ))}
+                      <a href="mailto:kontakt@byggetalent.dk?subject=Rekruttering"
+                        style={{ display: "block", width: "100%", padding: "14px", borderRadius: "12px", border: "none", background: CURRY, color: WHITE, fontSize: "15px", fontWeight: 700, cursor: "pointer", textAlign: "center", textDecoration: "none" }}>
+                        Kontakt os om rekruttering →
+                      </a>
                     </div>
                   )}
 
-                  {/* Sub-view: Projektsamtale */}
-                  {virksomhedView === "samtale" && (
-                    <div style={{ display: "grid", gap: "14px" }}>
-                      <div style={{ background: "#0A1628", borderRadius: "16px", padding: "24px" }}>
-                        <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: CURRY, marginBottom: "10px" }}>Projektsamtale</div>
-                        <div style={{ fontFamily: "Georgia, serif", fontSize: "20px", fontWeight: 700, color: WHITE, lineHeight: 1.25, marginBottom: "10px" }}>Vi sammensætter det rigtige team — allerede før projektet starter</div>
-                        <div style={{ fontSize: "14px", color: "rgba(255,255,255,0.65)", lineHeight: 1.65 }}>En uforpligtende samtale om jeres bemandingsbehov, projektfaser og rekrutteringsstrategi.</div>
+                  {/* ── Onboarding ── */}
+                  {virksomhedTab === "Onboarding" && (
+                    <div style={{ padding: "20px 16px 40px", display: "flex", flexDirection: "column", gap: "16px" }}>
+                      <div style={{ background: NAVY, borderRadius: "16px", padding: "24px" }}>
+                        <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.16em", textTransform: "uppercase", color: CURRY, marginBottom: "10px" }}>Onboarding</div>
+                        <div style={{ fontFamily: "Georgia, serif", fontSize: "22px", fontWeight: 700, color: WHITE, lineHeight: 1.25, marginBottom: "10px" }}>Et godt start giver fastholdelse</div>
+                        <div style={{ fontSize: "14px", color: "rgba(255,255,255,0.65)", lineHeight: 1.65 }}>God onboarding er ikke bare de første uger — det er fundamentet for trivsel og præstation.</div>
                       </div>
-                      <div style={{ background: WHITE, borderRadius: "14px", padding: "18px", border: `1px solid ${BORDER}` }}>
-                        <div style={{ fontSize: "14px", color: MUTED, lineHeight: 1.7 }}>Book en samtale direkte med ByggeTalent. Vi mødes fysisk, online eller på telefon — hvad der passer jer bedst.</div>
-                        <button style={{ marginTop: "14px", width: "100%", padding: "13px", borderRadius: "12px", border: "none", background: CURRY, color: WHITE, fontSize: "14px", fontWeight: 700, cursor: "pointer" }}>
-                          Book samtale →
-                        </button>
-                      </div>
+                      {[
+                        { nr: "01", titel: "ALT-test ved ansættelse", tekst: "Kortlæg den nye medarbejders adfærd, lederstil og trivselsbehov allerede fra dag ét." },
+                        { nr: "02", titel: "Onboarding-plan", tekst: "Vi hjælper med at tilpasse oplæringsforløbet til den enkelte — ikke en one-size-fits-all plan." },
+                        { nr: "03", titel: "90-dages opfølgning", tekst: "Vi tjekker ind efter 30, 60 og 90 dage for at sikre, at både medarbejder og leder er tilfredse." },
+                      ].map((y) => (
+                        <div key={y.nr} style={{ background: WHITE, borderRadius: "14px", padding: "16px", border: `1px solid ${BORDER}`, display: "flex", gap: "14px" }}>
+                          <div style={{ fontSize: "11px", fontWeight: 800, color: CURRY, letterSpacing: "0.08em", flexShrink: 0, paddingTop: "2px" }}>{y.nr}</div>
+                          <div>
+                            <div style={{ fontSize: "14px", fontWeight: 700, color: TEXT, marginBottom: "4px" }}>{y.titel}</div>
+                            <div style={{ fontSize: "13px", color: MUTED, lineHeight: 1.6 }}>{y.tekst}</div>
+                          </div>
+                        </div>
+                      ))}
+                      <a href="mailto:kontakt@byggetalent.dk?subject=Onboarding"
+                        style={{ display: "block", width: "100%", padding: "14px", borderRadius: "12px", border: "none", background: CURRY, color: WHITE, fontSize: "15px", fontWeight: 700, cursor: "pointer", textAlign: "center", textDecoration: "none" }}>
+                        Hør mere om onboarding →
+                      </a>
                     </div>
                   )}
 
@@ -620,10 +670,8 @@ export default function Home() {
                 <div style={{ flex: 1, overflowY: "auto", padding: "20px 20px 40px", display: "flex", flexDirection: "column", gap: "16px" }}>
                   {/* Clara video */}
                   <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", background: NAVY }}>
-                    <video autoPlay muted loop playsInline
-                      style={{ width: "100%", height: "260px", objectFit: "cover", display: "block" }}
-                      src="/clara-avatar.mp4" />
-                    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "16px", background: "linear-gradient(to top, rgba(10,22,40,0.85) 0%, transparent 100%)" }}>
+                    {/* Overlay øverst — blokerer ikke videoens afspilknapper */}
+                    <div style={{ position: "absolute", top: 0, left: 0, right: 0, padding: "14px 16px", background: "linear-gradient(to bottom, rgba(10,22,40,0.85) 0%, transparent 100%)", zIndex: 1, pointerEvents: "none" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
                         <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#22C55E" }} />
                         <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.8)", fontWeight: 600 }}>AI-hotline · ByggeTalent</span>
@@ -631,6 +679,9 @@ export default function Home() {
                       <div style={{ fontSize: "28px", fontWeight: 700, color: WHITE, fontFamily: "Georgia, serif", lineHeight: 1 }}>Clara</div>
                       <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.7)", marginTop: "2px" }}>Karina Maria Nybergs AI-assistent</div>
                     </div>
+                    <video controls playsInline
+                      style={{ width: "100%", height: "260px", objectFit: "cover", display: "block" }}
+                      src="/clara-avatar.mp4" />
                   </div>
 
                   <p style={{ fontSize: "14px", color: MUTED, lineHeight: 1.65, margin: 0 }}>
