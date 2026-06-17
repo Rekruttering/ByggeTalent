@@ -681,7 +681,7 @@ export default function Home() {
                         <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.8)", fontWeight: 600 }}>AI-hotline · ByggeTalent</span>
                       </div>
                       <div style={{ fontSize: "26px", fontWeight: 700, color: WHITE, fontFamily: "Georgia, serif", lineHeight: 1 }}>Clara</div>
-                      <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.65)", marginTop: "2px" }}>Karina Maria Nybergs AI-assistent</div>
+                      <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.65)", marginTop: "2px" }}>AI-assistent</div>
                     </div>
                     {/* Lydknap øverst til højre */}
                     <button onClick={() => setClaraMuted(!claraMuted)}
