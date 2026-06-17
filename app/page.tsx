@@ -165,6 +165,7 @@ export default function Home() {
 
   const [step1SubPage, setStep1SubPage] = useState<null | 'profile' | 'consent' | 'privacy' | 'karina'>(null);
   const [step1Tab, setStep1Tab] = useState<"Karriere" | "Nyuddannede">("Karriere");
+  const [claraMuted, setClaraMuted] = useState(true);
 
   // ─── Jobs ───────────────────────────────────────────────────────────────────
   type JobPosting = { id: string; title: string; location: string; region: string; type: string; description: string; active: boolean };
@@ -668,20 +669,25 @@ export default function Home() {
               {/* Nyuddannede tab */}
               {step1Tab === "Nyuddannede" && (
                 <div style={{ flex: 1, overflowY: "auto", padding: "20px 20px 40px", display: "flex", flexDirection: "column", gap: "16px" }}>
-                  {/* Clara video — ingen overlay der dækker billedet */}
-                  <div style={{ borderRadius: "16px", overflow: "hidden", background: NAVY }}>
-                    <video controls playsInline
+                  {/* Clara video med custom lydknap */}
+                  <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", background: NAVY }}>
+                    <video autoPlay loop playsInline muted={claraMuted}
                       style={{ width: "100%", height: "280px", objectFit: "cover", objectPosition: "center center", display: "block" }}
                       src="/clara-avatar.mp4" />
-                  </div>
-                  {/* Clara label under videoen */}
-                  <div style={{ display: "flex", alignItems: "center", gap: "10px", padding: "4px 0" }}>
-                    <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#22C55E", flexShrink: 0 }} />
-                    <div>
-                      <div style={{ fontSize: "11px", color: MUTED, fontWeight: 600, letterSpacing: "0.04em" }}>AI-hotline · ByggeTalent</div>
-                      <div style={{ fontSize: "20px", fontWeight: 700, color: TEXT, fontFamily: "Georgia, serif", lineHeight: 1.1 }}>Clara</div>
-                      <div style={{ fontSize: "12px", color: MUTED }}>Karina Maria Nybergs AI-assistent</div>
+                    {/* Overlay tekst nederst */}
+                    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "40px 16px 14px", background: "linear-gradient(to top, rgba(10,22,40,0.80) 0%, transparent 100%)", pointerEvents: "none" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "2px" }}>
+                        <div style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#22C55E" }} />
+                        <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.8)", fontWeight: 600 }}>AI-hotline · ByggeTalent</span>
+                      </div>
+                      <div style={{ fontSize: "26px", fontWeight: 700, color: WHITE, fontFamily: "Georgia, serif", lineHeight: 1 }}>Clara</div>
+                      <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.65)", marginTop: "2px" }}>Karina Maria Nybergs AI-assistent</div>
                     </div>
+                    {/* Lydknap øverst til højre */}
+                    <button onClick={() => setClaraMuted(!claraMuted)}
+                      style={{ position: "absolute", top: "12px", right: "12px", background: "rgba(10,22,40,0.6)", border: "none", borderRadius: "50%", width: "36px", height: "36px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", color: WHITE }}>
+                      {claraMuted ? "🔇" : "🔊"}
+                    </button>
                   </div>
 
                   <p style={{ fontSize: "14px", color: MUTED, lineHeight: 1.65, margin: 0 }}>
