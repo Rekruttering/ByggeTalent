@@ -710,9 +710,9 @@ export default function Home() {
                   {/* Clara video med custom lydknap */}
                   <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                     {/* Video */}
-                    <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", background: NAVY }}>
+                    <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", background: NAVY, width: "100%", aspectRatio: "9 / 16" }}>
                       <video autoPlay loop playsInline muted={claraMuted}
-                        style={{ width: "100%", height: "260px", objectFit: "cover", objectPosition: "center 35%", display: "block" }}
+                        style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
                         src="/clara-avatar.mp4" />
                       <button onClick={() => setClaraMuted(!claraMuted)}
                         style={{ position: "absolute", top: "12px", right: "12px", background: claraMuted ? "rgba(255,255,255,0.9)" : CURRY, border: "none", borderRadius: "20px", padding: "6px 12px", cursor: "pointer", display: "flex", alignItems: "center", gap: "5px", fontSize: "12px", fontWeight: 700, color: claraMuted ? TEXT : WHITE }}>
