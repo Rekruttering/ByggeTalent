@@ -708,24 +708,26 @@ export default function Home() {
               {step1Tab === "Nyuddannede" && (
                 <div style={{ flex: 1, overflowY: "auto", padding: "20px 20px 40px", display: "flex", flexDirection: "column", gap: "16px" }}>
                   {/* Clara video med custom lydknap */}
-                  <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", background: NAVY, maxWidth: "360px", margin: "0 auto", width: "100%" }}>
-                    <video autoPlay loop playsInline muted={claraMuted}
-                      style={{ width: "100%", aspectRatio: "3/4", objectFit: "cover", objectPosition: "center center", display: "block" }}
-                      src="/clara-avatar.mp4" />
-                    {/* Lydknap øverst til højre */}
-                    <button onClick={() => setClaraMuted(!claraMuted)}
-                      style={{ position: "absolute", top: "12px", right: "12px", background: claraMuted ? "rgba(255,255,255,0.9)" : CURRY, border: "none", borderRadius: "20px", padding: "6px 12px", cursor: "pointer", display: "flex", alignItems: "center", gap: "5px", fontSize: "12px", fontWeight: 700, color: claraMuted ? TEXT : WHITE }}>
-                      {claraMuted ? "🔇 Lyd" : "🔊 Lyd til"}
-                    </button>
-                  </div>
-                  {/* Tekst under video */}
-                  <div style={{ maxWidth: "360px", margin: "0 auto", width: "100%" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
-                      <div style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#22C55E" }} />
-                      <span style={{ fontSize: "11px", color: MUTED, fontWeight: 600 }}>AI-hotline · ByggeTalent</span>
+                  <div style={{ maxWidth: "360px", margin: "0 auto", width: "100%", display: "flex", flexDirection: "column", gap: "12px" }}>
+                    {/* Video */}
+                    <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", background: NAVY }}>
+                      <video autoPlay loop playsInline muted={claraMuted}
+                        style={{ width: "100%", aspectRatio: "3/4", objectFit: "cover", objectPosition: "center center", display: "block" }}
+                        src="/clara-avatar.mp4" />
+                      <button onClick={() => setClaraMuted(!claraMuted)}
+                        style={{ position: "absolute", top: "12px", right: "12px", background: claraMuted ? "rgba(255,255,255,0.9)" : CURRY, border: "none", borderRadius: "20px", padding: "6px 12px", cursor: "pointer", display: "flex", alignItems: "center", gap: "5px", fontSize: "12px", fontWeight: 700, color: claraMuted ? TEXT : WHITE }}>
+                        {claraMuted ? "🔇 Lyd" : "🔊 Lyd til"}
+                      </button>
                     </div>
-                    <div style={{ fontSize: "22px", fontWeight: 700, color: TEXT, fontFamily: "Georgia, serif", lineHeight: 1 }}>Clara</div>
-                    <div style={{ fontSize: "12px", color: MUTED, marginTop: "2px" }}>AI-assistent</div>
+                    {/* Tekst under video */}
+                    <div>
+                      <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
+                        <div style={{ width: "7px", height: "7px", borderRadius: "50%", background: "#22C55E" }} />
+                        <span style={{ fontSize: "11px", color: MUTED, fontWeight: 600 }}>AI-hotline · ByggeTalent</span>
+                      </div>
+                      <div style={{ fontSize: "22px", fontWeight: 700, color: TEXT, fontFamily: "Georgia, serif", lineHeight: 1 }}>Clara</div>
+                      <div style={{ fontSize: "12px", color: MUTED, marginTop: "2px" }}>AI-assistent</div>
+                    </div>
                   </div>
 
                   <p style={{ fontSize: "14px", color: MUTED, lineHeight: 1.65, margin: 0 }}>
