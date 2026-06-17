@@ -168,6 +168,26 @@ export default function Home() {
   const [claraMuted, setClaraMuted] = useState(true);
   const [claraChat, setClaraChat] = useState<null | { question: string; messages: { from: "user" | "clara"; text: string }[] }>(null);
   const [claraInput, setClaraInput] = useState("");
+  const [claraLoading, setClaraLoading] = useState(false);
+
+  async function sendToClara(userText: string, currentMessages: { from: "user" | "clara"; text: string }[]) {
+    const updated = [...currentMessages, { from: "user" as const, text: userText }];
+    setClaraChat((prev) => prev ? { ...prev, messages: updated } : null);
+    setClaraLoading(true);
+    try {
+      const res = await fetch("/api/clara", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: updated }),
+      });
+      const data = await res.json();
+      setClaraChat((prev) => prev ? { ...prev, messages: [...updated, { from: "clara" as const, text: data.text }] } : null);
+    } catch {
+      setClaraChat((prev) => prev ? { ...prev, messages: [...updated, { from: "clara" as const, text: "Beklager, jeg kan ikke svare lige nu. Prøv igen om lidt." }] } : null);
+    } finally {
+      setClaraLoading(false);
+    }
+  }
 
   // ─── Jobs ───────────────────────────────────────────────────────────────────
   type JobPosting = { id: string; title: string; location: string; region: string; type: string; description: string; active: boolean };
@@ -716,16 +736,23 @@ export default function Home() {
                           </div>
                         ))}
                       </div>
+                      {/* Loading */}
+                      {claraLoading && (
+                        <div style={{ padding: "8px 16px", display: "flex", alignItems: "center", gap: "8px" }}>
+                          <div style={{ width: "28px", height: "28px", borderRadius: "50%", backgroundImage: "url('/images/Karina Maria - Founder.png')", backgroundSize: "cover", flexShrink: 0 }} />
+                          <div style={{ background: PAGE_BG, borderRadius: "12px", padding: "10px 14px", fontSize: "20px", letterSpacing: "4px", color: MUTED }}>···</div>
+                        </div>
+                      )}
                       {/* Input */}
                       <div style={{ padding: "12px 16px", borderTop: `1px solid ${BORDER}`, display: "flex", gap: "8px", alignItems: "center" }}>
                         <input
                           value={claraInput}
                           onChange={(e) => setClaraInput(e.target.value)}
                           onKeyDown={(e) => {
-                            if (e.key === "Enter" && claraInput.trim()) {
+                            if (e.key === "Enter" && claraInput.trim() && !claraLoading) {
                               const userMsg = claraInput.trim();
                               setClaraInput("");
-                              setClaraChat((prev) => prev ? { ...prev, messages: [...prev.messages, { from: "user", text: userMsg }, { from: "clara", text: "Tak for dit spørgsmål. Det er en god pointe — jeg vil anbefale at du taler med Karina Maria direkte for at få den bedste rådgivning til netop din situation. Du kan booke en samtale via Karriere-fanen." }] } : null);
+                              sendToClara(userMsg, claraChat?.messages ?? []);
                             }
                           }}
                           placeholder="Skriv til Clara…"
@@ -733,10 +760,10 @@ export default function Home() {
                         />
                         <button
                           onClick={() => {
-                            if (!claraInput.trim()) return;
+                            if (!claraInput.trim() || claraLoading) return;
                             const userMsg = claraInput.trim();
                             setClaraInput("");
-                            setClaraChat((prev) => prev ? { ...prev, messages: [...prev.messages, { from: "user", text: userMsg }, { from: "clara", text: "Tak for dit spørgsmål. Det er en god pointe — jeg vil anbefale at du taler med Karina Maria direkte for at få den bedste rådgivning til netop din situation. Du kan booke en samtale via Karriere-fanen." }] } : null);
+                            sendToClara(userMsg, claraChat?.messages ?? []);
                           }}
                           style={{ width: "38px", height: "38px", borderRadius: "50%", background: CURRY, border: "none", cursor: "pointer", color: WHITE, fontSize: "18px", flexShrink: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
                           ›
