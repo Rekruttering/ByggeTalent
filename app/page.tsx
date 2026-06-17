@@ -162,7 +162,8 @@ export default function Home() {
     gdpr: false,
   });
 
-  const [step1SubPage, setStep1SubPage] = useState<null | 'profile' | 'consent' | 'privacy'>(null);
+  const [step1SubPage, setStep1SubPage] = useState<null | 'profile' | 'consent' | 'privacy' | 'karina'>(null);
+  const [step1Tab, setStep1Tab] = useState<"Karriere" | "Nyuddannede">("Karriere");
 
   // ─── Jobs ───────────────────────────────────────────────────────────────────
   type JobPosting = { id: string; title: string; location: string; region: string; type: string; description: string; active: boolean };
@@ -540,79 +541,133 @@ export default function Home() {
         <div style={{ maxWidth: "480px", margin: "0 auto", minHeight: "100vh", display: "flex", flexDirection: "column", background: PAGE_BG }}>
 
           {step1SubPage === null ? (
-            /* ── Hub-visning ── */
+            /* ── Karriere / Nyuddannede tabs ── */
             <>
-              {/* Logo */}
-              <div style={{ background: WHITE, padding: "28px 20px 20px", textAlign: "center", borderBottom: `1px solid ${BORDER}` }}>
-                <div style={{ fontSize: "42px", fontWeight: 700, lineHeight: 1 }}>
-                  <span style={{ color: TEXT, fontFamily: "Georgia, 'Times New Roman', serif" }}>Bygge</span><span style={{ color: GRANITE, fontFamily: "Georgia, 'Times New Roman', serif" }}>Talent</span>
-                </div>
-                <div style={{ width: "40px", height: "1.5px", background: CURRY, margin: "10px auto 0" }} />
-              </div>
-
-              {/* Video */}
-              <div style={{ height: "200px", overflow: "hidden", flexShrink: 0 }}>
-                <video autoPlay muted loop playsInline style={{ width: "100%", height: "100%", objectFit: "cover" }} src="/byggetalent-home.mp4" />
-              </div>
-
-              {/* Kortknapper */}
-              <div style={{ flex: 1, padding: "28px 20px 12px", display: "flex", flexDirection: "column", gap: "10px" }}>
-                <div style={{ fontSize: "11px", fontWeight: 700, letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED, fontFamily: "Georgia, serif", textAlign: "center", marginBottom: "4px" }}>
-                  START MED
-                </div>
-
-                {([
-                  { key: "profile" as const, label: "Din profil",       sub: "Kontakt, rolle og faglig baggrund" },
-                  { key: "consent" as const, label: "Samtykke",          sub: "Giv dit samtykke til behandling" },
-                  { key: "privacy" as const, label: "Privatlivspolitik", sub: "Læs hvordan vi behandler dine data" },
-                ]).map((card) => (
-                  <button
-                    key={card.key}
-                    onClick={() => setStep1SubPage(card.key)}
-                    style={{ textAlign: "left", padding: "16px 18px", background: WHITE, border: `1px solid ${BORDER}`, borderRadius: "14px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "10px", width: "100%", boxShadow: "0 2px 8px rgba(10,22,40,0.05)" }}
-                  >
-                    <div>
-                      <div style={{ fontSize: "15px", fontWeight: 700, color: TEXT }}>{card.label}</div>
-                      <div style={{ fontSize: "13px", color: MUTED, marginTop: "3px" }}>{card.sub}</div>
+              {/* Header */}
+              <div style={{ background: PAGE_BG, padding: "20px 20px 0", textAlign: "center" }}>
+                <div style={{ display: "flex", alignItems: "center", marginBottom: "12px" }}>
+                  <button onClick={() => setStep(0)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "22px", color: TEXT, padding: 0, lineHeight: 1 }}>←</button>
+                  <div style={{ flex: 1, textAlign: "center" }}>
+                    <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "10px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>BYGGE & ANLÆG</div>
+                    <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "36px", fontWeight: 700, lineHeight: 1, letterSpacing: "-0.02em" }}>
+                      <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE }}>Talent</span>
                     </div>
-                    <span style={{ color: CURRY, fontSize: "18px", flexShrink: 0, fontWeight: 700 }}>→</span>
-                  </button>
-                ))}
+                    <div style={{ width: "36px", height: "1.5px", background: CURRY, margin: "6px auto 0" }} />
+                    <div style={{ fontFamily: "Georgia, serif", fontSize: "9px", letterSpacing: "0.18em", textTransform: "uppercase", color: MUTED, marginTop: "4px" }}>REKRUTTERING MED BRANCHEFORSTÅELSE</div>
+                  </div>
+                  <div style={{ width: "28px" }} />
+                </div>
+
+                {/* Tabs */}
+                <div style={{ display: "flex", borderBottom: `1px solid ${BORDER}`, marginTop: "8px" }}>
+                  {(["Karriere", "Nyuddannede"] as const).map((tab) => (
+                    <button key={tab} onClick={() => setStep1Tab(tab)}
+                      style={{ flex: 1, padding: "12px 0", background: "none", border: "none", cursor: "pointer",
+                        fontSize: "15px", fontWeight: step1Tab === tab ? 700 : 400,
+                        color: step1Tab === tab ? TEXT : MUTED,
+                        borderBottom: step1Tab === tab ? `2px solid ${CURRY}` : "2px solid transparent",
+                        marginBottom: "-1px" }}>
+                      {tab}
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              {/* Bund-navigation */}
-              <div style={{ position: "sticky", bottom: 0, background: WHITE, padding: "14px 20px 32px", borderTop: `1px solid ${BORDER}`, display: "flex", flexDirection: "column", gap: "10px" }}>
-                <button
-                  style={{ width: "100%", padding: "16px", borderRadius: "14px", border: "none", background: CURRY, color: WHITE, fontSize: "15px", fontWeight: 700, cursor: "pointer", letterSpacing: "0.01em" }}
-                  onClick={async () => {
-                    const application = {
-                      name: form.name,
-                      last_name: form.lastName,
-                      email: form.email,
-                      phone: form.phone,
-                      address: form.address,
-                      current_title: form.currentTitle,
-                      experience: form.experience,
-                      linkedin: form.linkedin,
-                      salary: form.salary,
-                      distance: form.distance,
-                      supplementary_info: form.supplementaryInfo,
-                      profiles: form.profiles,
-                      profile_other_title: form.profileOtherTitle,
-                      submitted_at: new Date().toISOString(),
-                      status: "ny",
-                      notes: "",
-                    };
-                    await supabase.from("applications").insert([application]);
-                    setStep(2);
-                  }}
-                >
-                  Videre til ALT →
-                </button>
-                <button onClick={() => setStep(0)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "13px", color: MUTED, fontWeight: 600, padding: 0, textAlign: "center" }}>
-                  ← Tilbage
-                </button>
-              </div>
+              {/* Karriere tab */}
+              {step1Tab === "Karriere" && (
+                <div style={{ flex: 1, overflowY: "auto", padding: "28px 20px 40px", display: "flex", flexDirection: "column", gap: "16px" }}>
+                  <div>
+                    <h1 style={{ fontFamily: "Georgia, serif", fontSize: "32px", fontWeight: 700, color: TEXT, lineHeight: 1.15, margin: "0 0 10px" }}>
+                      Din karriere<br />i Bygge &amp; Anlæg
+                    </h1>
+                    <p style={{ fontSize: "15px", color: MUTED, lineHeight: 1.6, margin: 0 }}>
+                      Kom godt i gang — udfyld din profil og tag ALT-testen, så vi kan hjælpe dig bedst muligt.
+                    </p>
+                  </div>
+
+                  {/* Kort 1: ALT-test */}
+                  <div style={{ background: WHITE, borderRadius: "16px", padding: "20px", border: `1px solid ${BORDER}` }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "10px" }}>
+                      <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: NAVY, color: WHITE, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: 700, flexShrink: 0 }}>1</div>
+                      <div style={{ fontSize: "18px", fontWeight: 700, color: TEXT }}>Tag ALT-testen</div>
+                    </div>
+                    <p style={{ fontSize: "14px", color: MUTED, lineHeight: 1.6, margin: "0 0 16px" }}>
+                      Kortlæg din arbejdssituation på fire dimensioner — Adfærd, Ledelse og Trivsel. Tager ca. 4 minutter.
+                    </p>
+                    <button onClick={() => setStep(2)}
+                      style={{ width: "100%", padding: "14px", borderRadius: "12px", border: "none", background: NAVY, color: WHITE, fontSize: "15px", fontWeight: 700, cursor: "pointer" }}>
+                      Start ALT-testen →
+                    </button>
+                  </div>
+
+                  {/* Kort 2: Profil */}
+                  <div style={{ background: WHITE, borderRadius: "16px", padding: "20px", border: `1px solid ${BORDER}` }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "10px" }}>
+                      <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: NAVY, color: WHITE, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: 700, flexShrink: 0 }}>2</div>
+                      <div style={{ fontSize: "18px", fontWeight: 700, color: TEXT }}>Udfyld din profil</div>
+                    </div>
+                    <p style={{ fontSize: "14px", color: MUTED, lineHeight: 1.6, margin: "0 0 16px" }}>
+                      Navn, kontaktoplysninger, CV og samtykke — så vi kan matche dig med de rigtige muligheder.
+                    </p>
+                    <button onClick={() => setStep1SubPage("profile")}
+                      style={{ width: "100%", padding: "14px", borderRadius: "12px", border: "none", background: CURRY, color: WHITE, fontSize: "15px", fontWeight: 700, cursor: "pointer" }}>
+                      Udfyld profil →
+                    </button>
+                  </div>
+
+                  {/* Karina-kort */}
+                  <button onClick={() => setStep1SubPage("karina")}
+                    style={{ background: "#6E7580", borderRadius: "16px", padding: "16px 18px", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: "14px", width: "100%", textAlign: "left" }}>
+                    <div style={{ width: "52px", height: "52px", borderRadius: "50%", backgroundImage: "url('/images/Karina Maria - Founder.png')", backgroundSize: "cover", backgroundPosition: "center", flexShrink: 0 }} />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: "16px", fontWeight: 700, color: WHITE }}>Karina Maria Nyberg</div>
+                      <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.75)", marginTop: "2px" }}>Rådgiver · ByggeTalent</div>
+                      <div style={{ fontSize: "13px", fontWeight: 700, color: "rgba(255,255,255,0.9)", marginTop: "4px" }}>Book en karrieresamtale</div>
+                    </div>
+                    <span style={{ color: "rgba(255,255,255,0.75)", fontSize: "18px" }}>→</span>
+                  </button>
+                </div>
+              )}
+
+              {/* Nyuddannede tab */}
+              {step1Tab === "Nyuddannede" && (
+                <div style={{ flex: 1, overflowY: "auto", padding: "20px 20px 40px", display: "flex", flexDirection: "column", gap: "16px" }}>
+                  {/* Clara video */}
+                  <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", background: NAVY }}>
+                    <video autoPlay muted loop playsInline
+                      style={{ width: "100%", height: "260px", objectFit: "cover", display: "block" }}
+                      src="/clara-avatar.mp4" />
+                    <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "16px", background: "linear-gradient(to top, rgba(10,22,40,0.85) 0%, transparent 100%)" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "4px" }}>
+                        <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#22C55E" }} />
+                        <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.8)", fontWeight: 600 }}>AI-hotline · ByggeTalent</span>
+                      </div>
+                      <div style={{ fontSize: "28px", fontWeight: 700, color: WHITE, fontFamily: "Georgia, serif", lineHeight: 1 }}>Clara</div>
+                      <div style={{ fontSize: "13px", color: "rgba(255,255,255,0.7)", marginTop: "2px" }}>Karina Maria Nybergs AI-assistent</div>
+                    </div>
+                  </div>
+
+                  <p style={{ fontSize: "14px", color: MUTED, lineHeight: 1.65, margin: 0 }}>
+                    Vælg et spørgsmål nedenfor og få svar fra Clara — vores AI-rådgiver til nyuddannede i bygge- og anlægsbranchen.
+                  </p>
+
+                  {/* Spørgsmål */}
+                  {[
+                    "Jeg er ny i branchen og prøver at finde min plads – hvad kan være godt at være opmærksom på?",
+                    "Hvordan kan jeg mærke, om jeg trives i mit nye arbejdsliv?",
+                    "Hvordan lærer jeg bedst kulturen på min arbejdsplads at kende?",
+                    "Hvad kan jeg gøre, hvis jeg er i tvivl om de uskrevne regler på arbejdspladsen?",
+                    "Hvordan kan jeg stille spørgsmål på en god måde til min leder?",
+                    "Hvad gør jeg, hvis jeg føler mig overset eller ikke lyttet til?",
+                  ].map((q, i) => (
+                    <div key={i} style={{ background: WHITE, borderRadius: "14px", padding: "16px 18px", border: `1px solid ${BORDER}`, display: "flex", alignItems: "center", gap: "14px", cursor: "pointer" }}>
+                      <div style={{ width: "36px", height: "36px", borderRadius: "50%", backgroundImage: "url('/images/Karina Maria - Founder.png')", backgroundSize: "cover", backgroundPosition: "center", flexShrink: 0 }} />
+                      <div style={{ flex: 1, fontSize: "14px", color: TEXT, lineHeight: 1.5 }}>{q}</div>
+                      <span style={{ color: MUTED, fontSize: "16px", flexShrink: 0 }}>›</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </>
           ) : (
             /* ── Underpaneler ── */
@@ -705,6 +760,27 @@ export default function Home() {
                     label="Jeg accepterer, at mine personoplysninger behandles i henhold til ByggeTalents privatlivspolitik."
                     infoText="ByggeTalent behandler dine oplysninger med henblik på rekruttering og match med relevante muligheder i overensstemmelse med privatlivspolitikken."
                   />
+                </div>
+              )}
+
+              {/* Karina - book samtale */}
+              {step1SubPage === "karina" && (
+                <div style={{ flex: 1, overflowY: "auto", padding: "28px 20px 100px", display: "flex", flexDirection: "column", gap: "20px" }}>
+                  <div style={{ textAlign: "center" }}>
+                    <div style={{ width: "96px", height: "96px", borderRadius: "50%", backgroundImage: "url('/images/Karina Maria - Founder.png')", backgroundSize: "cover", backgroundPosition: "center", margin: "0 auto 16px" }} />
+                    <div style={{ fontSize: "24px", fontWeight: 700, color: TEXT, fontFamily: "Georgia, serif" }}>Karina Maria Nyberg</div>
+                    <div style={{ fontSize: "14px", color: MUTED, marginTop: "4px" }}>Founder & Rådgiver · ByggeTalent</div>
+                  </div>
+                  <div style={{ background: WHITE, borderRadius: "16px", padding: "20px", border: `1px solid ${BORDER}` }}>
+                    <div style={{ fontSize: "16px", fontWeight: 700, color: TEXT, marginBottom: "10px" }}>Book en karrieresamtale</div>
+                    <p style={{ fontSize: "14px", color: MUTED, lineHeight: 1.65, margin: "0 0 16px" }}>
+                      Få en uforpligtende snak om dine muligheder i bygge- og anlægsbranchen. Karina hjælper dig med at finde den rigtige vej.
+                    </p>
+                    <a href="mailto:kontakt@byggetalent.dk?subject=Karrieresamtale"
+                      style={{ display: "block", width: "100%", padding: "14px", borderRadius: "12px", border: "none", background: CURRY, color: WHITE, fontSize: "15px", fontWeight: 700, cursor: "pointer", textAlign: "center", textDecoration: "none" }}>
+                      Send besked til Karina →
+                    </a>
+                  </div>
                 </div>
               )}
 
