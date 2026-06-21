@@ -414,64 +414,69 @@ export default function Home() {
                   {virksomhedTab === "Nyheder" && (
                     <div style={{ display: "flex", flexDirection: "column", gap: "0" }}>
 
-                      {/* Hero video */}
-                      <div style={{ position: "relative", background: NAVY }}>
-                        <video autoPlay muted loop playsInline
-                          style={{ width: "100%", height: "280px", objectFit: "cover", display: "block" }}>
-                          <source src="/byggetalent-news.mp4" type="video/mp4" />
-                        </video>
-                        {/* News badge */}
-                        <div style={{ position: "absolute", top: "12px", left: "12px", display: "flex", alignItems: "center", gap: "8px" }}>
-                          <div style={{ background: "rgba(10,22,40,0.85)", borderRadius: "6px", padding: "4px 10px", display: "flex", alignItems: "center", gap: "6px" }}>
-                            <span style={{ fontFamily: "Georgia, serif", fontSize: "13px", fontWeight: 700, color: WHITE }}>Bygge</span>
-                            <span style={{ fontFamily: "Georgia, serif", fontSize: "13px", fontWeight: 700, color: CURRY }}>Talent</span>
-                            <span style={{ fontSize: "10px", fontWeight: 800, color: WHITE, background: "#6A9060", borderRadius: "3px", padding: "1px 5px", letterSpacing: "0.05em" }}>NEWS</span>
-                          </div>
-                          <div style={{ background: "#DC2626", borderRadius: "6px", padding: "4px 8px", display: "flex", alignItems: "center", gap: "4px" }}>
-                            <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: WHITE }} />
-                            <span style={{ fontSize: "10px", fontWeight: 800, color: WHITE, letterSpacing: "0.05em" }}>LIVE</span>
-                          </div>
-                        </div>
-                      </div>
+                      {virksomhedView !== "data" && (<>
 
-                      {/* Breaking news bar */}
-                      <div style={{ background: "#DC2626", padding: "8px 16px", display: "flex", alignItems: "center", gap: "10px" }}>
-                        <span style={{ fontSize: "10px", fontWeight: 800, color: WHITE, letterSpacing: "0.1em", whiteSpace: "nowrap" }}>● BREAKING NEWS</span>
-                        <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.8)", letterSpacing: "0.06em" }}>AE-RÅDET 2024</span>
-                      </div>
-
-                      {/* Headline */}
-                      <div style={{ padding: "16px 16px 0" }}>
-                        <div style={{ fontSize: "36px", fontWeight: 800, color: TEXT, lineHeight: 1.1, fontFamily: "Georgia, serif" }}>
-                          <span style={{ color: CURRY }}>136.000</span>
-                        </div>
-                        <div style={{ fontSize: "18px", fontWeight: 700, color: TEXT, lineHeight: 1.3, marginTop: "4px" }}>
-                          manglende fagpersoner frem mod 2030
-                        </div>
-                      </div>
-
-                      {/* Ticker */}
-                      <div style={{ background: NAVY, padding: "8px 0", overflow: "hidden", marginTop: "12px" }}>
-                        <div style={{ display: "flex", gap: "32px", padding: "0 16px", fontSize: "11px", color: "rgba(255,255,255,0.75)", fontWeight: 600, letterSpacing: "0.04em", whiteSpace: "nowrap" }}>
-                          {["Bygge & anlæg", "Faglærte", "Ingeniører", "Specialister", "24.000 KVU mangler", "13.000 MVU mangler", "11 kritiske faggrupper", "Elektrikere", "Tømrere", "Murere"].map((t) => (
-                            <span key={t}>· {t}</span>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Info + knap */}
-                      <div style={{ padding: "16px", display: "flex", flexDirection: "column", gap: "12px" }}>
-                        <div style={{ background: WHITE, borderRadius: "14px", padding: "16px", border: `1px solid ${BORDER}`, display: "flex", gap: "12px", alignItems: "flex-start" }}>
-                          <span style={{ fontSize: "18px", color: CURRY, flexShrink: 0 }}>ⓘ</span>
-                          <div style={{ fontSize: "14px", color: TEXT, lineHeight: 1.65 }}>
-                            Branchen er en af de sværeste at rekruttere i. Fremskrivningerne er klare — det er præcis dér ByggeTalent gør en forskel.
+                        {/* Hero video */}
+                        <div style={{ position: "relative", background: NAVY }}>
+                          <video autoPlay muted loop playsInline
+                            className="bt-news-video"
+                            style={{ width: "100%", height: "280px", objectFit: "cover", display: "block" }}>
+                            <source src="/Metrobyggetalent-news.mp4" type="video/mp4" />
+                          </video>
+                          {/* News badge */}
+                          <div style={{ position: "absolute", top: "12px", left: "12px", display: "flex", alignItems: "center", gap: "8px" }}>
+                            <div style={{ background: "rgba(10,22,40,0.85)", borderRadius: "6px", padding: "4px 10px", display: "flex", alignItems: "center", gap: "6px" }}>
+                              <span style={{ fontFamily: "Georgia, serif", fontSize: "13px", fontWeight: 700, color: WHITE }}>Bygge</span>
+                              <span style={{ fontFamily: "Georgia, serif", fontSize: "13px", fontWeight: 700, color: CURRY }}>Talent</span>
+                              <span style={{ fontSize: "10px", fontWeight: 800, color: WHITE, background: "#6A9060", borderRadius: "3px", padding: "1px 5px", letterSpacing: "0.05em" }}>NEWS</span>
+                            </div>
+                            <div style={{ background: "#DC2626", borderRadius: "6px", padding: "4px 8px", display: "flex", alignItems: "center", gap: "4px" }}>
+                              <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: WHITE }} />
+                              <span style={{ fontSize: "10px", fontWeight: 800, color: WHITE, letterSpacing: "0.05em" }}>LIVE</span>
+                            </div>
                           </div>
                         </div>
-                        <button onClick={() => setVirksomhedView("data")}
-                          style={{ width: "100%", padding: "14px", borderRadius: "12px", border: "none", background: NAVY, color: WHITE, fontSize: "14px", fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
-                          <span>▦</span> Se alle arbejdskraftdata →
-                        </button>
-                      </div>
+
+                        {/* Breaking news bar */}
+                        <div style={{ background: "#DC2626", padding: "8px 16px", display: "flex", alignItems: "center", gap: "10px" }}>
+                          <span style={{ fontSize: "10px", fontWeight: 800, color: WHITE, letterSpacing: "0.1em", whiteSpace: "nowrap" }}>● BREAKING NEWS</span>
+                          <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.8)", letterSpacing: "0.06em" }}>AE-RÅDET 2024</span>
+                        </div>
+
+                        {/* Headline */}
+                        <div style={{ padding: "16px 16px 0" }}>
+                          <div style={{ fontSize: "36px", fontWeight: 800, color: TEXT, lineHeight: 1.1, fontFamily: "Georgia, serif" }}>
+                            <span style={{ color: CURRY }}>136.000</span>
+                          </div>
+                          <div style={{ fontSize: "18px", fontWeight: 700, color: TEXT, lineHeight: 1.3, marginTop: "4px" }}>
+                            manglende fagpersoner frem mod 2030
+                          </div>
+                        </div>
+
+                        {/* Ticker */}
+                        <div style={{ background: NAVY, padding: "8px 0", overflow: "hidden", marginTop: "12px" }}>
+                          <div style={{ display: "flex", gap: "32px", padding: "0 16px", fontSize: "11px", color: "rgba(255,255,255,0.75)", fontWeight: 600, letterSpacing: "0.04em", whiteSpace: "nowrap" }}>
+                            {["Bygge & anlæg", "Faglærte", "Ingeniører", "Specialister", "24.000 KVU mangler", "13.000 MVU mangler", "11 kritiske faggrupper", "Elektrikere", "Tømrere", "Murere"].map((t) => (
+                              <span key={t}>· {t}</span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Info + knap */}
+                        <div style={{ padding: "16px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                          <div style={{ background: WHITE, borderRadius: "14px", padding: "16px", border: `1px solid ${BORDER}`, display: "flex", gap: "12px", alignItems: "flex-start" }}>
+                            <span style={{ fontSize: "18px", color: CURRY, flexShrink: 0 }}>ⓘ</span>
+                            <div style={{ fontSize: "14px", color: TEXT, lineHeight: 1.65 }}>
+                              Branchen er en af de sværeste at rekruttere i. Fremskrivningerne er klare — det er præcis dér ByggeTalent gør en forskel.
+                            </div>
+                          </div>
+                          <button onClick={() => setVirksomhedView("data")}
+                            style={{ width: "100%", padding: "14px", borderRadius: "12px", border: "none", background: NAVY, color: WHITE, fontSize: "14px", fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
+                            <span>▦</span> Se alle arbejdskraftdata →
+                          </button>
+                        </div>
+
+                      </>)}
 
                       {/* Arbejdskraftdata sub-view */}
                       {virksomhedView === "data" && (

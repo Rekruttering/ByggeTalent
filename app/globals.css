@@ -83,6 +83,14 @@ textarea::placeholder {
   }
 }
 
+/* ─── Nyheder video på desktop ───────────────────────────────────── */
+@media (min-width: 640px) {
+  .bt-news-video {
+    height: 400px !important;
+    max-height: 50vh;
+  }
+}
+
 /* ─── Admin sidebar responsiv ─────────────────────────────────────── */
 .bt-admin-sidebar {
   width: 56px !important;
