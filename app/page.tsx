@@ -252,7 +252,7 @@ export default function Home() {
 
       {/* ─── Step 0: Forside ──────────────────────────────────────────── */}
       {step === 0 && (
-        <div style={{ maxWidth: "480px", margin: "0 auto", padding: "24px 0 40px" }}>
+        <div className="bt-page">
 
           {detailPage ? (
             /* Detail view */
@@ -476,7 +476,6 @@ export default function Home() {
                       {/* Arbejdskraftdata sub-view */}
                       {virksomhedView === "data" && (
                         <div style={{ padding: "0 16px 40px" }}>
-                          <button onClick={() => setVirksomhedView(null)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "14px", fontWeight: 700, color: CURRY, padding: "12px 0", display: "flex", alignItems: "center", gap: "6px" }}>← Tilbage</button>
                           <WorkforceShortage onExitToVirksomhed={() => setVirksomhedView(null)} />
                         </div>
                       )}
@@ -544,7 +543,7 @@ export default function Home() {
             </div>
           ) : (
             /* Hero + navigation */
-            <div style={{ padding: "0 20px 40px", display: "grid", gap: "16px" }}>
+            <div className="bt-home-content">
 
               {/* Logo */}
               <div style={{ textAlign: "center", paddingTop: "36px", display: "grid", gap: "10px" }}>
@@ -563,7 +562,7 @@ export default function Home() {
               </div>
 
               {/* Navigation kort — 2 brede stakkede */}
-              <div style={{ display: "grid", gap: "8px" }}>
+              <div className="bt-nav-cards">
                 {navCards.map((card) => (
                   <button type="button" key={card.key}
                     onClick={() => card.key === "Kandidat" ? setStep(1) : setDetailPage(card.key)}
@@ -613,7 +612,7 @@ export default function Home() {
 
       {/* ─── Step 1: Hub ──────────────────────────────────────────────── */}
       {step === 1 && (
-        <div style={{ maxWidth: "480px", margin: "0 auto", minHeight: "100vh", display: "flex", flexDirection: "column", background: PAGE_BG }}>
+        <div className="bt-page-full" style={{ background: PAGE_BG }}>
 
           {step1SubPage === null ? (
             /* ── Karriere / Nyuddannede tabs ── */
@@ -996,7 +995,7 @@ export default function Home() {
 
       {/* ─── Step 2: Mini-test ──────────────────────────────────────── */}
       {step === 2 && (
-        <div style={{ maxWidth: "480px", margin: "0 auto", minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+        <div className="bt-page-full">
 
           {/* Header */}
           <div style={{ background: PAGE_BG, padding: "20px 20px 0", textAlign: "center", position: "sticky", top: 0, zIndex: 10 }}>

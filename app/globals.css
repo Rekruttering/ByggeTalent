@@ -30,6 +30,82 @@ textarea::placeholder {
   color: #8B9099 !important;
 }
 
+/* ─── Responsivt layout ──────────────────────────────────────────── */
+.bt-page {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 24px 0 40px;
+}
+
+.bt-page-full {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.bt-home-content {
+  padding: 0 20px 40px;
+  display: grid;
+  gap: 16px;
+}
+
+.bt-nav-cards {
+  display: grid;
+  gap: 8px;
+}
+
+@media (min-width: 640px) {
+  .bt-page,
+  .bt-page-full {
+    max-width: 680px;
+  }
+  .bt-home-content {
+    padding: 0 32px 48px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bt-page {
+    max-width: 1100px;
+    padding: 40px 0 64px;
+  }
+  .bt-page-full {
+    max-width: 860px;
+  }
+  .bt-home-content {
+    padding: 0 48px 64px;
+    gap: 24px;
+  }
+  .bt-nav-cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ─── Admin sidebar responsiv ─────────────────────────────────────── */
+.bt-admin-sidebar {
+  width: 56px !important;
+  overflow: hidden;
+}
+
+.bt-sidebar-hide-mobile {
+  display: none !important;
+}
+
+@media (min-width: 768px) {
+  .bt-admin-sidebar {
+    width: 260px !important;
+  }
+  .bt-sidebar-hide-mobile {
+    display: block !important;
+  }
+  /* Inline-flex elementer (badge spans) */
+  span.bt-sidebar-hide-mobile {
+    display: inline-flex !important;
+  }
+}
+
 *:focus,
 *:focus-visible {
   outline: none !important;

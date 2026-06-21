@@ -360,12 +360,12 @@ export default function Admin() {
     <div style={{ display: "flex", minHeight: "100vh", fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", background: PAGE_BG }}>
 
       {/* Sidebar */}
-      <aside style={{ width: "260px", background: WHITE, borderRight: `1px solid ${BORDER}`, display: "flex", flexDirection: "column", flexShrink: 0 }}>
+      <aside className="bt-admin-sidebar" style={{ background: WHITE, borderRight: `1px solid ${BORDER}`, display: "flex", flexDirection: "column", flexShrink: 0 }}>
         <div style={{ padding: "28px 24px 20px" }}>
           <div style={{ fontFamily: "Georgia, serif", fontSize: "22px", fontWeight: 700 }}>
             <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE }}>Talent</span>
           </div>
-          <div style={{ fontSize: "11px", color: MUTED, fontWeight: 600, letterSpacing: "0.10em", textTransform: "uppercase", marginTop: "4px" }}>Rekrutteringsplatform</div>
+          <div className="bt-sidebar-hide-mobile" style={{ fontSize: "11px", color: MUTED, fontWeight: 600, letterSpacing: "0.10em", textTransform: "uppercase", marginTop: "4px" }}>Rekrutteringsplatform</div>
         </div>
 
         <nav style={{ padding: "8px 12px", flex: 1, display: "flex", flexDirection: "column", gap: "2px" }}>
@@ -378,9 +378,9 @@ export default function Admin() {
             <button key={item.key} onClick={() => { setNav(item.key); setSelectedApp(null); }}
               style={{ display: "flex", alignItems: "center", gap: "12px", padding: "11px 14px", borderRadius: "10px", border: "none", background: nav === item.key ? "#EFF6FF" : "transparent", color: nav === item.key ? ACCENT : MUTED, cursor: "pointer", fontSize: "14px", fontWeight: nav === item.key ? 700 : 500, textAlign: "left", width: "100%" }}>
               <span style={{ color: nav === item.key ? ACCENT : MUTED }}>{item.icon}</span>
-              <span style={{ flex: 1 }}>{item.label}</span>
+              <span className="bt-sidebar-hide-mobile" style={{ flex: 1 }}>{item.label}</span>
               {item.badge !== undefined && item.badge > 0 && (
-                <span style={{ padding: "2px 8px", borderRadius: "999px", background: nav === item.key ? ACCENT : "#E5E7EB", color: nav === item.key ? WHITE : MUTED, fontSize: "12px", fontWeight: 700 }}>{item.badge}</span>
+                <span className="bt-sidebar-hide-mobile" style={{ padding: "2px 8px", borderRadius: "999px", background: nav === item.key ? ACCENT : "#E5E7EB", color: nav === item.key ? WHITE : MUTED, fontSize: "12px", fontWeight: 700 }}>{item.badge}</span>
               )}
             </button>
           ))}
@@ -390,7 +390,7 @@ export default function Admin() {
         <div style={{ padding: "16px 12px", borderTop: `1px solid ${BORDER}` }}>
           <div style={{ display: "flex", alignItems: "center", gap: "12px", padding: "10px 14px", borderRadius: "10px" }}>
             <div style={{ width: "38px", height: "38px", borderRadius: "50%", background: CURRY_BG, border: `1px solid ${CURRY_BORDER}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: 700, color: CURRY, flexShrink: 0 }}>K</div>
-            <div style={{ flex: 1, minWidth: 0 }}>
+            <div className="bt-sidebar-hide-mobile" style={{ flex: 1, minWidth: 0 }}>
               <div style={{ fontSize: "13px", fontWeight: 700, color: TEXT }}>Karina Nyberg</div>
               <div style={{ fontSize: "12px", color: MUTED }}>Administrator</div>
             </div>
