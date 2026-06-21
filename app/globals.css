@@ -86,8 +86,7 @@ textarea::placeholder {
 /* ─── Nyheder video på desktop ───────────────────────────────────── */
 @media (min-width: 640px) {
   .bt-news-video {
-    height: 400px !important;
-    max-height: 50vh;
+    height: 260px !important;
   }
 }
 

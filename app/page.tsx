@@ -1648,96 +1648,18 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
         ← Virksomhed
       </button>
 
-      {/* ── BYGGETALENT NEWS ── */}
-      <div style={{ borderRadius: "18px", overflow: "hidden", boxShadow: "0 4px 20px rgba(10,22,40,0.14)" }}>
-
-        {/* FULD VIDEOBAGGRUND — TV2-stil */}
-        <div style={{ position: "relative", height: "420px", overflow: "hidden" }}>
-
-          {/* Baggrundsvideo */}
-          <video
-            autoPlay muted loop playsInline
-            style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
-          >
-            <source src="/byggetalent-news.mp4" type="video/mp4" />
-          </video>
-
-          {/* Gradient overlay — transparent øverst, navy i bunden */}
-          <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 35%, rgba(10,22,40,0.75) 65%, rgba(10,22,40,0.97) 100%)" }} />
-
-          {/* TOP: Logo + LIVE */}
-          <div style={{ position: "absolute", top: 0, left: 0, right: 0, display: "flex", justifyContent: "space-between", alignItems: "center", padding: "14px 16px", zIndex: 2 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px", background: "rgba(10,22,40,0.80)", backdropFilter: "blur(6px)", padding: "6px 12px", borderRadius: "8px" }}>
-              <div style={{ fontFamily: "Georgia, serif", fontSize: "14px", fontWeight: 700 }}>
-                <span style={{ color: WHITE }}>Bygge</span><span style={{ color: CURRY }}>Talent</span>
-              </div>
-              <div style={{ display: "flex", alignItems: "center", gap: "4px", background: "#C0392B", borderRadius: "4px", padding: "2px 7px" }}>
-                <span style={{ fontSize: "9px", fontWeight: 800, color: WHITE, letterSpacing: "0.18em" }}>NEWS</span>
-              </div>
+      {/* ── Arbejdskraftdata nøgletal ── */}
+      <div style={{ display: "grid", gap: "8px" }}>
+        {WS_FACTS.map((f, i) => (
+          <div key={i} style={{ background: WHITE, borderRadius: "14px", padding: "16px 18px", border: `1px solid ${BORDER}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div>
+              <div style={{ fontSize: "11px", fontWeight: 700, color: CURRY, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "4px" }}>{f.eyebrow}</div>
+              <div style={{ fontSize: "28px", fontWeight: 800, color: NAVY, fontFamily: "Georgia, serif", lineHeight: 1 }}>{f.number}</div>
+              <div style={{ fontSize: "13px", color: MUTED, marginTop: "4px", lineHeight: 1.4 }}>{f.label}</div>
             </div>
-            <div style={{ display: "flex", alignItems: "center", gap: "5px", background: "#C0392B", borderRadius: "5px", padding: "5px 11px" }}>
-              <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: WHITE, animation: "wspulse 1s ease infinite" }} />
-              <span style={{ fontSize: "10px", fontWeight: 800, color: WHITE, letterSpacing: "0.14em" }}>LIVE</span>
-            </div>
+            <div style={{ width: "4px", alignSelf: "stretch", borderRadius: "2px", background: i === 0 ? CURRY : i === 1 ? "#6A9060" : "#2563EB", flexShrink: 0 }} />
           </div>
-
-          {/* BUND: TV lower-third — 3 smalle striber */}
-          <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, zIndex: 2 }}>
-
-            {/* Stripe 1: Rød — BREAKING NEWS + kategori */}
-            <div style={{ background: "#C0392B", padding: "5px 12px", display: "flex", alignItems: "center", gap: "8px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-                <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: WHITE, animation: "wspulse 1s ease infinite" }} />
-                <span style={{ fontSize: "9px", fontWeight: 900, color: WHITE, letterSpacing: "0.18em" }}>BREAKING NEWS</span>
-              </div>
-              <div style={{ width: "1px", height: "12px", background: "rgba(255,255,255,0.3)" }} />
-              <span style={{ fontSize: "9px", fontWeight: 700, color: "rgba(255,255,255,0.85)", letterSpacing: "0.10em", opacity: visible ? 1 : 0, transition: "opacity 0.3s" }}>
-                {current.eyebrow.toUpperCase()}
-              </span>
-            </div>
-
-            {/* Stripe 2: Hvid — tal + kort label */}
-            <div style={{ background: WHITE, padding: "6px 12px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <div style={{ display: "flex", alignItems: "baseline", gap: "8px", opacity: visible ? 1 : 0, transition: "opacity 0.3s" }}>
-                <span style={{ fontSize: "20px", fontWeight: 900, color: "#111", letterSpacing: "-0.01em", fontFamily: "Georgia, serif" }}>
-                  {current.number}
-                </span>
-                <span style={{ fontSize: "10px", fontWeight: 700, color: "#444", letterSpacing: "0.04em", textTransform: "uppercase" }}>
-                  {current.eyebrow}
-                </span>
-              </div>
-              <div style={{ display: "flex", gap: "3px" }}>
-                {WS_FACTS.map((_, i) => (
-                  <button key={i} onClick={() => { setVisible(false); setTimeout(() => { setFact(i); setVisible(true); }, 280); }}
-                    style={{ width: i === fact ? "14px" : "4px", height: "4px", borderRadius: "2px", background: i === fact ? "#C0392B" : "#CCCCCC", border: "none", cursor: "pointer", padding: 0, transition: "width 0.3s ease" }} />
-                ))}
-              </div>
-            </div>
-
-            {/* Stripe 3: Sort — beskrivende tekst hvid */}
-            <div style={{ background: "#111111", padding: "5px 12px" }}>
-              <div style={{ fontSize: "10px", color: "rgba(255,255,255,0.90)", lineHeight: 1.3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                {visible && current.label.split(" ").map((word, i) => (
-                  <span key={`${fact}-${i}`} style={{ display: "inline-block", marginRight: "3px", animation: "wsword 0.15s ease forwards", animationDelay: `${i * 0.05}s`, opacity: 0 }}>
-                    {word}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Stripe 4: Gold ticker */}
-            <div style={{ background: CURRY, overflow: "hidden", padding: "5px 0" }}>
-              <div style={{ display: "flex", gap: "32px", animation: "wsticker 12s linear infinite", whiteSpace: "nowrap" }}>
-                {[...Array(5)].flatMap(() => [
-                  "99.000 faglærte mangler", "·", "24.000 KVU mangler", "·", "13.000 MVU mangler", "·",
-                  "11 kritiske faggrupper", "·", "Elektriker · VVS · BIM · Tømrer · Energirådgiver", "·",
-                ]).map((t, i) => (
-                  <span key={i} style={{ fontSize: "10px", fontWeight: t === "·" ? 400 : 700, color: t === "·" ? "rgba(10,22,40,0.30)" : NAVY, letterSpacing: "0.05em" }}>{t}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
 
 
