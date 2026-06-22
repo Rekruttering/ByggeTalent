@@ -378,7 +378,7 @@ export default function Home() {
               )}
 
               {detailPage === "Virksomhed" && (
-                <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+                <div className="bt-virksomhed">
 
                   {/* Header */}
                   <div style={{ background: PAGE_BG, padding: "20px 20px 0", textAlign: "center", position: "sticky", top: 0, zIndex: 10 }}>

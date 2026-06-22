@@ -90,6 +90,25 @@ textarea::placeholder {
   }
 }
 
+/* ─── Virksomhed detail view ─────────────────────────────────────── */
+.bt-virksomhed {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+@media (min-width: 640px) {
+  .bt-virksomhed {
+    max-width: 680px;
+    margin: 0 auto;
+    width: 100%;
+    box-shadow: 0 0 40px rgba(10,22,40,0.08);
+    border-radius: 16px;
+    overflow: hidden;
+    min-height: auto;
+  }
+}
+
 /* ─── Admin sidebar responsiv ─────────────────────────────────────── */
 .bt-admin-sidebar {
   width: 56px !important;
