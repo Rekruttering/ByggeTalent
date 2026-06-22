@@ -110,9 +110,15 @@ textarea::placeholder {
 /* ─── Nyheder video på desktop ───────────────────────────────────── */
 @media (min-width: 640px) {
   .bt-news-video {
-    height: 320px !important;
+    height: 260px !important;
     object-fit: cover !important;
     object-position: center center !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bt-news-video {
+    height: 200px !important;
   }
 }
 
@@ -123,7 +129,9 @@ textarea::placeholder {
 }
 
 .bt-ticker-inner {
-  width: max-content;
+  display: flex !important;
+  width: max-content !important;
+  will-change: transform;
   animation: bt-ticker 22s linear infinite;
 }
 
