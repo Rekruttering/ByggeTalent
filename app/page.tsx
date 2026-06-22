@@ -1650,18 +1650,46 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
         ← Virksomhed
       </button>
 
-      {/* ── Arbejdskraftdata nøgletal ── */}
-      <div style={{ display: "grid", gap: "8px" }}>
-        {WS_FACTS.map((f, i) => (
-          <div key={i} style={{ background: WHITE, borderRadius: "14px", padding: "16px 18px", border: `1px solid ${BORDER}`, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-            <div>
-              <div style={{ fontSize: "11px", fontWeight: 700, color: CURRY, letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "4px" }}>{f.eyebrow}</div>
-              <div style={{ fontSize: "28px", fontWeight: 800, color: NAVY, fontFamily: "Georgia, serif", lineHeight: 1 }}>{f.number}</div>
-              <div style={{ fontSize: "13px", color: MUTED, marginTop: "4px", lineHeight: 1.4 }}>{f.label}</div>
+      {/* ── Donut chart ── */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "14px" }}>
+        <svg width="180" height="180" viewBox="0 0 180 180">
+          {(() => {
+            const r = 65, cx = 90, cy = 90;
+            const C = 2 * Math.PI * r;
+            const S1 = (99 / 136) * C;
+            const S2 = C - S1;
+            return (
+              <>
+                <circle cx={cx} cy={cy} r={r} fill="none" stroke="#E8E3DB" strokeWidth="26"/>
+                <circle cx={cx} cy={cy} r={r} fill="none" stroke={CURRY} strokeWidth="26"
+                  strokeDasharray={`${S1} ${S2}`} strokeDashoffset={0}
+                  transform={`rotate(-90 ${cx} ${cy})`}/>
+                <circle cx={cx} cy={cy} r={r} fill="none" stroke="#6A9060" strokeWidth="26"
+                  strokeDasharray={`${S2} ${S1}`} strokeDashoffset={S2}
+                  transform={`rotate(-90 ${cx} ${cy})`}/>
+                <text x="90" y="83" textAnchor="middle" fontSize="22" fontWeight="800" fill={NAVY} fontFamily="Georgia, serif">136.000</text>
+                <text x="90" y="100" textAnchor="middle" fontSize="9" fill={MUTED} fontWeight="700" letterSpacing="0.08em">MANGLENDE</text>
+                <text x="90" y="113" textAnchor="middle" fontSize="9" fill={MUTED} fontWeight="600">frem mod 2030</text>
+              </>
+            );
+          })()}
+        </svg>
+
+        <div style={{ display: "grid", gap: "8px", width: "100%" }}>
+          {[
+            { color: CURRY,     label: "99.000 faglærte",          sub: "Elektrikere, tømrere, VVS · 73%" },
+            { color: "#6A9060", label: "37.000 videregående",       sub: "Ingeniører og teknikere · 27%" },
+            { color: "#C0392B", label: "11 kritiske faggrupper",    sub: "Grøn omstilling: solceller, BIM, varmepumper", bg: CURRY_BG, border: CURRY_BORDER },
+          ].map((item) => (
+            <div key={item.label} style={{ display: "flex", alignItems: "center", gap: "12px", padding: "11px 14px", background: item.bg ?? WHITE, borderRadius: "12px", border: `1px solid ${item.border ?? BORDER}` }}>
+              <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: item.color, flexShrink: 0 }}/>
+              <div>
+                <div style={{ fontSize: "13px", fontWeight: 700, color: TEXT }}>{item.label}</div>
+                <div style={{ fontSize: "11px", color: MUTED, marginTop: "1px" }}>{item.sub}</div>
+              </div>
             </div>
-            <div style={{ width: "4px", alignSelf: "stretch", borderRadius: "2px", background: i === 0 ? CURRY : i === 1 ? "#6A9060" : "#2563EB", flexShrink: 0 }} />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
 
