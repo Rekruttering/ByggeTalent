@@ -195,6 +195,15 @@ textarea::placeholder {
     overflow: visible;
     min-height: 100vh;
   }
+
+  .bt-desktop-shell .bt-home-content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .bt-desktop-shell .bt-nav-cards {
+    padding: 0;
+  }
 }
 
 /* ─── Admin sidebar responsiv ─────────────────────────────────────── */
