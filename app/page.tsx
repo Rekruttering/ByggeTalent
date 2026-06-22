@@ -437,10 +437,17 @@ export default function Home() {
                           </div>
                         </div>
 
-                        {/* Breaking news bar */}
-                        <div style={{ background: "#DC2626", padding: "8px 16px", display: "flex", alignItems: "center", gap: "10px" }}>
-                          <span style={{ fontSize: "10px", fontWeight: 800, color: WHITE, letterSpacing: "0.1em", whiteSpace: "nowrap" }}>● BREAKING NEWS</span>
-                          <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.8)", letterSpacing: "0.06em" }}>AE-RÅDET 2024</span>
+                        {/* Breaking news bar — scrolling ticker */}
+                        <div style={{ background: "#DC2626", padding: "8px 0", display: "flex", alignItems: "center", overflow: "hidden" }}>
+                          <span style={{ fontSize: "10px", fontWeight: 800, color: WHITE, letterSpacing: "0.1em", whiteSpace: "nowrap", padding: "0 12px", borderRight: "1px solid rgba(255,255,255,0.4)", flexShrink: 0 }}>● BREAKING NEWS</span>
+                          <div style={{ overflow: "hidden", flex: 1 }}>
+                            <div className="bt-ticker-inner" style={{ fontSize: "10px", color: "rgba(255,255,255,0.92)", fontWeight: 600, letterSpacing: "0.06em", whiteSpace: "nowrap", gap: "48px", padding: "0 24px" }}>
+                              {["AE-RÅDET 2024: 136.000 manglende fagpersoner frem mod 2030", "24.000 KVU mangler", "13.000 MVU mangler", "11 kritiske faggrupper", "Elektrikere · Tømrere · Murere · Ingeniører",
+                                "AE-RÅDET 2024: 136.000 manglende fagpersoner frem mod 2030", "24.000 KVU mangler", "13.000 MVU mangler", "11 kritiske faggrupper", "Elektrikere · Tømrere · Murere · Ingeniører"].map((t, i) => (
+                                <span key={i} style={{ marginRight: "48px" }}>· {t}</span>
+                              ))}
+                            </div>
+                          </div>
                         </div>
 
                         {/* Headline */}
