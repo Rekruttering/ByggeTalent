@@ -252,6 +252,65 @@ export default function Home() {
 
       {/* ─── Step 0: Forside ──────────────────────────────────────────── */}
       {step === 0 && (
+        <div className="bt-desktop-shell">
+
+        {/* Sidebar — kun synlig på desktop (768px+) */}
+        <nav className="bt-sidebar-desktop">
+          {/* Logo */}
+          <div style={{ padding: "28px 20px 18px", textAlign: "center", borderBottom: `1px solid ${BORDER}` }}>
+            <div style={{ fontFamily: "Georgia, serif", fontSize: "11px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>BYGGE & ANLÆG</div>
+            <div style={{ fontFamily: "Georgia, serif", fontSize: "30px", fontWeight: 700, lineHeight: 1.0, marginTop: "4px" }}>
+              <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE }}>Talent</span>
+            </div>
+            <div style={{ width: "32px", height: "1.5px", background: CURRY, margin: "7px auto 0" }} />
+            <div style={{ fontFamily: "Georgia, serif", fontSize: "9px", letterSpacing: "0.16em", textTransform: "uppercase", color: MUTED, marginTop: "5px" }}>REKRUTTERING MED BRANCHEFORSTÅELSE</div>
+          </div>
+
+          {/* Nav-knapper */}
+          <div style={{ padding: "16px 14px", display: "flex", flexDirection: "column", gap: "8px" }}>
+            {navCards.map((card) => (
+              <button type="button" key={card.key}
+                onClick={() => card.key === "Kandidat" ? setStep(1) : setDetailPage(card.key)}
+                style={{
+                  borderRadius: "12px",
+                  background: card.key === "Virksomhed" && detailPage === "Virksomhed" ? card.bg : card.bg + "99",
+                  border: "1px solid transparent",
+                  padding: "14px 16px",
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                  cursor: "pointer", width: "100%", textAlign: "left",
+                  boxShadow: card.key === "Virksomhed" && detailPage === "Virksomhed" ? "0 2px 8px rgba(10,22,40,0.12)" : "none",
+                }}>
+                <div>
+                  <div style={{ fontSize: "14px", fontWeight: 700, color: WHITE }}>{card.label}</div>
+                  <div style={{ fontSize: "11px", color: "rgba(255,255,255,0.75)", marginTop: "2px" }}>{card.sub}</div>
+                </div>
+                <span style={{ color: "rgba(255,255,255,0.75)", fontSize: "16px" }}>→</span>
+              </button>
+            ))}
+          </div>
+
+          {/* Virksomhed undermenu */}
+          {detailPage === "Virksomhed" && (
+            <div style={{ padding: "0 10px 16px" }}>
+              <div style={{ fontSize: "10px", fontWeight: 700, letterSpacing: "0.14em", color: MUTED, padding: "4px 10px 8px", textTransform: "uppercase" }}>Virksomhed</div>
+              {(["Nyheder", "Rekruttering", "Onboarding"] as const).map((tab) => (
+                <button key={tab} onClick={() => setVirksomhedTab(tab)}
+                  style={{
+                    display: "flex", alignItems: "center", gap: "10px",
+                    width: "100%", padding: "9px 12px", borderRadius: "8px",
+                    background: virksomhedTab === tab ? "rgba(106,144,96,0.13)" : "transparent",
+                    border: "none", cursor: "pointer", textAlign: "left",
+                    fontSize: "13px", fontWeight: virksomhedTab === tab ? 600 : 400,
+                    color: virksomhedTab === tab ? "#3d5e35" : TEXT,
+                  }}>
+                  <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: virksomhedTab === tab ? "#6A9060" : MUTED, flexShrink: 0 }} />
+                  {tab}
+                </button>
+              ))}
+            </div>
+          )}
+        </nav>
+
         <div className="bt-page">
 
           {detailPage ? (
@@ -615,6 +674,7 @@ export default function Home() {
             </div>
           )}
         </div>
+        </div> {/* bt-desktop-shell */}
       )}
 
       {/* ─── Step 1: Hub ──────────────────────────────────────────────── */}

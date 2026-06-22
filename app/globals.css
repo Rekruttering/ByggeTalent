@@ -151,6 +151,52 @@ textarea::placeholder {
   }
 }
 
+/* ─── Desktop sidebar layout ─────────────────────────────────────── */
+.bt-sidebar-desktop {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  body {
+    background: #F0ECE5;
+  }
+
+  .bt-desktop-shell {
+    display: flex;
+    min-height: 100vh;
+  }
+
+  .bt-sidebar-desktop {
+    display: flex;
+    flex-direction: column;
+    width: 260px;
+    min-width: 260px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    background: #F0ECE5;
+    border-right: 1px solid rgba(10,22,40,0.09);
+  }
+
+  .bt-desktop-shell > .bt-page {
+    flex: 1;
+    max-width: none;
+    border-radius: 0;
+    box-shadow: none;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .bt-desktop-shell .bt-virksomhed {
+    max-width: none;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: visible;
+    min-height: 100vh;
+  }
+}
+
 /* ─── Admin sidebar responsiv ─────────────────────────────────────── */
 .bt-admin-sidebar {
   width: 56px !important;
