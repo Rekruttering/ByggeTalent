@@ -92,9 +92,16 @@ textarea::placeholder {
 
 @media (min-width: 640px) {
   .bt-home-video {
-    height: 320px;
+    height: 360px;
     object-fit: cover;
     object-position: center center;
+  }
+}
+
+@media (min-width: 1024px) {
+  .bt-home-video {
+    height: 420px;
+    object-position: center 20%;
   }
 }
 
