@@ -201,8 +201,12 @@ textarea::placeholder {
     padding-right: 0;
   }
 
+  .bt-desktop-shell .bt-home-logo {
+    display: none;
+  }
+
   .bt-desktop-shell .bt-nav-cards {
-    padding: 0;
+    display: none;
   }
 }
 

@@ -612,7 +612,7 @@ export default function Home() {
             <div className="bt-home-content">
 
               {/* Logo */}
-              <div style={{ textAlign: "center", paddingTop: "36px", display: "grid", gap: "10px" }}>
+              <div className="bt-home-logo" style={{ textAlign: "center", paddingTop: "36px", display: "grid", gap: "10px" }}>
                 <div style={{ fontFamily: "Georgia, serif", fontSize: "14px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>
                   BYGGE & ANLÆG
                 </div>
