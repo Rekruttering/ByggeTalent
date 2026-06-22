@@ -674,7 +674,7 @@ export default function Home() {
             </div>
           )}
         </div>
-        </div> {/* bt-desktop-shell */}
+        </div>
       )}
 
       {/* ─── Step 1: Hub ──────────────────────────────────────────────── */}
