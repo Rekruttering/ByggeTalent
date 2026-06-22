@@ -643,7 +643,7 @@ export default function Home() {
               </div>
 
               {/* Hero video */}
-              <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", boxShadow: "0 4px 16px rgba(10,22,40,0.10)" }}>
+              <div className="bt-home-video-wrap" style={{ borderRadius: "16px", overflow: "hidden", position: "relative", boxShadow: "0 4px 16px rgba(10,22,40,0.10)" }}>
                 <video autoPlay muted loop playsInline className="bt-home-video"
                   style={{ width: "100%", display: "block" }}>
                   <source src="/byggetalent-home.mp4" type="video/mp4" />

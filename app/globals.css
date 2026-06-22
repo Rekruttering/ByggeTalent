@@ -208,6 +208,11 @@ textarea::placeholder {
   .bt-desktop-shell .bt-nav-cards {
     display: none;
   }
+
+  .bt-desktop-shell .bt-home-video-wrap {
+    width: 80%;
+    margin: 0 auto;
+  }
 }
 
 /* ─── Admin sidebar responsiv ─────────────────────────────────────── */
