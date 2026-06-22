@@ -30,15 +30,15 @@ textarea::placeholder {
   color: #8B9099 !important;
 }
 
-/* ─── Responsivt layout ──────────────────────────────────────────── */
+/* ─── Responsivt layout — app-kolonne stil ───────────────────────── */
 .bt-page {
-  max-width: 480px;
+  max-width: 520px;
   margin: 0 auto;
   padding: 24px 0 40px;
 }
 
 .bt-page-full {
-  max-width: 480px;
+  max-width: 520px;
   margin: 0 auto;
   min-height: 100vh;
   display: flex;
@@ -56,30 +56,27 @@ textarea::placeholder {
   gap: 8px;
 }
 
+/* Tablet og desktop: vis som centreret app med skygge */
 @media (min-width: 640px) {
-  .bt-page,
-  .bt-page-full {
-    max-width: 680px;
+  body {
+    background: #E8E4DD;
   }
-  .bt-home-content {
-    padding: 0 32px 48px;
-  }
-}
 
-@media (min-width: 1024px) {
   .bt-page {
-    max-width: 1100px;
-    padding: 40px 0 64px;
+    background: #F0ECE5;
+    border-radius: 24px;
+    box-shadow: 0 8px 48px rgba(10,22,40,0.13);
+    margin-top: 24px;
+    margin-bottom: 24px;
   }
+
   .bt-page-full {
-    max-width: 860px;
-  }
-  .bt-home-content {
-    padding: 0 48px 64px;
-    gap: 24px;
-  }
-  .bt-nav-cards {
-    grid-template-columns: 1fr 1fr;
+    background: #F0ECE5;
+    border-radius: 24px;
+    box-shadow: 0 8px 48px rgba(10,22,40,0.13);
+    margin-top: 24px;
+    margin-bottom: 24px;
+    min-height: calc(100vh - 48px);
   }
 }
 

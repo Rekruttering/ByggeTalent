@@ -1650,6 +1650,24 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
         ← Virksomhed
       </button>
 
+      {/* ── FOLD UD KNAP — øverst ── */}
+      <button
+        onClick={() => setShowDetails(o => !o)}
+        style={{ background: WHITE, border: "none", borderRadius: "14px", padding: "0", display: "flex", flexDirection: "column", cursor: "pointer", width: "100%", overflow: "hidden", boxShadow: "0 2px 8px rgba(10,22,40,0.10)" }}
+      >
+        <div style={{ background: "#C0392B", height: "3px", width: "100%" }} />
+        <div style={{ padding: "14px 18px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <div style={{ textAlign: "left" }}>
+            <div style={{ fontSize: "9px", fontWeight: 800, letterSpacing: "0.18em", color: "#C0392B", marginBottom: "4px" }}>BYGGETALENT NEWS</div>
+            <div style={{ fontSize: "15px", fontWeight: 700, color: NAVY }}>Arbejdskraftmanglen i tal</div>
+            <div style={{ fontSize: "11px", color: MUTED, marginTop: "2px" }}>Fagområder · Drivkræfter · Virksomhedernes svar</div>
+          </div>
+          <div style={{ flexShrink: 0, width: "34px", height: "34px", borderRadius: "50%", background: showDetails ? CURRY : "#F0F0F0", display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.2s" }}>
+            <span style={{ fontSize: "18px", color: showDetails ? NAVY : MUTED, display: "inline-block", transform: showDetails ? "rotate(90deg)" : "rotate(0deg)", transition: "transform 0.25s", fontWeight: 700 }}>›</span>
+          </div>
+        </div>
+      </button>
+
       {/* ── Donut chart ── */}
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "14px" }}>
         <svg width="180" height="180" viewBox="0 0 180 180">
@@ -1700,24 +1718,6 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
         @keyframes wsbar     { from{transform:scaleY(0.3);opacity:0.4} to{transform:scaleY(1);opacity:1} }
         @keyframes wsword    { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
       `}</style>
-
-      {/* ── FOLD UD KNAP ── */}
-      <button
-        onClick={() => setShowDetails(o => !o)}
-        style={{ background: WHITE, border: "none", borderRadius: "14px", padding: "0", display: "flex", flexDirection: "column", cursor: "pointer", width: "100%", overflow: "hidden", boxShadow: "0 2px 8px rgba(10,22,40,0.10)" }}
-      >
-        <div style={{ background: "#C0392B", height: "3px", width: "100%" }} />
-        <div style={{ padding: "14px 18px", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <div style={{ textAlign: "left" }}>
-            <div style={{ fontSize: "9px", fontWeight: 800, letterSpacing: "0.18em", color: "#C0392B", marginBottom: "4px" }}>BYGGETALENT NEWS</div>
-            <div style={{ fontSize: "15px", fontWeight: 700, color: NAVY }}>Arbejdskraftmanglen i tal</div>
-            <div style={{ fontSize: "11px", color: MUTED, marginTop: "2px" }}>Fagområder · Drivkræfter · Virksomhedernes svar</div>
-          </div>
-          <div style={{ flexShrink: 0, width: "34px", height: "34px", borderRadius: "50%", background: showDetails ? CURRY : "#F0F0F0", display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.2s" }}>
-            <span style={{ fontSize: "18px", color: showDetails ? NAVY : MUTED, display: "inline-block", transform: showDetails ? "rotate(90deg)" : "rotate(0deg)", transition: "transform 0.25s", fontWeight: 700 }}>›</span>
-          </div>
-        </div>
-      </button>
 
       {/* ── ACCORDION SEKTIONER ── */}
       {showDetails && [{
