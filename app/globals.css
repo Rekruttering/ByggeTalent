@@ -83,6 +83,11 @@ textarea::placeholder {
   }
 }
 
+/* ─── Forside hero video lysnere ────────────────────────────────── */
+.bt-home-video {
+  filter: brightness(1.4);
+}
+
 /* ─── Nyheder video på desktop ───────────────────────────────────── */
 @media (min-width: 640px) {
   .bt-news-video {
