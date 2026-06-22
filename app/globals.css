@@ -116,6 +116,17 @@ textarea::placeholder {
   }
 }
 
+/* ─── Ticker animation ───────────────────────────────────────────── */
+@keyframes bt-ticker {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.bt-ticker-inner {
+  width: max-content;
+  animation: bt-ticker 22s linear infinite;
+}
+
 /* ─── Virksomhed detail view ─────────────────────────────────────── */
 .bt-virksomhed {
   display: flex;

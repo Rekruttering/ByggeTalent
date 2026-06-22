@@ -256,7 +256,7 @@ export default function Home() {
 
           {detailPage ? (
             /* Detail view */
-            <div style={{ padding: "8px 20px 40px" }}>
+            <div style={{ padding: detailPage === "Virksomhed" ? "0" : "8px 20px 40px" }}>
               {/* Skjules på Virksomhed (har sin egen header) og WorkforceShortage */}
               {detailPage !== "Virksomhed" && virksomhedView !== "data" && !virksomhedView && (
                 <button
@@ -453,25 +453,30 @@ export default function Home() {
                           </div>
                         </div>
 
-                        {/* Ticker */}
-                        <div style={{ background: NAVY, padding: "8px 0", overflow: "hidden", marginTop: "12px" }}>
-                          <div style={{ display: "flex", gap: "32px", padding: "0 16px", fontSize: "11px", color: "rgba(255,255,255,0.75)", fontWeight: 600, letterSpacing: "0.04em", whiteSpace: "nowrap" }}>
-                            {["Bygge & anlæg", "Faglærte", "Ingeniører", "Specialister", "24.000 KVU mangler", "13.000 MVU mangler", "11 kritiske faggrupper", "Elektrikere", "Tømrere", "Murere"].map((t) => (
-                              <span key={t}>· {t}</span>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Info + knap */}
-                        <div style={{ padding: "16px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                        {/* Info */}
+                        <div style={{ padding: "12px 16px 0" }}>
                           <div style={{ background: WHITE, borderRadius: "14px", padding: "16px", border: `1px solid ${BORDER}`, display: "flex", gap: "12px", alignItems: "flex-start" }}>
                             <span style={{ fontSize: "18px", color: CURRY, flexShrink: 0 }}>ⓘ</span>
                             <div style={{ fontSize: "14px", color: TEXT, lineHeight: 1.65 }}>
                               Branchen er en af de sværeste at rekruttere i. Fremskrivningerne er klare — det er præcis dér ByggeTalent gør en forskel.
                             </div>
                           </div>
+                        </div>
+
+                        {/* Ticker */}
+                        <div style={{ background: NAVY, padding: "8px 0", overflow: "hidden", marginTop: "12px" }}>
+                          <div className="bt-ticker-inner" style={{ display: "flex", gap: "32px", padding: "0 16px", fontSize: "11px", color: "rgba(255,255,255,0.75)", fontWeight: 600, letterSpacing: "0.04em", whiteSpace: "nowrap" }}>
+                            {["Bygge & anlæg", "Faglærte", "Ingeniører", "Specialister", "24.000 KVU mangler", "13.000 MVU mangler", "11 kritiske faggrupper", "Elektrikere", "Tømrere", "Murere",
+                              "Bygge & anlæg", "Faglærte", "Ingeniører", "Specialister", "24.000 KVU mangler", "13.000 MVU mangler", "11 kritiske faggrupper", "Elektrikere", "Tømrere", "Murere"].map((t, i) => (
+                              <span key={i}>· {t}</span>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Knap */}
+                        <div style={{ padding: "16px" }}>
                           <button onClick={() => setVirksomhedView("data")}
-                            style={{ width: "100%", padding: "14px", borderRadius: "12px", border: "none", background: NAVY, color: WHITE, fontSize: "14px", fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
+                            style={{ width: "100%", padding: "14px", borderRadius: "12px", border: "none", background: CURRY, color: WHITE, fontSize: "14px", fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px" }}>
                             <span>▦</span> Se alle arbejdskraftdata →
                           </button>
                         </div>
