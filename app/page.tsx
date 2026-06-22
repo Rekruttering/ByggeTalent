@@ -1668,58 +1668,7 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
         </div>
       </button>
 
-      {/* ── Donut chart ── */}
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "14px" }}>
-        <svg width="180" height="180" viewBox="0 0 180 180">
-          {(() => {
-            const r = 65, cx = 90, cy = 90;
-            const C = 2 * Math.PI * r;
-            const S1 = (99 / 136) * C;
-            const S2 = C - S1;
-            return (
-              <>
-                <circle cx={cx} cy={cy} r={r} fill="none" stroke="#E8E3DB" strokeWidth="26"/>
-                <circle cx={cx} cy={cy} r={r} fill="none" stroke={CURRY} strokeWidth="26"
-                  strokeDasharray={`${S1} ${S2}`} strokeDashoffset={0}
-                  transform={`rotate(-90 ${cx} ${cy})`}/>
-                <circle cx={cx} cy={cy} r={r} fill="none" stroke="#6A9060" strokeWidth="26"
-                  strokeDasharray={`${S2} ${S1}`} strokeDashoffset={S2}
-                  transform={`rotate(-90 ${cx} ${cy})`}/>
-                <text x="90" y="83" textAnchor="middle" fontSize="22" fontWeight="800" fill={NAVY} fontFamily="Georgia, serif">136.000</text>
-                <text x="90" y="100" textAnchor="middle" fontSize="9" fill={MUTED} fontWeight="700" letterSpacing="0.08em">MANGLENDE</text>
-                <text x="90" y="113" textAnchor="middle" fontSize="9" fill={MUTED} fontWeight="600">frem mod 2030</text>
-              </>
-            );
-          })()}
-        </svg>
-
-        <div style={{ display: "grid", gap: "8px", width: "100%" }}>
-          {[
-            { color: CURRY,     label: "99.000 faglærte",          sub: "Elektrikere, tømrere, VVS · 73%" },
-            { color: "#6A9060", label: "37.000 videregående",       sub: "Ingeniører og teknikere · 27%" },
-            { color: "#C0392B", label: "11 kritiske faggrupper",    sub: "Grøn omstilling: solceller, BIM, varmepumper", bg: CURRY_BG, border: CURRY_BORDER },
-          ].map((item) => (
-            <div key={item.label} style={{ display: "flex", alignItems: "center", gap: "12px", padding: "11px 14px", background: item.bg ?? WHITE, borderRadius: "12px", border: `1px solid ${item.border ?? BORDER}` }}>
-              <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: item.color, flexShrink: 0 }}/>
-              <div>
-                <div style={{ fontSize: "13px", fontWeight: 700, color: TEXT }}>{item.label}</div>
-                <div style={{ fontSize: "11px", color: MUTED, marginTop: "1px" }}>{item.sub}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-
-      <style>{`
-        @keyframes wsfade    { from{opacity:0;transform:scale(1.04)} to{opacity:1;transform:scale(1)} }
-        @keyframes wsticker  { from{transform:translateX(0)} to{transform:translateX(-20%)} }
-        @keyframes wspulse   { 0%,100%{opacity:1} 50%{opacity:0.15} }
-        @keyframes wsbar     { from{transform:scaleY(0.3);opacity:0.4} to{transform:scaleY(1);opacity:1} }
-        @keyframes wsword    { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
-      `}</style>
-
-      {/* ── ACCORDION SEKTIONER ── */}
+      {/* ── ACCORDION SEKTIONER — direkte under knappen ── */}
       {showDetails && [{
           id: "roller",
           title: "11 kritiske fagområder",
@@ -1782,8 +1731,59 @@ function WorkforceShortage({ onExitToVirksomhed }: { onExitToVirksomhed: () => v
         <WSAccordion key={sec.id} title={sec.title} sub={sec.sub}>{sec.content}</WSAccordion>
       ))}
 
-      {/* Kilde */}
+      {/* ── Donut chart ── */}
+      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "14px" }}>
+        <svg width="180" height="180" viewBox="0 0 180 180">
+          {(() => {
+            const r = 65, cx = 90, cy = 90;
+            const C = 2 * Math.PI * r;
+            const S1 = (99 / 136) * C;
+            const S2 = C - S1;
+            return (
+              <>
+                <circle cx={cx} cy={cy} r={r} fill="none" stroke="#E8E3DB" strokeWidth="26"/>
+                <circle cx={cx} cy={cy} r={r} fill="none" stroke={CURRY} strokeWidth="26"
+                  strokeDasharray={`${S1} ${S2}`} strokeDashoffset={0}
+                  transform={`rotate(-90 ${cx} ${cy})`}/>
+                <circle cx={cx} cy={cy} r={r} fill="none" stroke="#6A9060" strokeWidth="26"
+                  strokeDasharray={`${S2} ${S1}`} strokeDashoffset={S2}
+                  transform={`rotate(-90 ${cx} ${cy})`}/>
+                <text x="90" y="82" textAnchor="middle" fontSize="20" fontWeight="800" fill={CURRY} fontFamily="Georgia, serif">73%</text>
+                <text x="90" y="97" textAnchor="middle" fontSize="9" fill={MUTED} fontWeight="600">faglærte</text>
+                <text x="90" y="112" textAnchor="middle" fontSize="16" fontWeight="700" fill="#6A9060" fontFamily="Georgia, serif">27%</text>
+                <text x="90" y="124" textAnchor="middle" fontSize="9" fill={MUTED} fontWeight="600">videregående</text>
+              </>
+            );
+          })()}
+        </svg>
 
+        <div style={{ display: "grid", gap: "8px", width: "100%" }}>
+          {[
+            { color: CURRY,     label: "99.000 faglærte mangler nu",     sub: "Elektrikere, tømrere, VVS · 73%" },
+            { color: "#6A9060", label: "37.000 videregående mangler nu",  sub: "Ingeniører og teknikere · 27%" },
+            { color: "#C0392B", label: "11 kritiske faggrupper",    sub: "Grøn omstilling: solceller, BIM, varmepumper", bg: CURRY_BG, border: CURRY_BORDER },
+          ].map((item) => (
+            <div key={item.label} style={{ display: "flex", alignItems: "center", gap: "12px", padding: "11px 14px", background: item.bg ?? WHITE, borderRadius: "12px", border: `1px solid ${item.border ?? BORDER}` }}>
+              <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: item.color, flexShrink: 0 }}/>
+              <div>
+                <div style={{ fontSize: "13px", fontWeight: 700, color: TEXT }}>{item.label}</div>
+                <div style={{ fontSize: "11px", color: MUTED, marginTop: "1px" }}>{item.sub}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+
+      <style>{`
+        @keyframes wsfade    { from{opacity:0;transform:scale(1.04)} to{opacity:1;transform:scale(1)} }
+        @keyframes wsticker  { from{transform:translateX(0)} to{transform:translateX(-20%)} }
+        @keyframes wspulse   { 0%,100%{opacity:1} 50%{opacity:0.15} }
+        @keyframes wsbar     { from{transform:scaleY(0.3);opacity:0.4} to{transform:scaleY(1);opacity:1} }
+        @keyframes wsword    { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+      `}</style>
+
+      {/* Kilde */}
       <div style={{ padding: "4px 4px 8px", fontSize: "10px", color: MUTED }}>
         Kilde: AE-rådet 2024 · ByggeTalent brancheanalyse
       </div>
