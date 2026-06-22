@@ -470,16 +470,6 @@ export default function Home() {
                           </div>
                         </div>
 
-                        {/* Ticker */}
-                        <div style={{ background: NAVY, padding: "8px 0", overflow: "hidden", marginTop: "12px" }}>
-                          <div className="bt-ticker-inner" style={{ display: "flex", gap: "32px", padding: "0 16px", fontSize: "11px", color: "rgba(255,255,255,0.75)", fontWeight: 600, letterSpacing: "0.04em", whiteSpace: "nowrap" }}>
-                            {["Bygge & anlæg", "Faglærte", "Ingeniører", "Specialister", "24.000 KVU mangler", "13.000 MVU mangler", "11 kritiske faggrupper", "Elektrikere", "Tømrere", "Murere",
-                              "Bygge & anlæg", "Faglærte", "Ingeniører", "Specialister", "24.000 KVU mangler", "13.000 MVU mangler", "11 kritiske faggrupper", "Elektrikere", "Tømrere", "Murere"].map((t, i) => (
-                              <span key={i}>· {t}</span>
-                            ))}
-                          </div>
-                        </div>
-
                         {/* Knap */}
                         <div style={{ padding: "16px" }}>
                           <button onClick={() => setVirksomhedView("data")}
