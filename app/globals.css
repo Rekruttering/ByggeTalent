@@ -92,7 +92,8 @@ textarea::placeholder {
 
 @media (min-width: 640px) {
   .bt-home-video {
-    height: 360px;
+    height: auto;
+    max-height: 380px;
     object-fit: cover;
     object-position: center center;
   }
@@ -100,8 +101,9 @@ textarea::placeholder {
 
 @media (min-width: 1024px) {
   .bt-home-video {
-    height: 420px;
-    object-position: center 20%;
+    height: auto;
+    max-height: 400px;
+    object-position: center center;
   }
 }
 
