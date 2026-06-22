@@ -85,13 +85,15 @@ textarea::placeholder {
 
 /* ─── Forside hero video ─────────────────────────────────────────── */
 .bt-home-video {
+  height: 240px;
+  object-fit: cover;
   filter: brightness(1.4);
 }
 
 @media (min-width: 640px) {
   .bt-home-video {
-    height: auto !important;
-    object-fit: contain !important;
+    height: auto;
+    object-fit: contain;
     background: #0A1628;
   }
 }
