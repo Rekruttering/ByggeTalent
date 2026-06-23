@@ -165,6 +165,7 @@ export default function Home() {
 
   const [step1SubPage, setStep1SubPage] = useState<null | 'profile' | 'consent' | 'privacy' | 'karina'>(null);
   const [step1Tab, setStep1Tab] = useState<"Karriere" | "Nyuddannede">("Karriere");
+  const [step1SidebarActive, setStep1SidebarActive] = useState<"alt" | "clara">("alt");
   const [claraMuted, setClaraMuted] = useState(true);
   const [claraChat, setClaraChat] = useState<null | { question: string; messages: { from: "user" | "clara"; text: string }[] }>(null);
   const [claraInput, setClaraInput] = useState("");
@@ -679,13 +680,66 @@ export default function Home() {
 
       {/* ─── Step 1: Hub ──────────────────────────────────────────────── */}
       {step === 1 && (
-        <div className="bt-page-full" style={{ background: PAGE_BG }}>
+        <>
 
-          {step1SubPage === null ? (
-            /* ── Karriere / Nyuddannede tabs ── */
-            <>
-              {/* Header */}
-              <div style={{ background: PAGE_BG, padding: "20px 20px 0", textAlign: "center" }}>
+          {step1SubPage === null && (
+            <div className="bt-page-full bt-kandidat-shell" style={{ background: PAGE_BG }}>
+              <nav className="bt-kandidat-sidebar">
+                <div style={{ padding: "24px 18px 16px", textAlign: "center", borderBottom: `1px solid ${BORDER}` }}>
+                  <div style={{ fontFamily: "Georgia, serif", fontSize: "11px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>BYGGE & ANLÆG</div>
+                  <div style={{ fontFamily: "Georgia, serif", fontSize: "30px", fontWeight: 700, lineHeight: 1.0, marginTop: "4px" }}>
+                    <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE }}>Talent</span>
+                  </div>
+                  <div style={{ width: "32px", height: "1.5px", background: CURRY, margin: "7px auto 0" }} />
+                  <div style={{ fontFamily: "Georgia, serif", fontSize: "9px", letterSpacing: "0.16em", textTransform: "uppercase", color: MUTED, marginTop: "5px" }}>REKRUTTERING MED BRANCHEFORSTÅELSE</div>
+                </div>
+                <div style={{ padding: "12px 10px" }}>
+                  <div style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "0.14em", color: MUTED, padding: "4px 10px 8px", textTransform: "uppercase" }}>Kandidat</div>
+                  <button type="button"
+                    onClick={() => { setStep1Tab("Karriere"); setStep1SidebarActive("alt"); }}
+                    style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "10px 12px", borderRadius: "8px", border: "none", background: step1Tab === "Karriere" ? "rgba(10,22,40,0.07)" : "transparent", cursor: "pointer", textAlign: "left", marginBottom: "2px" }}>
+                    <div>
+                      <div style={{ fontSize: "13px", fontWeight: 600, color: TEXT }}>Karriere</div>
+                      <div style={{ fontSize: "11px", color: CURRY, marginTop: "1px" }}>Fagfolk & ledere</div>
+                    </div>
+                    <span style={{ fontSize: "10px", color: MUTED, display: "inline-block", transform: step1Tab === "Karriere" ? "rotate(90deg)" : "none" }}>›</span>
+                  </button>
+                  {step1Tab === "Karriere" && (
+                    <div style={{ paddingBottom: "6px" }}>
+                      <button type="button" onClick={() => setStep1SidebarActive("alt")}
+                        style={{ display: "flex", alignItems: "center", gap: "8px", width: "100%", padding: "8px 12px 8px 22px", borderRadius: "8px", border: "none", cursor: "pointer", textAlign: "left", fontSize: "12px", fontWeight: step1SidebarActive === "alt" ? 600 : 400, color: step1SidebarActive === "alt" ? "#3d5e35" : TEXT, background: step1SidebarActive === "alt" ? "rgba(106,144,96,0.13)" : "transparent" }}>
+                        <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: step1SidebarActive === "alt" ? "#6A9060" : MUTED, flexShrink: 0 }} />
+                        Start ALT-testen
+                      </button>
+                      <button type="button" onClick={() => setStep1SubPage("profile")}
+                        style={{ display: "flex", alignItems: "center", gap: "8px", width: "100%", padding: "8px 12px 8px 22px", borderRadius: "8px", border: "none", cursor: "pointer", textAlign: "left", fontSize: "12px", fontWeight: 400, color: TEXT, background: "transparent" }}>
+                        <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: MUTED, flexShrink: 0 }} />
+                        Udfyld profil
+                      </button>
+                    </div>
+                  )}
+                  <button type="button"
+                    onClick={() => { setStep1Tab("Nyuddannede"); setStep1SidebarActive("clara"); }}
+                    style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "10px 12px", borderRadius: "8px", border: "none", background: step1Tab === "Nyuddannede" ? "rgba(10,22,40,0.07)" : "transparent", cursor: "pointer", textAlign: "left", marginTop: "4px" }}>
+                    <div>
+                      <div style={{ fontSize: "13px", fontWeight: 600, color: TEXT }}>Nyuddannede</div>
+                      <div style={{ fontSize: "11px", color: CURRY, marginTop: "1px" }}>Hotline</div>
+                    </div>
+                    <span style={{ fontSize: "10px", color: MUTED, display: "inline-block", transform: step1Tab === "Nyuddannede" ? "rotate(90deg)" : "none" }}>›</span>
+                  </button>
+                  {step1Tab === "Nyuddannede" && (
+                    <div style={{ paddingBottom: "6px" }}>
+                      <button type="button" onClick={() => setStep1SidebarActive("clara")}
+                        style={{ display: "flex", alignItems: "center", gap: "8px", width: "100%", padding: "8px 12px 8px 22px", borderRadius: "8px", border: "none", cursor: "pointer", textAlign: "left", fontSize: "12px", fontWeight: step1SidebarActive === "clara" ? 600 : 400, color: step1SidebarActive === "clara" ? "#3d5e35" : TEXT, background: step1SidebarActive === "clara" ? "rgba(106,144,96,0.13)" : "transparent" }}>
+                        <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: step1SidebarActive === "clara" ? "#6A9060" : MUTED, flexShrink: 0 }} />
+                        Clara
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </nav>
+              <div className="bt-kandidat-content">
+                <div className="bt-kandidat-mobile-header" style={{ background: PAGE_BG, padding: "20px 20px 0", textAlign: "center" }}>
                 <div style={{ display: "flex", alignItems: "center", marginBottom: "12px" }}>
                   <button onClick={() => setStep(0)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "22px", color: TEXT, padding: 0, lineHeight: 1 }}>←</button>
                   <div style={{ flex: 1, textAlign: "center" }}>
@@ -874,9 +928,12 @@ export default function Home() {
                   )}
                 </div>
               )}
-            </>
-          ) : (
-            /* ── Underpaneler ── */
+              </div>
+            </div>
+          )}
+
+          {step1SubPage !== null && (
+            <div className="bt-page-full" style={{ background: PAGE_BG }}>
             <div style={{ flex: 1, display: "flex", flexDirection: "column", background: PAGE_BG }}>
 
               {/* Header */}
@@ -1056,8 +1113,9 @@ export default function Home() {
                 </div>
               )}
             </div>
-          )}
-        </div>
+          </div>
+        )}
+        </>
       )}
 
       {/* ─── Step 2: Mini-test ──────────────────────────────────────── */}

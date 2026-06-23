@@ -215,6 +215,44 @@ textarea::placeholder {
   }
 }
 
+/* ─── Kandidat sidebar layout ───────────────────────────────────────── */
+.bt-kandidat-sidebar {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .bt-kandidat-shell {
+    display: flex !important;
+    flex-direction: row !important;
+    max-width: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+
+  .bt-kandidat-sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 220px;
+    min-width: 220px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    background: #F0ECE5;
+    border-right: 1px solid rgba(10,22,40,0.09);
+  }
+
+  .bt-kandidat-content {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .bt-kandidat-mobile-header {
+    display: none;
+  }
+}
+
 /* ─── Admin sidebar responsiv ─────────────────────────────────────── */
 .bt-admin-sidebar {
   width: 56px !important;
