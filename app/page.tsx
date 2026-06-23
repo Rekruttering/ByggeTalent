@@ -685,57 +685,52 @@ export default function Home() {
           {step1SubPage === null && (
             <div className="bt-page-full bt-kandidat-shell" style={{ background: PAGE_BG }}>
               <nav className="bt-kandidat-sidebar">
-                <div style={{ padding: "24px 18px 16px", textAlign: "center", borderBottom: `1px solid ${BORDER}` }}>
-                  <div style={{ fontFamily: "Georgia, serif", fontSize: "11px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>BYGGE & ANLÆG</div>
-                  <div style={{ fontFamily: "Georgia, serif", fontSize: "30px", fontWeight: 700, lineHeight: 1.0, marginTop: "4px" }}>
-                    <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE }}>Talent</span>
+                <div style={{ padding: "16px 18px 14px", borderBottom: `1px solid ${BORDER}` }}>
+                  <button onClick={() => setStep(0)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: "12px", color: MUTED, padding: 0, marginBottom: "12px", display: "flex", alignItems: "center", gap: "6px" }}>← Tilbage</button>
+                  <div style={{ textAlign: "center" }}>
+                    <div style={{ fontFamily: "Georgia, serif", fontSize: "11px", fontWeight: 700, letterSpacing: "0.28em", textTransform: "uppercase", color: CURRY }}>BYGGE & ANLÆG</div>
+                    <div style={{ fontFamily: "Georgia, serif", fontSize: "30px", fontWeight: 700, lineHeight: 1.0, marginTop: "4px" }}>
+                      <span style={{ color: TEXT }}>Bygge</span><span style={{ color: GRANITE }}>Talent</span>
+                    </div>
+                    <div style={{ width: "32px", height: "1.5px", background: CURRY, margin: "7px auto 0" }} />
+                    <div style={{ fontFamily: "Georgia, serif", fontSize: "9px", letterSpacing: "0.16em", textTransform: "uppercase", color: MUTED, marginTop: "5px" }}>REKRUTTERING MED BRANCHEFORSTÅELSE</div>
                   </div>
-                  <div style={{ width: "32px", height: "1.5px", background: CURRY, margin: "7px auto 0" }} />
-                  <div style={{ fontFamily: "Georgia, serif", fontSize: "9px", letterSpacing: "0.16em", textTransform: "uppercase", color: MUTED, marginTop: "5px" }}>REKRUTTERING MED BRANCHEFORSTÅELSE</div>
                 </div>
-                <div style={{ padding: "12px 10px" }}>
-                  <div style={{ fontSize: "9px", fontWeight: 700, letterSpacing: "0.14em", color: MUTED, padding: "4px 10px 8px", textTransform: "uppercase" }}>Kandidat</div>
-                  <button type="button"
-                    onClick={() => { setStep1Tab("Karriere"); setStep1SidebarActive("alt"); }}
-                    style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "10px 12px", borderRadius: "8px", border: "none", background: step1Tab === "Karriere" ? "rgba(10,22,40,0.07)" : "transparent", cursor: "pointer", textAlign: "left", marginBottom: "2px" }}>
-                    <div>
-                      <div style={{ fontSize: "13px", fontWeight: 600, color: TEXT }}>Karriere</div>
-                      <div style={{ fontSize: "11px", color: CURRY, marginTop: "1px" }}>Fagfolk & ledere</div>
-                    </div>
-                    <span style={{ fontSize: "10px", color: MUTED, display: "inline-block", transform: step1Tab === "Karriere" ? "rotate(90deg)" : "none" }}>›</span>
-                  </button>
-                  {step1Tab === "Karriere" && (
-                    <div style={{ paddingBottom: "6px" }}>
-                      <button type="button" onClick={() => setStep1SidebarActive("alt")}
-                        style={{ display: "flex", alignItems: "center", gap: "8px", width: "100%", padding: "8px 12px 8px 22px", borderRadius: "8px", border: "none", cursor: "pointer", textAlign: "left", fontSize: "12px", fontWeight: step1SidebarActive === "alt" ? 600 : 400, color: step1SidebarActive === "alt" ? "#3d5e35" : TEXT, background: step1SidebarActive === "alt" ? "rgba(106,144,96,0.13)" : "transparent" }}>
-                        <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: step1SidebarActive === "alt" ? "#6A9060" : MUTED, flexShrink: 0 }} />
-                        Start ALT-testen
-                      </button>
-                      <button type="button" onClick={() => setStep1SubPage("profile")}
-                        style={{ display: "flex", alignItems: "center", gap: "8px", width: "100%", padding: "8px 12px 8px 22px", borderRadius: "8px", border: "none", cursor: "pointer", textAlign: "left", fontSize: "12px", fontWeight: 400, color: TEXT, background: "transparent" }}>
-                        <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: MUTED, flexShrink: 0 }} />
-                        Udfyld profil
-                      </button>
-                    </div>
-                  )}
-                  <button type="button"
-                    onClick={() => { setStep1Tab("Nyuddannede"); setStep1SidebarActive("clara"); }}
-                    style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%", padding: "10px 12px", borderRadius: "8px", border: "none", background: step1Tab === "Nyuddannede" ? "rgba(10,22,40,0.07)" : "transparent", cursor: "pointer", textAlign: "left", marginTop: "4px" }}>
-                    <div>
-                      <div style={{ fontSize: "13px", fontWeight: 600, color: TEXT }}>Nyuddannede</div>
-                      <div style={{ fontSize: "11px", color: CURRY, marginTop: "1px" }}>Hotline</div>
-                    </div>
-                    <span style={{ fontSize: "10px", color: MUTED, display: "inline-block", transform: step1Tab === "Nyuddannede" ? "rotate(90deg)" : "none" }}>›</span>
-                  </button>
-                  {step1Tab === "Nyuddannede" && (
-                    <div style={{ paddingBottom: "6px" }}>
-                      <button type="button" onClick={() => setStep1SidebarActive("clara")}
-                        style={{ display: "flex", alignItems: "center", gap: "8px", width: "100%", padding: "8px 12px 8px 22px", borderRadius: "8px", border: "none", cursor: "pointer", textAlign: "left", fontSize: "12px", fontWeight: step1SidebarActive === "clara" ? 600 : 400, color: step1SidebarActive === "clara" ? "#3d5e35" : TEXT, background: step1SidebarActive === "clara" ? "rgba(106,144,96,0.13)" : "transparent" }}>
-                        <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: step1SidebarActive === "clara" ? "#6A9060" : MUTED, flexShrink: 0 }} />
-                        Clara
-                      </button>
-                    </div>
-                  )}
+                <div style={{ padding: "14px 12px", display: "flex", flexDirection: "column", gap: "12px" }}>
+                  {/* Karriere */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                    <div style={{ fontSize: "12px", fontWeight: 700, color: TEXT, paddingLeft: "2px" }}>Karriere</div>
+                    <button type="button"
+                      onClick={() => { setStep1Tab("Karriere"); setStep1SidebarActive("alt"); }}
+                      style={{ borderRadius: "12px", background: "#6E7580", border: "1px solid transparent", padding: "14px 16px", display: "flex", alignItems: "flex-start", justifyContent: "space-between", boxShadow: "0 2px 8px rgba(10,22,40,0.10)", cursor: "pointer", width: "100%", textAlign: "left" }}>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "7px", fontSize: "12px", color: "rgba(255,255,255,0.85)" }}>
+                          <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "rgba(255,255,255,0.7)", flexShrink: 0, display: "inline-block" }} />
+                          Start ALT-testen
+                        </div>
+                        <div style={{ display: "flex", alignItems: "center", gap: "7px", fontSize: "12px", color: "rgba(255,255,255,0.85)" }}>
+                          <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "rgba(255,255,255,0.7)", flexShrink: 0, display: "inline-block" }} />
+                          Udfyld profil
+                        </div>
+                      </div>
+                      <span style={{ color: "rgba(255,255,255,0.75)", fontSize: "16px", flexShrink: 0, marginLeft: "8px" }}>→</span>
+                    </button>
+                  </div>
+                  {/* Nyuddannede */}
+                  <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                    <div style={{ fontSize: "12px", fontWeight: 700, color: TEXT, paddingLeft: "2px" }}>Nyuddannede</div>
+                    <button type="button"
+                      onClick={() => { setStep1Tab("Nyuddannede"); setStep1SidebarActive("clara"); }}
+                      style={{ borderRadius: "12px", background: "#6A9060", border: "1px solid transparent", padding: "14px 16px", display: "flex", alignItems: "flex-start", justifyContent: "space-between", boxShadow: "0 2px 8px rgba(10,22,40,0.10)", cursor: "pointer", width: "100%", textAlign: "left" }}>
+                      <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "7px", fontSize: "12px", color: "rgba(255,255,255,0.85)" }}>
+                          <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "rgba(255,255,255,0.7)", flexShrink: 0, display: "inline-block" }} />
+                          Clara — Hotline
+                        </div>
+                      </div>
+                      <span style={{ color: "rgba(255,255,255,0.75)", fontSize: "16px", flexShrink: 0, marginLeft: "8px" }}>→</span>
+                    </button>
+                  </div>
                 </div>
               </nav>
               <div className="bt-kandidat-content">
@@ -770,7 +765,7 @@ export default function Home() {
 
               {/* Karriere tab */}
               {step1Tab === "Karriere" && (
-                <div style={{ flex: 1, overflowY: "auto", padding: "28px 20px 40px", display: "flex", flexDirection: "column", gap: "16px" }}>
+                <div className="bt-kandidat-tab-content" style={{ flex: 1, overflowY: "auto", padding: "28px 20px 40px", display: "flex", flexDirection: "column", gap: "16px" }}>
                   <div>
                     <h1 style={{ fontFamily: "Georgia, serif", fontSize: "32px", fontWeight: 700, color: TEXT, lineHeight: 1.15, margin: "0 0 10px" }}>
                       Din karriere<br />i Bygge &amp; Anlæg
@@ -826,7 +821,7 @@ export default function Home() {
 
               {/* Nyuddannede tab */}
               {step1Tab === "Nyuddannede" && (
-                <div style={{ flex: 1, overflowY: "auto", padding: "20px 20px 40px", display: "flex", flexDirection: "column", gap: "16px" }}>
+                <div className="bt-kandidat-tab-content" style={{ flex: 1, overflowY: "auto", padding: "20px 20px 40px", display: "flex", flexDirection: "column", gap: "16px" }}>
                   {/* Clara video med custom lydknap */}
                   <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                     {/* Video */}

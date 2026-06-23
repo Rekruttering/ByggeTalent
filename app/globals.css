@@ -248,6 +248,10 @@ textarea::placeholder {
     overflow-y: auto;
   }
 
+  .bt-kandidat-tab-content {
+    display: none;
+  }
+
   .bt-kandidat-mobile-header {
     display: none;
   }
