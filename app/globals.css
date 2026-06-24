@@ -123,10 +123,10 @@ textarea::placeholder {
 /* ─── Nyheder video på desktop ───────────────────────────────────── */
 @media (min-width: 768px) {
   .bt-news-video {
-    height: 300px !important;
+    height: auto !important;
     width: 100% !important;
-    object-fit: cover !important;
-    object-position: center 40% !important;
+    max-height: none !important;
+    display: block !important;
   }
 }
 
