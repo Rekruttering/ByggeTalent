@@ -104,6 +104,15 @@ textarea::placeholder {
   }
 }
 
+/* ─── Clara video — begrænset bredde på desktop ──────────────────── */
+@media (min-width: 768px) {
+  .bt-clara-video-wrap {
+    width: 220px !important;
+    max-width: 220px !important;
+    align-self: flex-start;
+  }
+}
+
 /* ─── Nyheder video på desktop ───────────────────────────────────── */
 @media (min-width: 640px) {
   .bt-news-video {

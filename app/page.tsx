@@ -825,7 +825,7 @@ export default function Home() {
                   {/* Clara video med custom lydknap */}
                   <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
                     {/* Video */}
-                    <div style={{ borderRadius: "16px", overflow: "hidden", position: "relative", background: NAVY, width: "100%", aspectRatio: "9 / 16" }}>
+                    <div className="bt-clara-video-wrap" style={{ borderRadius: "16px", overflow: "hidden", position: "relative", background: NAVY, width: "100%", aspectRatio: "9 / 16" }}>
                       <video autoPlay loop playsInline muted={claraMuted}
                         style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "center", display: "block" }}
                         src="/clara-avatar.mp4" />
