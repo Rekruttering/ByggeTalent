@@ -701,21 +701,20 @@ export default function Home() {
                   {/* Karriere */}
                   <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
                     <div style={{ fontSize: "12px", fontWeight: 700, color: TEXT, paddingLeft: "2px" }}>Karriere</div>
-                    <button type="button"
-                      onClick={() => { setStep1Tab("Karriere"); setStep1SidebarActive("alt"); }}
-                      style={{ borderRadius: "12px", background: "#6E7580", border: "1px solid transparent", padding: "14px 16px", display: "flex", alignItems: "flex-start", justifyContent: "space-between", boxShadow: "0 2px 8px rgba(10,22,40,0.10)", cursor: "pointer", width: "100%", textAlign: "left" }}>
-                      <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: "7px", fontSize: "12px", color: "rgba(255,255,255,0.85)" }}>
-                          <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "rgba(255,255,255,0.7)", flexShrink: 0, display: "inline-block" }} />
-                          Start ALT-testen
-                        </div>
-                        <div style={{ display: "flex", alignItems: "center", gap: "7px", fontSize: "12px", color: "rgba(255,255,255,0.85)" }}>
-                          <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "rgba(255,255,255,0.7)", flexShrink: 0, display: "inline-block" }} />
-                          Udfyld profil
-                        </div>
-                      </div>
-                      <span style={{ color: "rgba(255,255,255,0.75)", fontSize: "16px", flexShrink: 0, marginLeft: "8px" }}>→</span>
-                    </button>
+                    <div style={{ borderRadius: "12px", background: "#6E7580", border: "1px solid transparent", padding: "10px 12px", display: "flex", flexDirection: "column", gap: "4px", boxShadow: "0 2px 8px rgba(10,22,40,0.10)" }}>
+                      <button type="button" onClick={() => setStep(2)}
+                        style={{ display: "flex", alignItems: "center", gap: "7px", fontSize: "12px", color: "rgba(255,255,255,0.90)", background: "none", border: "none", cursor: "pointer", padding: "6px 4px", borderRadius: "8px", width: "100%", textAlign: "left" }}>
+                        <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "rgba(255,255,255,0.7)", flexShrink: 0, display: "inline-block" }} />
+                        Start ALT-testen
+                        <span style={{ marginLeft: "auto", color: "rgba(255,255,255,0.6)", fontSize: "14px" }}>→</span>
+                      </button>
+                      <button type="button" onClick={() => setStep1SubPage("profile")}
+                        style={{ display: "flex", alignItems: "center", gap: "7px", fontSize: "12px", color: "rgba(255,255,255,0.90)", background: "none", border: "none", cursor: "pointer", padding: "6px 4px", borderRadius: "8px", width: "100%", textAlign: "left" }}>
+                        <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "rgba(255,255,255,0.7)", flexShrink: 0, display: "inline-block" }} />
+                        Udfyld profil
+                        <span style={{ marginLeft: "auto", color: "rgba(255,255,255,0.6)", fontSize: "14px" }}>→</span>
+                      </button>
+                    </div>
                   </div>
                   {/* Nyuddannede */}
                   <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>

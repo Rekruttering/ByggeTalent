@@ -107,7 +107,7 @@ textarea::placeholder {
 /* ─── Nyheder video på desktop ───────────────────────────────────── */
 @media (min-width: 640px) {
   .bt-news-video {
-    height: 260px !important;
+    height: 200px !important;
     object-fit: cover !important;
     object-position: center center !important;
   }
@@ -115,7 +115,7 @@ textarea::placeholder {
 
 @media (min-width: 1024px) {
   .bt-news-video {
-    height: 200px !important;
+    height: 160px !important;
   }
 }
 
@@ -246,10 +246,6 @@ textarea::placeholder {
   .bt-kandidat-content {
     flex: 1;
     overflow-y: auto;
-  }
-
-  .bt-kandidat-tab-content {
-    display: none !important;
   }
 
   .bt-kandidat-mobile-header {
