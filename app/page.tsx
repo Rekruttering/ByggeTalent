@@ -481,7 +481,7 @@ export default function Home() {
                         <div className="bt-news-video-wrap" style={{ position: "relative", background: NAVY }}>
                           <video autoPlay muted loop playsInline
                             className="bt-news-video"
-                            style={{ width: "100%", height: "280px", objectFit: "cover", display: "block" }}>
+                            style={{ width: "100%", height: "280px", objectFit: "contain", background: "#0f172a", display: "block" }}>
                             <source src="/Metrobyggetalent-news.mp4" type="video/mp4" />
                           </video>
                           {/* News badge */}
