@@ -249,7 +249,7 @@ textarea::placeholder {
   }
 
   .bt-kandidat-tab-content {
-    display: none;
+    display: none !important;
   }
 
   .bt-kandidat-mobile-header {

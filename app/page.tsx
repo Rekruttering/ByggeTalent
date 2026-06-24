@@ -164,6 +164,7 @@ export default function Home() {
   });
 
   const [step1SubPage, setStep1SubPage] = useState<null | 'profile' | 'consent' | 'privacy' | 'karina'>(null);
+  useEffect(() => { if (step1SubPage !== null) window.scrollTo(0, 0); }, [step1SubPage]);
   const [step1Tab, setStep1Tab] = useState<"Karriere" | "Nyuddannede">("Karriere");
   const [step1SidebarActive, setStep1SidebarActive] = useState<"alt" | "clara">("alt");
   const [claraMuted, setClaraMuted] = useState(true);
