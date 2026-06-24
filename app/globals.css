@@ -122,17 +122,14 @@ textarea::placeholder {
 }
 
 /* ─── Nyheder video på desktop ───────────────────────────────────── */
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .bt-news-video {
-    height: 200px !important;
+    height: auto !important;
+    aspect-ratio: 16 / 9 !important;
+    width: 100% !important;
     object-fit: cover !important;
-    object-position: center center !important;
-  }
-}
-
-@media (min-width: 1024px) {
-  .bt-news-video {
-    height: 160px !important;
+    object-position: center 30% !important;
+    max-height: none !important;
   }
 }
 
