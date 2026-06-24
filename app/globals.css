@@ -113,11 +113,10 @@ textarea::placeholder {
   }
 }
 
-/* ─── Nyheder video-container — begrænset bredde på desktop ─────── */
+/* ─── Nyheder video-container — fuld bredde på desktop ──────────── */
 @media (min-width: 768px) {
   .bt-news-video-wrap {
-    width: 80%;
-    margin: 0 auto;
+    width: 100%;
   }
 }
 
