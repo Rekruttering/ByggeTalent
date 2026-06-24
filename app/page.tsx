@@ -478,7 +478,7 @@ export default function Home() {
                       {virksomhedView !== "data" && (<>
 
                         {/* Hero video */}
-                        <div style={{ position: "relative", background: NAVY }}>
+                        <div className="bt-news-video-wrap" style={{ position: "relative", background: NAVY }}>
                           <video autoPlay muted loop playsInline
                             className="bt-news-video"
                             style={{ width: "100%", height: "280px", objectFit: "cover", display: "block" }}>
